@@ -1,0 +1,264 @@
+{
+  "expected": 50,
+  "successful": 39,
+  "failed": 11,
+  "observations": [
+    {
+      "canonical_task_id": "30",
+      "task_id": "30_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 6,
+      "last_tool_names": [
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "32",
+      "task_id": "32_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 6,
+      "last_tool_names": [
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "52",
+      "task_id": "52_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 5,
+      "last_tool_names": [
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": "题意保留24MP，但金标换30MP；分母及评分保持原样"
+    },
+    {
+      "canonical_task_id": "18",
+      "task_id": "18_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 4,
+      "last_tool_names": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "19",
+      "task_id": "19_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 0.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 4,
+      "last_tool_names": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "56",
+      "task_id": "56_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 5,
+      "last_tool_names": [
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "59",
+      "task_id": "59_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 0.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 5,
+      "last_tool_names": [
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "63",
+      "task_id": "63_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 0.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 1,
+      "last_tool_names": [
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "70",
+      "task_id": "70_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 8,
+      "last_tool_names": [
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "105",
+      "task_id": "105_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 1.0,
+        "NL_ASSERTION": 0.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 3,
+      "last_tool_names": [
+        "find_user_id_by_name_zip",
+        "get_order_details",
+        "get_product_details"
+      ],
+      "user_end_markers": [
+        "OUT-OF-SCOPE"
+      ],
+      "human_transfer_observed": false,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "107",
+      "task_id": "107_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 0.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 4,
+      "last_tool_names": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    }
+  ],
+  "source_artifacts_sha256": {
+    "manifest.json": "ac6fb7d7367594b850494dd4601ee54fe7fb43851be5ae0309eff4549540f4d2",
+    "execution.json": "d642d297187782817308f52f4dd2ae50b3246db44944e4ec02deb48cef579bf9",
+    "execution-history.jsonl": "a31f4971c44821a71117b15b65b3b2c2425eb8e6964adf93ef6ab732d911e8f6",
+    "runtime-observations.json": "e791ee5dde89dbdcbf82a52d9ee821ee4e703468a19e809f9500eff26f529b3f",
+    "native/zh-retail/results.json": "f0b96390ae165380a3747659c29bbff5c9343aa1f7874a35e81dda60a387b162"
+  },
+  "note": "仅记录工具名、用户终止标记和原生评分，不输出对话正文。转人工后结束不直接等同于策略错误或数据错误；原因需另核对政策、题意和重复运行。该导出不改变任务输入、评分或分母。"
+}

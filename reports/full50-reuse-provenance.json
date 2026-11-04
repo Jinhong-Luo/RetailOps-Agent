@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "source_run": "/home/luojinghong/LLM_Proj/RetailOps-Agent/runs/dev-complete/medium",
+  "source_signature": "2a3f40e00971d3fb90306a5561293f26a3a2327a590e57f276b3695522e4b0a3",
+  "target_signature": "d17aff05a625b0926345bb8687c19063a7331dd313a8716f378a7f340a50a938",
+  "source_results_sha256": "9b52a889b8010426303c8c90d673cc0af905271bddf8409408936b7ac3e83310",
+  "selection_report_sha256": "326bdda93ad47990d017a72d9478f3ab5396ba5df960277e54affc5c31865370",
+  "source_wall_seconds": 710.137363910675,
+  "reused_simulations": 13,
+  "remaining_simulations": 37,
+  "simulations": [
+    {
+      "id": "095a8f73-d854-4787-bbf6-14d1848777e0",
+      "task_id": "30_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "4a90ceacf8b14cc30cb220d29d99a1e62e249c0f6a69917661c968661d5af8ea"
+    },
+    {
+      "id": "c0beba73-6534-486e-83b0-730219df7d30",
+      "task_id": "22_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "1e18f51afcc3c7130d0a9158c72ca251a1e51a882cc89f4b81084f118b9e3c6b"
+    },
+    {
+      "id": "8a523df5-3148-46bf-bc41-78a16e9c767e",
+      "task_id": "21_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "2468ddaa470626a0f7bd3ad0be0dfbb7342b9254cbdb3de1c602c44f79eb09d0"
+    },
+    {
+      "id": "0037b018-9cd7-4c0d-a978-2d272889e4bf",
+      "task_id": "32_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "586aebce487ce88c99a52bb49010956f7f6901de7764b8c289a905b7ea58c62c"
+    },
+    {
+      "id": "006b9582-c643-4601-b077-8991eac5754a",
+      "task_id": "52_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "e9d4fc00ef54bdd91393d8c6a9f39423b216dd61582ead527166e6ec73833ef9"
+    },
+    {
+      "id": "1f904ae4-336f-4cd0-8aa1-245a5f4c8c28",
+      "task_id": "38_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "a3c5e2b4cd30f141a810e302bc0b0168b115a4201f4024f4b13ec2328edc7c2f"
+    },
+    {
+      "id": "45427766-3a7f-41ef-95c3-4469d0a27f06",
+      "task_id": "36_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "f4ac6b757b888cd926f0d96cb426e5e03cbac4590aa0eeec31225f78aed058d6"
+    },
+    {
+      "id": "88492ec7-b5ba-4825-9ca9-3f4959750b28",
+      "task_id": "53_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "b0ee4cb3924cfda37f368b90cc185457eb1d1b2c453f227b44eed7881b9447d7"
+    },
+    {
+      "id": "1a7b88a5-170a-4569-be84-ac4acf376cca",
+      "task_id": "68_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "7f4af4b73e6a24d40b92549a1b7c1a7e9cbf44c6827c130b280990fc62f0ef24"
+    },
+    {
+      "id": "0a5a2869-120f-4299-8332-d328c18c5ff9",
+      "task_id": "74_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "c85947df0d301c6ea312f90490d374301b1d8db247781bba9f70d217a38a7649"
+    },
+    {
+      "id": "dd4c3432-632e-451e-98d3-9fc959f79f90",
+      "task_id": "89_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "e2e6f7ad4abb398fff56f90cc4be58065102e2a6753dfe378285bb30251e9325"
+    },
+    {
+      "id": "4cb341af-fa16-4b4a-9b1d-9d956f13e30c",
+      "task_id": "102_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "e47ce80006b8ab7ac8d5699d7a9e865480efe3eaafbb7bacd86c7d9794fb6800"
+    },
+    {
+      "id": "a8ffc16d-4b6f-4206-9973-475d82ae6a75",
+      "task_id": "104_zh_identity",
+      "trial": 0,
+      "seed": 626729,
+      "sha256": "fc6f5b105faaa94bd82c8cdd22bef4c0a16899e21a42532581d64c20e7f57802"
+    }
+  ],
+  "note": "所有源轨迹连同失败评分原样保留；原生按task_id/trial/seed跳过，新增运行补齐剩余任务。全50题包含用于选档的开发集，不是独立测试。",
+  "source_artifacts_sha256": {
+    "manifest.json": "d4a113697f9f0a3d8e89b9290f9a985752e2de8aab76623859422cac1419bf83",
+    "execution.json": "a1c5b06fc0aa53a75ee370cc22272d958b6048fca14bcca9222ecada76da0b22",
+    "execution-history.jsonl": "b9d6834ac5fd8190c85178db25991d6948dd970e219761ad46979221a46c91d4",
+    "native/zh-retail/results.json": "9b52a889b8010426303c8c90d673cc0af905271bddf8409408936b7ac3e83310"
+  }
+}

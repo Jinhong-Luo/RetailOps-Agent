@@ -1,0 +1,114 @@
+{
+  "runs": [
+    {
+      "effort": "medium",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "all",
+      "scope": "分组评测",
+      "comparison_key": "695f729cdfe6688de366c9cb95ddd55a5dd63d27d84326f50372f1bc8f0eb54f",
+      "expected": 50,
+      "completed": 50,
+      "missing": 0,
+      "scored": 50,
+      "successful": 39,
+      "success_rate": 0.78,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": false,
+      "mean_duration_seconds": 123.64959220956545,
+      "total_duration_seconds": 6182.479610478273,
+      "observed_message_usage_count": 825,
+      "tool_calls": 339,
+      "prompt_tokens": 8947112,
+      "completion_tokens": 63473,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 50
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "ac6fb7d7367594b850494dd4601ee54fe7fb43851be5ae0309eff4549540f4d2",
+        "execution.json": "d642d297187782817308f52f4dd2ae50b3246db44944e4ec02deb48cef579bf9",
+        "execution-history.jsonl": "a31f4971c44821a71117b15b65b3b2c2425eb8e6964adf93ef6ab732d911e8f6",
+        "runtime-observations.json": "e791ee5dde89dbdcbf82a52d9ee821ee4e703468a19e809f9500eff26f529b3f",
+        "native/zh-retail/results.json": "f0b96390ae165380a3747659c29bbff5c9343aa1f7874a35e81dda60a387b162"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 825,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 2436.3124346733093,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 48.72624869346619,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑；本结果复用完整开发集，wall_seconds另加其历史实际运行时间，新增37题耗时单列",
+      "timing_comparable": false,
+      "runtime_observations": {
+        "timing_comparable": false,
+        "reason": "完整50题是在六档开发集选择冻结之后补齐；新增37题期间其他项目可能执行少量注册/模型探针，共享服务后端。该阶段时长只用于记录实际执行成本，不用于此前开发集档位选择，也不宣称独占负载下的吞吐。",
+        "selection_frozen_before_run": true,
+        "reused_dev_tasks": 13,
+        "new_tasks": 37,
+        "configuration_changed": false
+      },
+      "reused_simulations": 13,
+      "new_completed_simulations": 37,
+      "new_execution_wall_seconds": 1726.1750707626343,
+      "reused_source_wall_seconds": 710.137363910675,
+      "group_breakdown": {
+        "tune": {
+          "expected": 25,
+          "completed": 25,
+          "missing": 0,
+          "scored": 25,
+          "successful": 18,
+          "success_rate": 0.72,
+          "infrastructure_or_generation_errors": 0,
+          "wall_seconds": null
+        },
+        "dev": {
+          "expected": 13,
+          "completed": 13,
+          "missing": 0,
+          "scored": 13,
+          "successful": 10,
+          "success_rate": 0.7692307692307693,
+          "infrastructure_or_generation_errors": 0,
+          "wall_seconds": null
+        },
+        "heldout": {
+          "expected": 12,
+          "completed": 12,
+          "missing": 0,
+          "scored": 12,
+          "successful": 11,
+          "success_rate": 0.9166666666666666,
+          "infrastructure_or_generation_errors": 0,
+          "wall_seconds": null
+        }
+      },
+      "group_note": "从同50条原始轨迹按冻结25/13/12分组离线汇总，不增加调用；开发集参与选档，保留集未参与。任务并发执行，无法拆分实际子组墙钟，因此子组wall_seconds为null。分组未证明独立泛化。"
+    }
+  ],
+  "selection": {
+    "effort": null,
+    "reason": "至少一档未完成或不是完整开发集，不能正式选优"
+  },
+  "description": "官方中文零售50题中的指定集合；不代表整个tau基准。完整运行前没有成绩结论。"
+}

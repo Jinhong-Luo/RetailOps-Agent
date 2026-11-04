@@ -1,0 +1,83 @@
+{
+  "expected": 13,
+  "successful": 10,
+  "failed": 3,
+  "observations": [
+    {
+      "canonical_task_id": "30",
+      "task_id": "30_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 6,
+      "last_tool_names": [
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "32",
+      "task_id": "32_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 6,
+      "last_tool_names": [
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": null
+    },
+    {
+      "canonical_task_id": "52",
+      "task_id": "52_zh_identity",
+      "trial": 0,
+      "reward": 0.0,
+      "reward_breakdown": {
+        "DB": 0.0,
+        "NL_ASSERTION": 1.0
+      },
+      "termination_reason": "user_stop",
+      "tool_call_count": 5,
+      "last_tool_names": [
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "transfer_to_human_agents"
+      ],
+      "user_end_markers": [
+        "###TRANSFER###"
+      ],
+      "human_transfer_observed": true,
+      "known_audit_note": "题意保留24MP，但金标换30MP；分母及评分保持原样"
+    }
+  ],
+  "source_artifacts_sha256": {
+    "manifest.json": "d4a113697f9f0a3d8e89b9290f9a985752e2de8aab76623859422cac1419bf83",
+    "execution.json": "a1c5b06fc0aa53a75ee370cc22272d958b6048fca14bcca9222ecada76da0b22",
+    "execution-history.jsonl": "b9d6834ac5fd8190c85178db25991d6948dd970e219761ad46979221a46c91d4",
+    "native/zh-retail/results.json": "9b52a889b8010426303c8c90d673cc0af905271bddf8409408936b7ac3e83310"
+  },
+  "note": "仅记录工具名、用户终止标记和原生评分，不输出对话正文。转人工后结束不直接等同于策略错误或数据错误；原因需另核对政策、题意和重复运行。该导出不改变任务输入、评分或分母。"
+}
