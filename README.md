@@ -68,6 +68,20 @@ python3 scripts/summarize.py runs/dev-complete/low runs/dev-complete/medium runs
 
 重复同一命令会让上游跳过已完成运行；这不是业务事务恢复。变更配置、任务集或固定版本时必须使用新目录，脚本会拒绝混用。
 
+### 选档后的完整50题
+
+六档完整开发集汇总到 `reports/dev-matrix.json` 后，以其中正式选定的档位替换下例的 `选定档位`。先在新目录生成全量计划，再严格复用该档全部13题（包含失败），最后由上游只补37题：
+
+```bash
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50
+python3 scripts/prepare_reuse.py --source runs/dev-complete/选定档位 --target runs/full50 --selection-report reports/dev-matrix.json
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50 --native-dry-run
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50 --execute
+python3 scripts/summarize.py runs/full50 --output reports/full50-summary.json
+```
+
+复用脚本要求完整六档选优报告、源清单签名、配置、版本、依赖、任务映射和试次种子一致；记录原始文件及每条轨迹摘要，禁止挑选成功结果。源目录保持原样，目标续跑结束后的汇总再次确认13条轨迹未被改写。全量累计墙钟为开发集历史耗时加新增37题耗时，新增部分另列。全50题包含参与选择的开发题，因此属于公开基准描述，不能当成独立测试；冻结的12题保留集可另报。
+
 ### 标准 API 条件
 
 若以后使用标准 API，复制 `.env.example` 为 `.env` 后在服务器本地填写，使用默认 `configs/baseline.json`。其用户模型及裁判沿用上游发布配置；Agent 模型默认 `openai/responses/gpt-6.1-sol`，可通过 `RETAILOPS_AGENT_MODEL` 修改实际服务模型标识。模型名称和入口必须来自服务方，不能由 Codex 界面名称推断 API 可用性。

@@ -1,14 +1,15 @@
 """防止分母偏差、跨组泄漏与不公平档位选择。"""
 import sys
 import random
+import tempfile
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from common import ROOT, read_json, agent_args
 from prepare_splits import build_splits
-from summarize import summarize, select, verify_transport
+from summarize import summarize, select, verify_transport, load_run
 from prepare_reuse import validate_reuse, verify_reused_simulations
-from common import digest
+from common import digest, write_json
 
 
 class EvaluationTests(unittest.TestCase):
@@ -120,6 +121,57 @@ class EvaluationTests(unittest.TestCase):
         verify_reused_simulations(provenance, [sim])
         with self.assertRaises(ValueError):
             verify_reused_simulations(provenance, [self.simulation("1_zh", 1)])
+
+    def test_equal_quality_missing_latency_cannot_select(self):
+        manifest = self.manifest()
+        manifest["config"]["efforts"] = ["low", "high"]
+        low = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        high = dict(low, effort="high", wall_seconds_per_planned_task=5)
+        for value in (None, float("nan"), float("inf"), 0, -1):
+            low["wall_seconds_per_planned_task"] = value
+            self.assertIsNone(select([low, high])["effort"])
+
+    def test_report_binds_source_content_even_if_score_unchanged(self):
+        with tempfile.TemporaryDirectory(prefix=".evaluation-test-", dir=ROOT) as folder:
+            path = Path(folder)
+            write_json(path / "manifest.json", self.manifest())
+            result_path = path / "native/zh-retail/results.json"
+            sim = self.simulation("1_zh")
+            write_json(result_path, {"simulations": [sim]})
+            before = load_run(path)
+            sim["messages"] = [{"role": "assistant", "content": "轨迹内容改变，分数不变"}]
+            write_json(result_path, {"simulations": [sim]})
+            after = load_run(path)
+            self.assertEqual(before["success_rate"], after["success_rate"])
+            self.assertNotEqual(before["source_artifacts_sha256"], after["source_artifacts_sha256"])
+
+    def test_full_report_groups_have_no_invented_wall_time(self):
+        split = read_json(ROOT / "data/splits.json")
+        manifest = self.manifest()
+        manifest.update(split="all", split_digest=digest(split), task_ids=split["all_task_ids"], local_task_ids=[split["task_features"][i]["local_task_id"] for i in split["all_task_ids"]])
+        with tempfile.TemporaryDirectory(prefix=".evaluation-test-", dir=ROOT) as folder:
+            path = Path(folder)
+            write_json(path / "manifest.json", manifest)
+            write_json(path / "native/zh-retail/results.json", {"simulations": [self.simulation(t) for t in manifest["local_task_ids"]]})
+            result = load_run(path)
+            self.assertEqual({k: v["expected"] for k, v in result["group_breakdown"].items()}, {"tune": 25, "dev": 13, "heldout": 12})
+            self.assertTrue(all(v["wall_seconds"] is None for v in result["group_breakdown"].values()))
+
+    def test_separate_simulation_file_is_bound_to_report(self):
+        with tempfile.TemporaryDirectory(prefix=".evaluation-test-", dir=ROOT) as folder:
+            path = Path(folder)
+            write_json(path / "manifest.json", self.manifest())
+            write_json(path / "native/zh-retail/results.json", {"simulations": []})
+            sim_path = path / "native/zh-retail/simulations/a.json"
+            sim = self.simulation("1_zh")
+            write_json(sim_path, sim)
+            before = load_run(path)
+            sim["messages"] = [{"role": "assistant", "content": "仅分离文件发生改变"}]
+            write_json(sim_path, sim)
+            after = load_run(path)
+            key = "native/zh-retail/results.json"
+            self.assertEqual(before["source_artifacts_sha256"][key], after["source_artifacts_sha256"][key])
+            self.assertNotEqual(before["source_artifacts_sha256"], after["source_artifacts_sha256"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
 """使用上游原始reward汇总；缺失和失败不移出分母。"""
 import argparse
+import hashlib
 import json
+import math
 import statistics
 from collections import Counter
 from pathlib import Path
@@ -88,10 +90,9 @@ def select(rows):
         return {"effort": quality_eligible[0]["effort"], "reason": "完整开发集中仅该档达到预设质量阈值；选择依据为质量，未宣称耗时最优", "actual_cost_known": False}
     if any(not r.get("timing_comparable", True) for r in quality_eligible):
         return {"effort": None, "reason": "质量候选并列且至少一档耗时受外部负载干扰；需补跑可比耗时，不能依据拥塞时长选优"}
-    eligible = [r for r in quality_eligible if r.get("wall_seconds_per_planned_task") is not None]
-    if not eligible:
-        return {"effort": None, "reason": "缺少可比较的耗时记录"}
-    selected = min(eligible, key=lambda r: r["wall_seconds_per_planned_task"])
+    if any(not isinstance(r.get("wall_seconds_per_planned_task"), (int, float)) or not math.isfinite(r["wall_seconds_per_planned_task"]) or r["wall_seconds_per_planned_task"] <= 0 for r in quality_eligible):
+        return {"effort": None, "reason": "至少一个并列质量候选缺少有限正数耗时，禁止过滤该档后选优"}
+    selected = min(quality_eligible, key=lambda r: r["wall_seconds_per_planned_task"])
     return {"effort": selected["effort"], "reason": "在成功率距最佳不超过预设阈值的档位中，累计实际运行时间除以计划任务数最低，包含本脚本记录的重试和续跑时间；需冻结后单独评测保留集", "actual_cost_known": False}
 
 
@@ -105,6 +106,16 @@ def load_run(path):
         if not simulations and (source.parent / "simulations").is_dir():
             simulations = [read_json(p) for p in sorted((source.parent / "simulations").glob("*.json"))]
     result = summarize(manifest, simulations)
+    artifacts = {"manifest.json": hashlib.sha256((path / "manifest.json").read_bytes()).hexdigest()}
+    for name in ("execution.json", "execution-history.jsonl", "runtime-observations.json"):
+        artifact = path / name
+        if artifact.exists():
+            artifacts[name] = hashlib.sha256(artifact.read_bytes()).hexdigest()
+    if source.exists():
+        artifacts["native/zh-retail/results.json"] = hashlib.sha256(source.read_bytes()).hexdigest()
+    for sim_file in sorted((source.parent / "simulations").glob("*.json")):
+        artifacts[sim_file.relative_to(path).as_posix()] = hashlib.sha256(sim_file.read_bytes()).hexdigest()
+    result["source_artifacts_sha256"] = artifacts
     transport = verify_transport(manifest, simulations)
     result["transport_verification"] = transport
     if transport["required"]:
@@ -140,6 +151,18 @@ def load_run(path):
         result["wall_seconds"] = (result["wall_seconds"] or 0) + provenance["source_wall_seconds"]
         result["wall_seconds_per_planned_task"] = result["wall_seconds"] / result["expected"]
         result["duration_note"] += "；本结果复用完整开发集，wall_seconds另加其历史实际运行时间，新增37题耗时单列"
+    if manifest["split"] == "all":
+        splits = read_json(ROOT / "data/splits.json")
+        if digest(splits) != manifest["split_digest"] or manifest["task_ids"] != splits["all_task_ids"]:
+            raise ValueError("完整结果与冻结分组不一致，禁止形成子组报告")
+        groups = {}
+        for group, ids in splits["splits"].items():
+            local_ids = [splits["task_features"][i]["local_task_id"] for i in ids]
+            subset = summarize(dict(manifest, task_ids=ids, local_task_ids=local_ids, split=group), [s for s in simulations if s["task_id"] in local_ids])
+            groups[group] = {key: subset[key] for key in ("expected", "completed", "missing", "scored", "successful", "success_rate", "infrastructure_or_generation_errors")}
+            groups[group]["wall_seconds"] = None
+        result["group_breakdown"] = groups
+        result["group_note"] = "从同50条原始轨迹按冻结25/13/12分组离线汇总，不增加调用；开发集参与选档，保留集未参与。任务并发执行，无法拆分实际子组墙钟，因此子组wall_seconds为null。分组未证明独立泛化。"
     return result
 
 

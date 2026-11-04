@@ -3,7 +3,7 @@
     "start": "2026-11-04T12:33:05.858000+00:00",
     "end": "2026-11-04T12:33:19.373000+00:00"
   },
-  "completed_simulations_at_snapshot": 11,
+  "completed_simulations_at_snapshot": 13,
   "summary": {
     "assistant": {
       "overlap": {
@@ -19,10 +19,10 @@
         "over_30_seconds": 5
       },
       "all": {
-        "count": 143,
-        "median_seconds": 12.27666172082536,
+        "count": 183,
+        "median_seconds": 12.400521744973958,
         "max_seconds": 53.56799032189883,
-        "over_30_seconds": 9
+        "over_30_seconds": 15
       }
     },
     "user": {
@@ -39,9 +39,9 @@
         "over_30_seconds": 0
       },
       "all": {
-        "count": 64,
-        "median_seconds": 6.1748194004176185,
-        "max_seconds": 10.318668534979224,
+        "count": 81,
+        "median_seconds": 6.342189066810533,
+        "max_seconds": 15.394945753971115,
         "over_30_seconds": 0
       }
     }

@@ -65,7 +65,14 @@ def main():
     split = read_json(ROOT / "data/splits.json")
     if target_manifest["task_ids"] != split["all_task_ids"] or source_manifest["task_ids"] != split["splits"]["dev"]:
         raise SystemExit("必须原样使用冻结的开发集与完整50题集合")
+    for manifest in (source_manifest, target_manifest):
+        expected_ids = [split["task_features"][i]["local_task_id"] for i in manifest["task_ids"]]
+        if manifest["split_digest"] != digest(split) or manifest["local_task_ids"] != expected_ids or len(expected_ids) != len(set(expected_ids)):
+            raise SystemExit("冻结分组摘要或本地化任务映射不匹配")
     report = read_json(args.selection_report)
+    expected_efforts = {"low", "medium", "high", "xhigh", "max", "ultra"}
+    if {r["effort"] for r in report["runs"]} != expected_efforts or set(source_manifest["config"]["efforts"]) != expected_efforts or any(r.get("candidate_efforts") != source_manifest["config"]["efforts"] for r in report["runs"]):
+        raise SystemExit("复用要求六档完整报告且各候选配置一致")
     selected = select(report["runs"])
     if not selected["effort"] or selected["effort"] != target_manifest["effort"] or report["selection"]["effort"] != selected["effort"]:
         raise SystemExit("目标档位必须与完整六档开发集选择一致")
@@ -79,6 +86,7 @@ def main():
     source_sims = simulations(source)
     validate_reuse(source_manifest, target_manifest, source_sims)
     provenance = {"schema_version": 1, "source_run": str(source), "source_signature": source_manifest["signature"], "target_signature": target_manifest["signature"], "source_results_sha256": hashlib.sha256((source / "native/zh-retail/results.json").read_bytes()).hexdigest(), "selection_report_sha256": hashlib.sha256(args.selection_report.read_bytes()).hexdigest(), "source_wall_seconds": row["wall_seconds"], "reused_simulations": len(source_sims), "remaining_simulations": len(target_manifest["local_task_ids"]) * target_manifest["num_trials"] - len(source_sims), "simulations": [{"id": s["id"], "task_id": s["task_id"], "trial": s["trial"], "seed": s["seed"], "sha256": digest(s)} for s in source_sims], "note": "所有源轨迹连同失败评分原样保留；原生按task_id/trial/seed跳过，新增运行补齐剩余任务。全50题包含用于选档的开发集，不是独立测试。"}
+    provenance["source_artifacts_sha256"] = row["source_artifacts_sha256"]
     shutil.copytree(source / "native", target / "native")
     verify_reused_simulations(provenance, simulations(target))
     write_json(target / "reuse-provenance.json", provenance)
