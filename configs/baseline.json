@@ -1,0 +1,21 @@
+{
+  "variant": "A0",
+  "agent": "llm_agent",
+  "agent_model": "openai/responses/gpt-6.1-sol",
+  "agent_model_env": "RETAILOPS_AGENT_MODEL",
+  "user_model": "openai/gpt-5.5",
+  "user_model_args": {"reasoning_effort": "low"},
+  "effort_transport": "responses_extra_body",
+  "efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+  "supported_efforts_status": "待实际API探测；候选列表不等于服务端已支持",
+  "num_trials": 1,
+  "seed": 300,
+  "max_steps": 200,
+  "max_errors": 10,
+  "max_concurrency": 1,
+  "workers": 1,
+  "max_retries": 1,
+  "agent_timeout_seconds": 180,
+  "selection_success_tolerance": 0.02,
+  "selection_rule": "仅比较同题同试次数且完整完成的开发集结果；成功率距最佳不超过0.02时按平均耗时选优，费用单独报告；保留集不参与选择"
+}

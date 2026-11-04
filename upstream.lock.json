@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/sierra-research/tau2-bench.git",
+  "tag": "v2.0.0",
+  "commit": "989d3285ae669e49503324bdb9981bf14fccedeb",
+  "python": "3.12",
+  "benchmark": "text-v1",
+  "language": "zh",
+  "domain": "retail",
+  "task_subset": "retail_50",
+  "task_count": 50,
+  "binding_revision": "72f4818e02a34f40e704e6b6406d4bc5317fe850be6366a28212a2bbf41056c1"
+}

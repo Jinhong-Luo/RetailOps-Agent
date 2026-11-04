@@ -1,0 +1,82 @@
+{
+  "created_at_utc": "2026-11-04T10:55:43.462782+00:00",
+  "purpose": "仅验证传输和输出格式，不能代表业务基线或用于选择思考档位",
+  "model": "gpt-6.1-sol",
+  "transport": "codex-app-server-structured-output-v1",
+  "results": [
+    {
+      "effort": "low",
+      "case": "tool",
+      "success": true,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "tool_calls": [
+          {
+            "id": "call_ba1a0aa7b0c64fdf92bf99f14652f99f",
+            "type": "function",
+            "function": {
+              "name": "lookup_order",
+              "arguments": "{\"order_id\":\"TEST-ORDER-001\",\"user_id\":\"TEST-USER-001\"}"
+            }
+          }
+        ]
+      },
+      "bridge_metadata": {
+        "transport": "codex-app-server-structured-output-v1",
+        "api_equivalent": false,
+        "reasoning_effort": "low",
+        "billed_cost": null,
+        "wall_seconds": 4.868540529161692,
+        "sampling_parameters_applied": false,
+        "multi_agent_enabled": false
+      },
+      "usage": {
+        "prompt_tokens": 5003,
+        "completion_tokens": 48,
+        "total_tokens": 5051,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "response_model": "gpt-6.1-sol",
+      "wall_seconds": 4.874
+    },
+    {
+      "effort": "low",
+      "case": "judge",
+      "success": true,
+      "message": {
+        "role": "assistant",
+        "content": "{\"correct\":true,\"reason\":\"候选答案与参考答案均为323，完全一致。\"}"
+      },
+      "bridge_metadata": {
+        "transport": "codex-app-server-structured-output-v1",
+        "api_equivalent": false,
+        "reasoning_effort": "low",
+        "billed_cost": null,
+        "wall_seconds": 5.718725380953401,
+        "sampling_parameters_applied": false,
+        "multi_agent_enabled": false
+      },
+      "usage": {
+        "prompt_tokens": 4956,
+        "completion_tokens": 40,
+        "total_tokens": 4996,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "response_model": "gpt-6.1-sol",
+      "wall_seconds": 5.721
+    }
+  ],
+  "complete": true,
+  "all_passed": true
+}

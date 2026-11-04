@@ -1,0 +1,1179 @@
+{
+  "schema_version": 1,
+  "status": "初始自动分组，需人工复核；不得直接称独立泛化测试",
+  "grouping_rule": "相同用户、订单或规范化任务说明的传递闭包；共享商品不作为实体连接",
+  "counts": {
+    "tune": 25,
+    "dev": 13,
+    "heldout": 12
+  },
+  "splits": {
+    "tune": [
+      "11",
+      "13",
+      "14",
+      "18",
+      "19",
+      "49",
+      "105",
+      "16",
+      "17",
+      "85",
+      "86",
+      "23",
+      "70",
+      "65",
+      "50",
+      "107",
+      "78",
+      "59",
+      "80",
+      "71",
+      "79",
+      "112",
+      "83",
+      "97",
+      "63"
+    ],
+    "dev": [
+      "52",
+      "53",
+      "36",
+      "38",
+      "30",
+      "32",
+      "21",
+      "22",
+      "102",
+      "104",
+      "68",
+      "89",
+      "74"
+    ],
+    "heldout": [
+      "25",
+      "26",
+      "56",
+      "58",
+      "6",
+      "8",
+      "39",
+      "47",
+      "66",
+      "42",
+      "64",
+      "40"
+    ]
+  },
+  "groups": [
+    {
+      "group_id": "a1f06bdf1efe",
+      "split": "tune",
+      "task_ids": [
+        "11",
+        "13",
+        "14"
+      ]
+    },
+    {
+      "group_id": "2ad760ba676e",
+      "split": "dev",
+      "task_ids": [
+        "52",
+        "53"
+      ]
+    },
+    {
+      "group_id": "462476191295",
+      "split": "heldout",
+      "task_ids": [
+        "25",
+        "26"
+      ]
+    },
+    {
+      "group_id": "507571e0daab",
+      "split": "tune",
+      "task_ids": [
+        "18",
+        "19"
+      ]
+    },
+    {
+      "group_id": "50b29b3861f6",
+      "split": "dev",
+      "task_ids": [
+        "36",
+        "38"
+      ]
+    },
+    {
+      "group_id": "59b45a7e33df",
+      "split": "heldout",
+      "task_ids": [
+        "56",
+        "58"
+      ]
+    },
+    {
+      "group_id": "6c77906be9dc",
+      "split": "tune",
+      "task_ids": [
+        "49",
+        "105"
+      ]
+    },
+    {
+      "group_id": "6d22261320e2",
+      "split": "tune",
+      "task_ids": [
+        "16",
+        "17"
+      ]
+    },
+    {
+      "group_id": "7421c119256e",
+      "split": "dev",
+      "task_ids": [
+        "30",
+        "32"
+      ]
+    },
+    {
+      "group_id": "75c85812f783",
+      "split": "heldout",
+      "task_ids": [
+        "6",
+        "8"
+      ]
+    },
+    {
+      "group_id": "7bbb9918b0e0",
+      "split": "tune",
+      "task_ids": [
+        "85",
+        "86"
+      ]
+    },
+    {
+      "group_id": "7e9ed4e71ea6",
+      "split": "tune",
+      "task_ids": [
+        "23",
+        "70"
+      ]
+    },
+    {
+      "group_id": "7ff7891600f1",
+      "split": "dev",
+      "task_ids": [
+        "21",
+        "22"
+      ]
+    },
+    {
+      "group_id": "0b918943df09",
+      "split": "heldout",
+      "task_ids": [
+        "39"
+      ]
+    },
+    {
+      "group_id": "108c995b953c",
+      "split": "tune",
+      "task_ids": [
+        "65"
+      ]
+    },
+    {
+      "group_id": "1a6562590ef1",
+      "split": "tune",
+      "task_ids": [
+        "50"
+      ]
+    },
+    {
+      "group_id": "31489056e091",
+      "split": "heldout",
+      "task_ids": [
+        "47"
+      ]
+    },
+    {
+      "group_id": "3346f2bbf6c3",
+      "split": "tune",
+      "task_ids": [
+        "107"
+      ]
+    },
+    {
+      "group_id": "349c41201b62",
+      "split": "tune",
+      "task_ids": [
+        "78"
+      ]
+    },
+    {
+      "group_id": "37834f2f2576",
+      "split": "dev",
+      "task_ids": [
+        "102"
+      ]
+    },
+    {
+      "group_id": "3ada92f28b4c",
+      "split": "heldout",
+      "task_ids": [
+        "66"
+      ]
+    },
+    {
+      "group_id": "3e1e967e9b79",
+      "split": "tune",
+      "task_ids": [
+        "59"
+      ]
+    },
+    {
+      "group_id": "48449a14a4ff",
+      "split": "tune",
+      "task_ids": [
+        "80"
+      ]
+    },
+    {
+      "group_id": "5ef6fdf32513",
+      "split": "dev",
+      "task_ids": [
+        "104"
+      ]
+    },
+    {
+      "group_id": "73475cb40a56",
+      "split": "heldout",
+      "task_ids": [
+        "42"
+      ]
+    },
+    {
+      "group_id": "7f2253d7e228",
+      "split": "tune",
+      "task_ids": [
+        "71"
+      ]
+    },
+    {
+      "group_id": "98a3ab7c340e",
+      "split": "tune",
+      "task_ids": [
+        "79"
+      ]
+    },
+    {
+      "group_id": "a21855da08cb",
+      "split": "dev",
+      "task_ids": [
+        "68"
+      ]
+    },
+    {
+      "group_id": "a68b412c4282",
+      "split": "heldout",
+      "task_ids": [
+        "64"
+      ]
+    },
+    {
+      "group_id": "b1556dea32e9",
+      "split": "tune",
+      "task_ids": [
+        "112"
+      ]
+    },
+    {
+      "group_id": "bbb965ab0c80",
+      "split": "tune",
+      "task_ids": [
+        "83"
+      ]
+    },
+    {
+      "group_id": "cd70bea023f7",
+      "split": "dev",
+      "task_ids": [
+        "89"
+      ]
+    },
+    {
+      "group_id": "d59eced1ded0",
+      "split": "heldout",
+      "task_ids": [
+        "40"
+      ]
+    },
+    {
+      "group_id": "d6d824abba4a",
+      "split": "tune",
+      "task_ids": [
+        "97"
+      ]
+    },
+    {
+      "group_id": "da4ea2a5506f",
+      "split": "tune",
+      "task_ids": [
+        "63"
+      ]
+    },
+    {
+      "group_id": "eb624dbe56eb",
+      "split": "dev",
+      "task_ids": [
+        "74"
+      ]
+    }
+  ],
+  "task_features": {
+    "6": {
+      "local_task_id": "6_zh_identity",
+      "template_hash": "7397e3e5bd0d71db",
+      "entities": [
+        "order_id:#W6390527",
+        "user_id:mei_zheng_8020"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "get_product_details",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "8": {
+      "local_task_id": "8_zh_identity",
+      "template_hash": "89775848b1cf2ea0",
+      "entities": [
+        "order_id:#W6390527",
+        "user_id:mei_zheng_8020"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "get_product_details",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "11": {
+      "local_task_id": "11_zh_identity",
+      "template_hash": "618150e2117109a6",
+      "entities": [
+        "order_id:#W5490111",
+        "order_id:#W7387996",
+        "user_id:min_chen_4516"
+      ],
+      "actions": [
+        "find_user_id_by_email",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items",
+        "return_delivered_order_items"
+      ]
+    },
+    "13": {
+      "local_task_id": "13_zh_identity",
+      "template_hash": "59c3ea9a33ffcd14",
+      "entities": [
+        "order_id:#W5490111",
+        "order_id:#W7387996",
+        "user_id:min_chen_4516"
+      ],
+      "actions": [
+        "find_user_id_by_email",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items"
+      ]
+    },
+    "14": {
+      "local_task_id": "14_zh_identity",
+      "template_hash": "42f81314df3d7d98",
+      "entities": [
+        "order_id:#W5490111",
+        "order_id:#W7387996",
+        "user_id:min_chen_4516"
+      ],
+      "actions": [
+        "find_user_id_by_email",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items",
+        "return_delivered_order_items"
+      ]
+    },
+    "16": {
+      "local_task_id": "16_zh_identity",
+      "template_hash": "a4928e39f872ec84",
+      "entities": [
+        "order_id:#W5199551",
+        "order_id:#W8665881",
+        "order_id:#W9389413",
+        "user_id:na_zhu_7581"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "calculate",
+        "cancel_pending_order",
+        "cancel_pending_order",
+        "return_delivered_order_items"
+      ]
+    },
+    "17": {
+      "local_task_id": "17_zh_identity",
+      "template_hash": "d0359723dbca99e3",
+      "entities": [
+        "order_id:#W5199551",
+        "order_id:#W8665881",
+        "order_id:#W9389413",
+        "user_id:na_zhu_7581"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "modify_pending_order_address"
+      ]
+    },
+    "18": {
+      "local_task_id": "18_zh_identity",
+      "template_hash": "686bd81534e5922d",
+      "entities": [
+        "order_id:#W2890441",
+        "user_id:mei_yuan_8935"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "19": {
+      "local_task_id": "19_zh_identity",
+      "template_hash": "a80d1be67daf9f64",
+      "entities": [
+        "order_id:#W1267569",
+        "order_id:#W2890441",
+        "user_id:mei_yuan_8935"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "get_product_details",
+        "return_delivered_order_items"
+      ]
+    },
+    "21": {
+      "local_task_id": "21_zh_identity",
+      "template_hash": "933746cf195cb733",
+      "entities": [
+        "order_id:#W4967593",
+        "order_id:#W5733668",
+        "order_id:#W9911714",
+        "user_id:wei_chen_1261"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_item_details",
+        "get_item_details",
+        "get_product_details",
+        "get_item_details",
+        "get_product_details",
+        "calculate",
+        "modify_pending_order_items"
+      ]
+    },
+    "22": {
+      "local_task_id": "22_zh_identity",
+      "template_hash": "af76fddba62e6e84",
+      "entities": [
+        "order_id:#W4967593",
+        "order_id:#W5733668",
+        "order_id:#W9911714",
+        "user_id:wei_chen_1261"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "modify_user_address",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "modify_pending_order_address",
+        "modify_user_address"
+      ]
+    },
+    "23": {
+      "local_task_id": "23_zh_identity",
+      "template_hash": "e733bc6a4fed0dcc",
+      "entities": [
+        "order_id:#W3561391",
+        "order_id:#W3947049",
+        "order_id:#W6876713",
+        "order_id:#W9609649",
+        "user_id:xue_he_5364"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "exchange_delivered_order_items",
+        "get_product_details",
+        "exchange_delivered_order_items",
+        "get_product_details",
+        "modify_pending_order_items"
+      ]
+    },
+    "25": {
+      "local_task_id": "25_zh_identity",
+      "template_hash": "bf6a2729a2638a9e",
+      "entities": [
+        "order_id:#W2575533",
+        "order_id:#W3792453",
+        "order_id:#W5565470",
+        "order_id:#W7181492",
+        "user_id:jiayi_tang_2152"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details"
+      ]
+    },
+    "26": {
+      "local_task_id": "26_zh_identity",
+      "template_hash": "acf6e3b846a2a6a9",
+      "entities": [
+        "order_id:#W2575533",
+        "order_id:#W3792453",
+        "order_id:#W5565470",
+        "order_id:#W7181492",
+        "user_id:jiayi_tang_2152"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items",
+        "transfer_to_human_agents"
+      ]
+    },
+    "30": {
+      "local_task_id": "30_zh_identity",
+      "template_hash": "9fcc8a32b465669d",
+      "entities": [
+        "order_id:#W2692684",
+        "order_id:#W5481803",
+        "order_id:#W7449508",
+        "order_id:#W9319364",
+        "order_id:#W9373487",
+        "user_id:jing_wu_3865"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "return_delivered_order_items",
+        "get_order_details",
+        "cancel_pending_order",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items"
+      ]
+    },
+    "32": {
+      "local_task_id": "32_zh_identity",
+      "template_hash": "c322a5249754f0bf",
+      "entities": [
+        "order_id:#W2692684",
+        "order_id:#W5481803",
+        "order_id:#W7449508",
+        "order_id:#W9319364",
+        "order_id:#W9373487",
+        "user_id:jing_wu_3865"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "cancel_pending_order",
+        "get_order_details",
+        "cancel_pending_order",
+        "get_order_details",
+        "return_delivered_order_items"
+      ]
+    },
+    "36": {
+      "local_task_id": "36_zh_identity",
+      "template_hash": "9a7b3ab1fb6ee0e5",
+      "entities": [
+        "order_id:#W9348897"
+      ],
+      "actions": [
+        "modify_pending_order_items"
+      ]
+    },
+    "38": {
+      "local_task_id": "38_zh_identity",
+      "template_hash": "ff5e3c7c4b09c680",
+      "entities": [
+        "order_id:#W9348897"
+      ],
+      "actions": [
+        "find_user_id_by_email",
+        "find_user_id_by_name_zip",
+        "calculate",
+        "cancel_pending_order"
+      ]
+    },
+    "39": {
+      "local_task_id": "39_zh_identity",
+      "template_hash": "aab262347c47d46e",
+      "entities": [
+        "order_id:#W5285031",
+        "user_id:na_shen_3452"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "modify_user_address"
+      ]
+    },
+    "40": {
+      "local_task_id": "40_zh_identity",
+      "template_hash": "e077ff5a2a1b6c13",
+      "entities": [
+        "order_id:#W4923227",
+        "user_id:jiayi_wu_6490"
+      ],
+      "actions": [
+        "find_user_id_by_email",
+        "get_user_details",
+        "get_order_details",
+        "modify_pending_order_payment"
+      ]
+    },
+    "42": {
+      "local_task_id": "42_zh_identity",
+      "template_hash": "05e501b770e98e7b",
+      "entities": [
+        "order_id:#W4082615",
+        "order_id:#W9583042",
+        "user_id:mei_xu_7272"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "modify_pending_order_address",
+        "modify_pending_order_address",
+        "modify_user_address",
+        "get_product_details",
+        "get_order_details",
+        "modify_pending_order_items"
+      ]
+    },
+    "47": {
+      "local_task_id": "47_zh_identity",
+      "template_hash": "dbe24ffee36f498b",
+      "entities": [
+        "order_id:#9502126",
+        "order_id:#9502127",
+        "order_id:#W9502127"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "calculate",
+        "return_delivered_order_items",
+        "calculate"
+      ]
+    },
+    "49": {
+      "local_task_id": "49_zh_identity",
+      "template_hash": "b4f7d70108ea73fd",
+      "entities": [
+        "order_id:#W3220203",
+        "order_id:#W3470184",
+        "order_id:#W4316152",
+        "order_id:#W9300146",
+        "order_id:#W9311069",
+        "user_id:yuxuan_zhao_8794"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "calculate",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "50": {
+      "local_task_id": "50_zh_identity",
+      "template_hash": "320918747b4c681d",
+      "entities": [],
+      "actions": [
+        "transfer_to_human_agents"
+      ]
+    },
+    "52": {
+      "local_task_id": "52_zh_identity",
+      "template_hash": "834945ec49f4234c",
+      "entities": [
+        "order_id:#W4689314",
+        "user_id:xue_li_9219"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "53": {
+      "local_task_id": "53_zh_identity",
+      "template_hash": "17821f4976c4d9b1",
+      "entities": [
+        "order_id:#W3916020",
+        "order_id:#W4689314",
+        "order_id:#W8855135",
+        "user_id:xue_li_9219"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "return_delivered_order_items"
+      ]
+    },
+    "56": {
+      "local_task_id": "56_zh_identity",
+      "template_hash": "4dc721ad478bc0bb",
+      "entities": [
+        "order_id:#W2782744",
+        "order_id:#W4284542",
+        "order_id:#W5838674",
+        "user_id:junjie_he_6923"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "modify_pending_order_items"
+      ]
+    },
+    "58": {
+      "local_task_id": "58_zh_identity",
+      "template_hash": "48320246aaab97ff",
+      "entities": [
+        "order_id:#W5838674",
+        "user_id:junjie_he_6923"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_product_details",
+        "get_product_details",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "59": {
+      "local_task_id": "59_zh_identity",
+      "template_hash": "3825202de14b041d",
+      "entities": [
+        "order_id:#W2702727",
+        "order_id:#W8268610"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_order_details",
+        "get_order_details",
+        "cancel_pending_order",
+        "modify_pending_order_address"
+      ]
+    },
+    "63": {
+      "local_task_id": "63_zh_identity",
+      "template_hash": "c6048596047a6915",
+      "entities": [
+        "order_id:#W5061109",
+        "order_id:#W5797164",
+        "user_id:ming_zhu_4204"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "calculate",
+        "modify_pending_order_items"
+      ]
+    },
+    "64": {
+      "local_task_id": "64_zh_identity",
+      "template_hash": "0d2e12d06d7fa5a6",
+      "entities": [
+        "order_id:#W1279004",
+        "order_id:#W7464385",
+        "order_id:#W8499625",
+        "user_id:tao_zhang_3954"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "get_order_details",
+        "get_product_details",
+        "exchange_delivered_order_items",
+        "modify_pending_order_items"
+      ]
+    },
+    "65": {
+      "local_task_id": "65_zh_identity",
+      "template_hash": "0dc1a7e2dbd2a348",
+      "entities": [
+        "order_id:#W5362037",
+        "user_id:tao_zheng_9247"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details"
+      ]
+    },
+    "66": {
+      "local_task_id": "66_zh_identity",
+      "template_hash": "4051a948248868dd",
+      "entities": [
+        "order_id:#W3361211",
+        "order_id:#W3586556",
+        "user_id:yuxuan_liang_1982"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details",
+        "get_order_details",
+        "cancel_pending_order"
+      ]
+    },
+    "68": {
+      "local_task_id": "68_zh_identity",
+      "template_hash": "bcecd79f432e5f09",
+      "entities": [
+        "order_id:#W6729841",
+        "user_id:haoran_song_3850"
+      ],
+      "actions": [
+        "find_user_id_by_name_zip",
+        "find_user_id_by_name_zip",
+        "get_user_details",
+        "get_order_details"
+      ]
+    },
+    "70": {
+      "local_task_id": "70_zh_identity",
+      "template_hash": "a7fe0009019946e9",
+      "entities": [
+        "order_id:#W3947049"
+      ],
+      "actions": [
+        "exchange_delivered_order_items"
+      ]
+    },
+    "71": {
+      "local_task_id": "71_zh_identity",
+      "template_hash": "24745d80262d9101",
+      "entities": [
+        "order_id:#W5270061"
+      ],
+      "actions": [
+        "modify_pending_order_address",
+        "modify_pending_order_items"
+      ]
+    },
+    "74": {
+      "local_task_id": "74_zh_identity",
+      "template_hash": "56e6b90438f0a194",
+      "entities": [
+        "order_id:#W3189752",
+        "order_id:#W5166363"
+      ],
+      "actions": [
+        "cancel_pending_order",
+        "modify_pending_order_items"
+      ]
+    },
+    "78": {
+      "local_task_id": "78_zh_identity",
+      "template_hash": "cad7c074626fec3c",
+      "entities": [
+        "order_id:#W5056519",
+        "order_id:#W5995614"
+      ],
+      "actions": [
+        "modify_pending_order_address",
+        "modify_pending_order_items",
+        "cancel_pending_order"
+      ]
+    },
+    "79": {
+      "local_task_id": "79_zh_identity",
+      "template_hash": "02538eac447a3b3a",
+      "entities": [
+        "order_id:#W8661412"
+      ],
+      "actions": [
+        "modify_pending_order_items"
+      ]
+    },
+    "80": {
+      "local_task_id": "80_zh_identity",
+      "template_hash": "2f31b7bec19e2904",
+      "entities": [
+        "order_id:#W7209932"
+      ],
+      "actions": [
+        "exchange_delivered_order_items"
+      ]
+    },
+    "83": {
+      "local_task_id": "83_zh_identity",
+      "template_hash": "8963dc2ab7f4a549",
+      "entities": [
+        "order_id:#W9571698"
+      ],
+      "actions": [
+        "return_delivered_order_items"
+      ]
+    },
+    "85": {
+      "local_task_id": "85_zh_identity",
+      "template_hash": "82b0da729430a611",
+      "entities": [
+        "order_id:#W2466703"
+      ],
+      "actions": [
+        "modify_pending_order_items"
+      ]
+    },
+    "86": {
+      "local_task_id": "86_zh_identity",
+      "template_hash": "a301e136ad582c02",
+      "entities": [
+        "order_id:#W2466703",
+        "user_id:hao_he_6785"
+      ],
+      "actions": [
+        "modify_pending_order_items",
+        "modify_user_address"
+      ]
+    },
+    "89": {
+      "local_task_id": "89_zh_identity",
+      "template_hash": "39f2ece6890f811f",
+      "entities": [
+        "order_id:#W4680753"
+      ],
+      "actions": [
+        "return_delivered_order_items"
+      ]
+    },
+    "97": {
+      "local_task_id": "97_zh_identity",
+      "template_hash": "5a04e2a183daf708",
+      "entities": [
+        "order_id:#W6750959"
+      ],
+      "actions": [
+        "modify_pending_order_address",
+        "modify_pending_order_items"
+      ]
+    },
+    "102": {
+      "local_task_id": "102_zh_identity",
+      "template_hash": "02ffbf94a4dd3367",
+      "entities": [
+        "order_id:#W3445693",
+        "order_id:#W4219264"
+      ],
+      "actions": [
+        "modify_pending_order_address",
+        "modify_pending_order_items",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "104": {
+      "local_task_id": "104_zh_identity",
+      "template_hash": "e55296b3c625ed1b",
+      "entities": [
+        "order_id:#W4860251",
+        "order_id:#W6239298",
+        "order_id:#W8660475",
+        "order_id:#W9218746"
+      ],
+      "actions": [
+        "return_delivered_order_items",
+        "return_delivered_order_items",
+        "modify_pending_order_address",
+        "modify_pending_order_items",
+        "return_delivered_order_items"
+      ]
+    },
+    "105": {
+      "local_task_id": "105_zh_identity",
+      "template_hash": "62c21d358d8a6cd3",
+      "entities": [
+        "order_id:#W4316152"
+      ],
+      "actions": [
+        "exchange_delivered_order_items"
+      ]
+    },
+    "107": {
+      "local_task_id": "107_zh_identity",
+      "template_hash": "2b3c00012d672935",
+      "entities": [
+        "order_id:#W1304208",
+        "order_id:#W8353027"
+      ],
+      "actions": [
+        "exchange_delivered_order_items",
+        "exchange_delivered_order_items"
+      ]
+    },
+    "112": {
+      "local_task_id": "112_zh_identity",
+      "template_hash": "bbfa5e7db326aabc",
+      "entities": [
+        "order_id:#W3730488",
+        "order_id:#W9810810"
+      ],
+      "actions": [
+        "modify_pending_order_items",
+        "modify_pending_order_address",
+        "modify_pending_order_items"
+      ]
+    }
+  },
+  "all_task_ids": [
+    "6",
+    "8",
+    "11",
+    "13",
+    "14",
+    "16",
+    "17",
+    "18",
+    "19",
+    "21",
+    "22",
+    "23",
+    "25",
+    "26",
+    "30",
+    "32",
+    "36",
+    "38",
+    "39",
+    "40",
+    "42",
+    "47",
+    "49",
+    "50",
+    "52",
+    "53",
+    "56",
+    "58",
+    "59",
+    "63",
+    "64",
+    "65",
+    "66",
+    "68",
+    "70",
+    "71",
+    "74",
+    "78",
+    "79",
+    "80",
+    "83",
+    "85",
+    "86",
+    "89",
+    "97",
+    "102",
+    "104",
+    "105",
+    "107",
+    "112"
+  ],
+  "upstream_commit": "989d3285ae669e49503324bdb9981bf14fccedeb",
+  "regional_lf_sha256": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933"
+}
