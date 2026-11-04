@@ -1,0 +1,48 @@
+{
+  "runs": [
+    {
+      "effort": "low",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "小样本连通测试",
+      "comparison_key": "90b1e37e2f64c2c07a1b03182219745347b9b147bbf8d7a44ca6df32fca4e305",
+      "expected": 1,
+      "completed": 1,
+      "missing": 0,
+      "scored": 1,
+      "successful": 0,
+      "success_rate": 0.0,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 83.89508080901578,
+      "total_duration_seconds": 83.89508080901578,
+      "observed_message_usage_count": 14,
+      "tool_calls": 5,
+      "prompt_tokens": 138176,
+      "completion_tokens": 962,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 1
+      },
+      "selection_tolerance": 0.02,
+      "wall_seconds": 114.53035163879395,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 114.53035163879395,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑"
+    }
+  ],
+  "selection": {
+    "effort": null,
+    "reason": "必须提供配置中的全部候选强度，不能遗漏失败档位"
+  },
+  "description": "官方中文零售50题中的指定集合；不代表整个tau基准。完整运行前没有成绩结论。"
+}

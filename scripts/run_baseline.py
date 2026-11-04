@@ -1,5 +1,6 @@
 """原样启动上游中文零售单元，封存配置；默认只打印计划。"""
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -26,6 +27,11 @@ def child_env(config):
         env["OPENAI_API_BASE"] = config["api_base"]
     if config.get("local_placeholder_api_key"):
         env["OPENAI_API_KEY"] = config["local_placeholder_api_key"]
+    if config.get("api_key_env"):
+        key = env.get(config["api_key_env"])
+        if not key:
+            raise RuntimeError("桥接认证凭据尚未配置到指定环境变量")
+        env["OPENAI_API_KEY"] = key
     if config.get("judge_override"):
         env["RETAILOPS_JUDGE_OVERRIDE"] = json.dumps(config["judge_override"])
     else:
@@ -39,6 +45,7 @@ def main():
     parser.add_argument("--effort", default="low")
     parser.add_argument("--split", choices=["tune", "dev", "heldout", "all"], default="dev")
     parser.add_argument("--limit", type=int, help="仅用于小样本连通测试，仍记录原始集合")
+    parser.add_argument("--task-ids", nargs="+", help="在所选集合内指定规范任务ID，属于小样本实验")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--execute", action="store_true", help="实际运行，会调用模型")
     parser.add_argument("--native-dry-run", action="store_true", help="调用上游解析完整计划，但不调用模型")
@@ -50,13 +57,19 @@ def main():
     lock = verify_upstream()
     split = read_json(ROOT / "data" / "splits.json")
     ids = split["all_task_ids"] if args.split == "all" else split["splits"][args.split]
+    if args.task_ids:
+        if args.limit is not None or len(set(args.task_ids)) != len(args.task_ids) or not set(args.task_ids).issubset(ids):
+            raise SystemExit("显式任务ID必须无重复、属于所选集合，且不能同时使用limit")
+        ids = args.task_ids
     if args.limit is not None:
         if args.limit < 1:
             raise SystemExit("任务数必须为正数")
         ids = ids[:args.limit]
     if not ids:
         raise SystemExit("当前集合为空")
-    manifest = {"schema_version": 1, "upstream_commit": lock["commit"], "config": config, "effort": args.effort, "split": args.split, "task_ids": ids, "local_task_ids": [split["task_features"][i]["local_task_id"] for i in ids], "num_trials": config["num_trials"], "split_digest": digest(split), "scope": "小样本连通测试" if args.limit else "分组评测", "independent_generalization": False}
+    manifest = {"schema_version": 1, "upstream_commit": lock["commit"], "config": config, "effort": args.effort, "split": args.split, "task_ids": ids, "local_task_ids": [split["task_features"][i]["local_task_id"] for i in ids], "num_trials": config["num_trials"], "split_digest": digest(split), "scope": "小样本连通测试" if args.limit or args.task_ids else "分组评测", "independent_generalization": False}
+    snapshot = ROOT / "reports" / "requirements.resolved.txt"
+    manifest["environment"] = {"python_path": str(native_python()), "measured_snapshot_sha256": hashlib.sha256(snapshot.read_bytes()).hexdigest() if snapshot.exists() else None, "upstream_lock_sha256": hashlib.sha256((UPSTREAM / "uv.lock").read_bytes().replace(b"\r\n", b"\n")).hexdigest()}
     manifest["signature"] = digest(manifest)
     output = (args.output or ROOT / "runs" / f"{args.split}-{args.effort}-{manifest['signature'][:10]}").resolve()
     command = make_command(config, args.effort, ids, output / "native")
@@ -79,7 +92,11 @@ def main():
     log_path = output / ("execution.log" if args.execute else "dry-run.log")
     with log_path.open("a", encoding="utf-8") as stream:
         result = subprocess.run(command, cwd=UPSTREAM, env=env, stdout=stream, stderr=subprocess.STDOUT)
-    write_json(output / ("execution.json" if args.execute else "dry-run.json"), {"exit_code": result.returncode, "elapsed_seconds": time.time() - started, "finished_at_unix": time.time(), "actual_model_calls_requested": args.execute})
+    execution = {"exit_code": result.returncode, "elapsed_seconds": time.time() - started, "started_at_unix": started, "finished_at_unix": time.time(), "actual_model_calls_requested": args.execute}
+    if args.execute:
+        with (output / "execution-history.jsonl").open("a", encoding="utf-8") as history:
+            history.write(json.dumps(execution, ensure_ascii=False) + "\n")
+    write_json(output / ("execution.json" if args.execute else "dry-run.json"), execution)
     print(f"上游退出码：{result.returncode}，日志：{log_path}")
     raise SystemExit(result.returncode)
 

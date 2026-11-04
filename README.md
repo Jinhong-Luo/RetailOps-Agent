@@ -4,7 +4,7 @@
 
 ## 当前状态与归属
 
-- 上游提交固定为 `989d3285ae669e49503324bdb9981bf14fccedeb`，使用上游 `uv.lock`。
+- 上游提交固定为 `989d3285ae669e49503324bdb9981bf14fccedeb`；默认安装路径使用上游 `uv.lock`。本次服务器实测使用独立解析后冻结的依赖快照，二者不可混报。
 - 原生 Agent、业务环境、全部零售工具、用户模拟器、任务评分和批量续跑来自上游。
 - 本仓库新增版本校验、模型传输配置、分组清单、同题思考强度矩阵、完整分母汇总与开发集选择规则。
 - 候选强度为 `low/medium/high/xhigh/max/ultra`。列表不等于服务端已验证支持；需要真实请求和桥接服务记录。
@@ -25,16 +25,16 @@
 服务器使用 Python 3.12 或 3.13。以下命令均在仓库根目录执行：
 
 ```bash
-python3 scripts/bootstrap.py
+python3 scripts/bootstrap.py --environment measured-snapshot
 python3 scripts/prepare_splits.py
 python3 -m unittest discover -s tests -v
 ```
 
-`bootstrap.py` 要求可调用 `uv`，只在 `vendor/tau2-bench/.venv` 安装依赖。首次拉取固定标签并校验提交；后续运行不覆盖已有源码改动。`vendor/`、环境文件和完整运行轨迹不提交 Git。
+`bootstrap.py` 要求可调用 `uv`。`--environment measured-snapshot` 从 `reports/requirements.resolved.txt` 安装本次实测依赖到项目 `.venv`，再以 `--no-deps -e` 安装固定源码。`--environment upstream-lock` 则使用上游 `uv.lock` 安装到 `vendor/tau2-bench/.venv`，是另一种环境条件。复现实测时请使用干净项目目录，避免两套环境同时存在。首次拉取固定标签并校验提交；后续运行不覆盖已有源码改动。`vendor/`、环境文件和完整运行轨迹不提交 Git。
 
 ### 当前 Codex 登录桥接条件
 
-`configs/codex_bridge.json` 为当前实验条件：通过本机 `http://127.0.0.1:18861/v1` 使用现有 Codex 登录。桥接服务必须先启动并提供工具调用兼容接口；本仓库不会读取或复制登录凭据。
+`configs/codex_bridge.json` 为当前实验条件：通过本机 `http://127.0.0.1:18863/v1` 使用现有 Codex 登录。桥接服务必须先启动并提供工具调用兼容接口；认证令牌从本机 `.env` 的 `CODEX_BRIDGE_TOKEN` 读取，不写入实验清单；本仓库不会读取或复制登录凭据。
 
 Agent、用户模拟器和语义裁判均使用 `gpt-6.1-sol`；只有 Agent 强度变化，用户和裁判固定 `medium`。原生 Agent、环境与评分规则保留。**这是 Codex 模型传输适配基线，不能与官方直连 API 运行条件混报。**
 
@@ -70,7 +70,7 @@ python3 scripts/summarize.py runs/dev-matrix/low runs/dev-matrix/medium runs/dev
 
 成功判定仅使用原生 `reward_info.reward == 1`。分母等于运行清单中题数乘试次数，零结果、缺失轨迹和基础设施失败不会被删除。脚本拒绝重复任务试次和计划外任务。
 
-选择仅用于相同配置、相同开发题、相同试次数且所有候选完整完成的结果。预设规则为：距最高成功率不超过2个百分点时，选择平均任务耗时较低者。13题一次运行的统计不确定性较大，结论是初步配置选择；需要更多固定种子重复验证稳定性。保留集不参与选优。
+选择仅用于相同配置、相同开发题、相同试次数且所有候选完整完成的结果。预设规则为：距最高成功率不超过2个百分点时，选择累计实际运行时间除以计划任务数较低者，包含本脚本记录的启动、失败重试及续跑耗时。13题一次运行的统计不确定性较大，结论是初步配置选择；需要更多固定种子重复验证稳定性。保留集不参与选优。
 
 报告输出成功数、完整分母、缺失数、终止原因、耗时、工具调用和可观察消息 token。工具错误、重复操作、误拦截和细粒度业务失败归因尚需后续标注，不能从终止原因直接推断。
 
@@ -85,3 +85,16 @@ vendor/tau2-bench/.venv/bin/tau2 view --file runs/dev-matrix/low/native
 ```
 
 源码与方法来源：[τ-bench v2.0.0](https://github.com/sierra-research/tau2-bench/tree/v2.0.0)、[原生运行说明](https://github.com/sierra-research/tau2-bench/blob/v2.0.0/docs/running-the-benchmark.md)、[原生 LLMAgent](https://github.com/sierra-research/tau2-bench/blob/v2.0.0/src/tau2/agent/llm_agent.py)。上游许可随固定源码保留。
+
+## 仓库内 Codex 登录桥接
+
+桥接代码已随仓库提供，使用服务器已有 Codex ChatGPT 登录，不提取登录令牌。先预检，再做普通回答、虚拟业务工具与 JSON 裁判三个烟测：
+
+```bash
+python3 model_bridge/codex_bridge.py --check
+python3 model_bridge/codex_bridge.py --port 18861 --runtime-dir /home/luojinghong/LLM_Proj/.bridge-runtime
+# 在另一个终端运行；默认只测 low。
+python3 model_bridge/probe.py --base-url http://127.0.0.1:18863/v1 --effort low --output reports/bridge-smoke-low.json
+```
+
+完整六档链路验证加 `--all-efforts`。输出包含实际思考强度、模型名、耗时、token 与失败分类；它只是接入烟测，不能替代业务基线或据此选出最佳档位。固定标记 `codex-app-server-structured-output-v1`，不称为原生模型 API 等价实验。详细限制、Docker 网关接入和登录问题记录见 [桥接说明](model_bridge/README.md)。

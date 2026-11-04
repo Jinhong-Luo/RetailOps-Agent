@@ -11,6 +11,7 @@ def main():
     parser.add_argument("--config", type=Path)
     parser.add_argument("--split", choices=["dev", "tune"], default="dev")
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--task-ids", nargs="+")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--native-dry-run", action="store_true")
     parser.add_argument("--output", type=Path, default=ROOT / "runs" / "effort-matrix")
@@ -19,11 +20,16 @@ def main():
     config = load_config(args.config)
     statuses = []
     for effort in config["efforts"]:
+        if (args.output / "STOP_AFTER_CURRENT").exists():
+            print("收到停止标记，当前任务结束后不再启动下一档")
+            break
         command = [sys.executable, str(ROOT / "scripts" / "run_baseline.py"), "--effort", effort, "--split", args.split, "--output", str(args.output / effort)]
         if args.config:
             command += ["--config", str(args.config.resolve())]
         if args.limit:
             command += ["--limit", str(args.limit)]
+        if args.task_ids:
+            command += ["--task-ids", *args.task_ids]
         if args.execute:
             command.append("--execute")
         if args.native_dry_run:

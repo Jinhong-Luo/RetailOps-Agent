@@ -37,6 +37,24 @@ class EvaluationTests(unittest.TestCase):
         row = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
         self.assertIsNone(select([row])["effort"])
 
+    def test_duplicate_effort_cannot_select(self):
+        manifest = self.manifest()
+        manifest["config"]["efforts"] = ["low", "high"]
+        low = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        manifest["effort"] = "high"
+        high = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        low["wall_seconds_per_planned_task"] = 3
+        high["wall_seconds_per_planned_task"] = 4
+        self.assertEqual(select([low, high])["effort"], "low")
+        self.assertIsNone(select([low, high, dict(low)])["effort"])
+
+    def test_smoke_is_complete_but_not_selectable(self):
+        manifest = self.manifest()
+        manifest["scope"] = "小样本连通测试"
+        row = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        self.assertTrue(row["complete_for_summary"])
+        self.assertFalse(row["complete_for_selection"])
+
     def test_shared_entity_transitive_group(self):
         def task(i, entities):
             return {"id": i, "evaluation_criteria": {"actions": [{"name": "test", "arguments": entities}]}, "user_scenario": {"instructions": {"reason_for_call": "scenario_" + i}}}

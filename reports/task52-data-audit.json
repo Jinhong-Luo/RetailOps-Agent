@@ -1,0 +1,47 @@
+{
+  "status": "疑似上游任务与预期动作冲突，原生评分保持不变",
+  "upstream_commit": "989d3285ae669e49503324bdb9981bf14fccedeb",
+  "task_id": "52_zh_identity",
+  "source": "data/tau2/multilingual/zh/regional/retail.json",
+  "requirement": "The 数码相机 you received doesn't zoom as far as you expected. You use the 数码相机 for bird-watching and want to exchange it for a 数码相机 that has the maximum zoom capacity. Price is not an issue, but ensure all the other specifications of the 数码相机 to be exchanged are the same, except for the zoom capacity which has to be maximized. You want the exchange to be completed as soon as possible. You want to use your PayPal account for any additional payment.",
+  "initial_state": null,
+  "original_item": {
+    "item_id": "5996159312",
+    "options": {
+      "resolution": "24MP",
+      "zoom": "3倍",
+      "storage": "SD卡"
+    },
+    "available": true,
+    "price": 20268.85
+  },
+  "expected_new_item": {
+    "item_id": "9228757377",
+    "options": {
+      "resolution": "3000万像素",
+      "zoom": "10倍",
+      "storage": "SD卡"
+    },
+    "available": true,
+    "price": 21463.61
+  },
+  "expected_action": {
+    "action_id": "52_4",
+    "requestor": "assistant",
+    "name": "exchange_delivered_order_items",
+    "arguments": {
+      "order_id": "#W4689314",
+      "item_ids": [
+        "5996159312"
+      ],
+      "new_item_ids": [
+        "9228757377"
+      ],
+      "payment_method_id": "paypal_8194385"
+    },
+    "info": null,
+    "compare_args": null
+  },
+  "finding": "用户要求除变焦外其他规格不变；原商品24MP，标准答案指定商品为3000万像素。英文原库对应分别为24MP与30MP，问题不只来自中文翻译。",
+  "handling": "保留原始reward和50题分母，单独标注冲突；不将此题归因模型能力，不修改原工具、政策或评分。先前把此例描述为模型单位理解错误已撤回。"
+}
