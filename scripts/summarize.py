@@ -7,6 +7,37 @@ from pathlib import Path
 from common import ROOT, digest, read_json, write_json
 
 
+def verify_transport(manifest, simulations):
+    """核对桥接逐消息元数据，避免只凭请求配置宣称各强度已经生效。"""
+    config = manifest["config"]
+    applies = config.get("api_key_env") == "CODEX_BRIDGE_TOKEN" or config.get("local_placeholder_api_key") == "local-codex"
+    result = {"required": applies, "checked_messages": 0, "mismatches": 0, "missing_metadata": 0, "instruction_hashes": [], "instruction_fingerprints": []}
+    if not applies:
+        return result
+    hashes = set()
+    fingerprints = set()
+    for sim in simulations:
+        for message in sim.get("messages") or []:
+            raw = message.get("raw_data") or {}
+            if not raw:
+                continue
+            meta = raw.get("bridge_metadata")
+            if not meta:
+                result["missing_metadata"] += 1
+                continue
+            role = message.get("role")
+            model = config["agent_model"] if role == "assistant" else config["user_model"]
+            effort = manifest["effort"] if role == "assistant" else config["user_model_args"]["extra_body"]["reasoning_effort"]
+            result["checked_messages"] += 1
+            if meta.get("actual_model") != model.split("/")[-1] or meta.get("reasoning_effort") != effort:
+                result["mismatches"] += 1
+            hashes.update((meta.get("instruction_source_sha256") or {}).values())
+            fingerprints.add(digest(meta.get("instruction_source_sha256") or {}))
+    result["instruction_hashes"] = sorted(hashes)
+    result["instruction_fingerprints"] = sorted(fingerprints)
+    return result
+
+
 def summarize(manifest, simulations):
     expected = {(task, trial) for task in manifest["local_task_ids"] for trial in range(manifest["num_trials"])}
     found = {}
@@ -52,7 +83,12 @@ def select(rows):
     if any(r["split"] != "dev" or r["scope"] != "分组评测" for r in rows):
         return {"effort": None, "reason": "只允许使用完整开发集选择，连通测试和保留集不参与"}
     best = max(r["success_rate"] for r in rows)
-    eligible = [r for r in rows if r["success_rate"] >= best - r["selection_tolerance"] and r.get("wall_seconds_per_planned_task") is not None]
+    quality_eligible = [r for r in rows if r["success_rate"] >= best - r["selection_tolerance"]]
+    if len(quality_eligible) == 1:
+        return {"effort": quality_eligible[0]["effort"], "reason": "完整开发集中仅该档达到预设质量阈值；选择依据为质量，未宣称耗时最优", "actual_cost_known": False}
+    if any(not r.get("timing_comparable", True) for r in quality_eligible):
+        return {"effort": None, "reason": "质量候选并列且至少一档耗时受外部负载干扰；需补跑可比耗时，不能依据拥塞时长选优"}
+    eligible = [r for r in quality_eligible if r.get("wall_seconds_per_planned_task") is not None]
     if not eligible:
         return {"effort": None, "reason": "缺少可比较的耗时记录"}
     selected = min(eligible, key=lambda r: r["wall_seconds_per_planned_task"])
@@ -69,6 +105,12 @@ def load_run(path):
         if not simulations and (source.parent / "simulations").is_dir():
             simulations = [read_json(p) for p in sorted((source.parent / "simulations").glob("*.json"))]
     result = summarize(manifest, simulations)
+    transport = verify_transport(manifest, simulations)
+    result["transport_verification"] = transport
+    if transport["required"]:
+        result["comparison_key"] = digest({"experiment": result["comparison_key"], "instruction_fingerprints": transport["instruction_fingerprints"]})
+        if transport["mismatches"] or transport["missing_metadata"] or not transport["checked_messages"] or len(transport["instruction_fingerprints"]) != 1:
+            result["complete_for_selection"] = False
     history = path / "execution-history.jsonl"
     if history.exists():
         executions = [json.loads(line) for line in history.read_text(encoding="utf-8").splitlines() if line.strip()]
@@ -80,6 +122,10 @@ def load_run(path):
     result["recorded_invocations"] = len(executions)
     result["wall_seconds_per_planned_task"] = result["wall_seconds"] / result["expected"] if executions and result["expected"] else None
     result["duration_note"] = "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑"
+    observation_path = path / "runtime-observations.json"
+    observations = read_json(observation_path) if observation_path.exists() else {}
+    result["timing_comparable"] = observations.get("timing_comparable", True)
+    result["runtime_observations"] = observations
     return result
 
 

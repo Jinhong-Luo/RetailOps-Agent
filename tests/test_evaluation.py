@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from common import ROOT, read_json, agent_args
 from prepare_splits import build_splits
-from summarize import summarize, select
+from summarize import summarize, select, verify_transport
 
 
 class EvaluationTests(unittest.TestCase):
@@ -54,6 +54,25 @@ class EvaluationTests(unittest.TestCase):
         row = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
         self.assertTrue(row["complete_for_summary"])
         self.assertFalse(row["complete_for_selection"])
+
+    def test_network_contention_blocks_latency_tiebreak(self):
+        manifest = self.manifest()
+        manifest["config"]["efforts"] = ["low", "high"]
+        low = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        manifest["effort"] = "high"
+        high = summarize(manifest, [self.simulation("1_zh"), self.simulation("2_zh")])
+        low.update(wall_seconds_per_planned_task=100, timing_comparable=False)
+        high.update(wall_seconds_per_planned_task=5, timing_comparable=True)
+        self.assertIsNone(select([low, high])["effort"])
+
+    def test_actual_effort_must_match_requested_effort(self):
+        manifest = self.manifest()
+        manifest["config"] = read_json(ROOT / "configs" / "codex_bridge.json")
+        message = {"role": "assistant", "raw_data": {"bridge_metadata": {"actual_model": "gpt-6.1-sol", "reasoning_effort": "high", "instruction_source_sha256": {"instructions": "fixed"}}}}
+        result = verify_transport(manifest, [{"messages": [message]}])
+        self.assertEqual(result["mismatches"], 1)
+        message["raw_data"]["bridge_metadata"]["reasoning_effort"] = "low"
+        self.assertEqual(verify_transport(manifest, [{"messages": [message]}])["mismatches"], 0)
 
     def test_shared_entity_transitive_group(self):
         def task(i, entities):

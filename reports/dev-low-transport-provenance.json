@@ -1,0 +1,32 @@
+{
+  "run": "dev-complete/low",
+  "raw_data_messages": 263,
+  "bridge_metadata_messages": 263,
+  "observed_models": {
+    "gpt-6.1-sol": 263
+  },
+  "observed_efforts_by_role": [
+    {
+      "role": "user",
+      "effort": "medium",
+      "message_count": 81
+    },
+    {
+      "role": "assistant",
+      "effort": "low",
+      "message_count": 182
+    }
+  ],
+  "instruction_source_hashes": [
+    "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+  ],
+  "transport": "codex-app-server-structured-output-v1",
+  "codex_cli": "0.162.1",
+  "api_equivalent": false,
+  "bridge_wall_seconds": {
+    "count": 263,
+    "median": 6.640986765967682,
+    "maximum": 181.7026490608696
+  },
+  "covers": "conversation_messages_only_not_all_judge_or_failed_requests"
+}

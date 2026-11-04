@@ -30,6 +30,12 @@ python3 scripts/prepare_splits.py
 python3 -m unittest discover -s tests -v
 ```
 
+当前服务器的uv位于项目父目录下的隔离工具环境；未加入PATH时可使用：
+
+```bash
+python3 scripts/bootstrap.py --environment measured-snapshot --uv ../.setup/bootstrap-venv/bin/uv
+```
+
 `bootstrap.py` 要求可调用 `uv`。`--environment measured-snapshot` 从 `reports/requirements.resolved.txt` 安装本次实测依赖到项目 `.venv`，再以 `--no-deps -e` 安装固定源码。`--environment upstream-lock` 则使用上游 `uv.lock` 安装到 `vendor/tau2-bench/.venv`，是另一种环境条件。复现实测时请使用干净项目目录，避免两套环境同时存在。首次拉取固定标签并校验提交；后续运行不覆盖已有源码改动。`vendor/`、环境文件和完整运行轨迹不提交 Git。
 
 ### 当前 Codex 登录桥接条件
@@ -73,6 +79,8 @@ python3 scripts/summarize.py runs/dev-matrix/low runs/dev-matrix/medium runs/dev
 选择仅用于相同配置、相同开发题、相同试次数且所有候选完整完成的结果。预设规则为：距最高成功率不超过2个百分点时，选择累计实际运行时间除以计划任务数较低者，包含本脚本记录的启动、失败重试及续跑耗时。13题一次运行的统计不确定性较大，结论是初步配置选择；需要更多固定种子重复验证稳定性。保留集不参与选优。
 
 报告输出成功数、完整分母、缺失数、终止原因、耗时、工具调用和可观察消息 token。工具错误、重复操作、误拦截和细粒度业务失败归因尚需后续标注，不能从终止原因直接推断。
+
+`seed=300`约束上游环境和试次配置，不保证Codex模型生成确定性。当前结构化输出桥接只核验模型与思考强度，`temperature`、`max_tokens`等采样参数没有实际施加，原始`bridge_metadata.sampling_parameters_applied=false`记录了这一限制；80步上限由上游运行器执行，含义不同。每题仅运行1次，结果可能包含用户模拟器的随机波动，因此选档仅称“本开发集、本次观测下的选择”，不称统计显著最优。
 
 上游旧 LiteLLM 在无法识别模型价格时返回 `0.0`，因此本仓库将实际费用写为 `null`，等待服务账单核验。已有消息的 token 不覆盖全部裁判和失败重试，不能包装成完整账单成本；Codex 订阅也不能直接按 API 价格计费。
 

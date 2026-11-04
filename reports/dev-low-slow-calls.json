@@ -1,0 +1,114 @@
+{
+  "partial": true,
+  "observed_upload_pause": "2026-11-04 19:36 Asia/Shanghai",
+  "slow_calls": [
+    {
+      "task_id": "30_zh_identity",
+      "message_index": 2,
+      "seconds": 46.52,
+      "timestamp": "2026-11-04T19:19:40.540329"
+    },
+    {
+      "task_id": "30_zh_identity",
+      "message_index": 4,
+      "seconds": 48.1,
+      "timestamp": "2026-11-04T19:22:02.833863"
+    },
+    {
+      "task_id": "30_zh_identity",
+      "message_index": 6,
+      "seconds": 179.84,
+      "timestamp": "2026-11-04T19:26:44.503397"
+    },
+    {
+      "task_id": "30_zh_identity",
+      "message_index": 8,
+      "seconds": 180.42,
+      "timestamp": "2026-11-04T19:29:44.940883"
+    },
+    {
+      "task_id": "30_zh_identity",
+      "message_index": 10,
+      "seconds": 97.42,
+      "timestamp": "2026-11-04T19:31:22.375999"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 2,
+      "seconds": 31.96,
+      "timestamp": "2026-11-04T19:19:25.973111"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 4,
+      "seconds": 62.86,
+      "timestamp": "2026-11-04T19:21:17.616030"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 6,
+      "seconds": 87.2,
+      "timestamp": "2026-11-04T19:23:33.188612"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 8,
+      "seconds": 178.12,
+      "timestamp": "2026-11-04T19:26:31.316655"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 10,
+      "seconds": 38.84,
+      "timestamp": "2026-11-04T19:27:10.173720"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 12,
+      "seconds": 151.11,
+      "timestamp": "2026-11-04T19:29:41.298577"
+    },
+    {
+      "task_id": "22_zh_identity",
+      "message_index": 14,
+      "seconds": 99.74,
+      "timestamp": "2026-11-04T19:31:21.056413"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 2,
+      "seconds": 30.54,
+      "timestamp": "2026-11-04T19:19:24.531951"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 4,
+      "seconds": 48.83,
+      "timestamp": "2026-11-04T19:22:03.391720"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 6,
+      "seconds": 32.84,
+      "timestamp": "2026-11-04T19:23:56.384495"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 8,
+      "seconds": 164.49,
+      "timestamp": "2026-11-04T19:26:40.891828"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 10,
+      "seconds": 181.73,
+      "timestamp": "2026-11-04T19:29:42.636812"
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 12,
+      "seconds": 99.79,
+      "timestamp": "2026-11-04T19:31:22.444041"
+    }
+  ]
+}

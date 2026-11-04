@@ -1,0 +1,14 @@
+{
+  "before_1936": {
+    "observed_messages": 91,
+    "median_seconds": 8.02637648396194,
+    "max_seconds": 181.72716575697996,
+    "above_30": 18
+  },
+  "after_1936": {
+    "observed_messages": 91,
+    "median_seconds": 5.617995857959613,
+    "max_seconds": 9.736937614856288,
+    "above_30": 0
+  }
+}

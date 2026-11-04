@@ -1,0 +1,663 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-11-04",
+  "audit_type": "完整开发集静态数据一致性审计",
+  "upstream": {
+    "repository": "https://github.com/sierra-research/tau2-bench.git",
+    "tag": "v2.0.0",
+    "commit": "989d3285ae669e49503324bdb9981bf14fccedeb",
+    "python": "3.12",
+    "benchmark": "text-v1",
+    "language": "zh",
+    "domain": "retail",
+    "task_subset": "retail_50",
+    "task_count": 50,
+    "binding_revision": "72f4818e02a34f40e704e6b6406d4bc5317fe850be6366a28212a2bbf41056c1"
+  },
+  "source_integrity": {
+    "vendor_head_matches_lock": true,
+    "vendor_git_diff_empty_at_audit": true,
+    "regional_lf_sha256_matches_split": true
+  },
+  "sources": {
+    "regional": {
+      "path": "vendor/tau2-bench/data/tau2/multilingual/zh/regional/retail.json",
+      "sha256_lf": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933"
+    },
+    "english_tasks": {
+      "path": "vendor/tau2-bench/data/tau2/domains/retail/tasks.json",
+      "sha256_lf": "8e03ebce7901bd6218e7a7dc3105faa9324091a68058f7fe61c65262868812e8"
+    },
+    "english_database": {
+      "path": "vendor/tau2-bench/data/tau2/domains/retail/db.json",
+      "sha256_lf": "413a65160adbdb5fde0ffc0015c49b6d70250b10c18128de169b597af7766765"
+    },
+    "split": {
+      "path": "data/splits.json",
+      "sha256_lf": "48f8df8a1644624596e9ad4cc50ae07d3d942f033a0062fc0a5617a758ca6de1"
+    },
+    "policy": {
+      "path": "vendor/tau2-bench/data/tau2/multilingual/zh/regional/retail.json",
+      "json_pointer": "/policies/policy"
+    },
+    "tools": {
+      "path": "vendor/tau2-bench/src/tau2/domains/retail/tools.py",
+      "sha256_lf": "d0a9afdd44dbb1e7b1b4d19e0acf8ba9e3c99db78f775383a4b63fe5b0ccf52a"
+    },
+    "order_schema": {
+      "path": "vendor/tau2-bench/src/tau2/domains/retail/data_model.py",
+      "line": 88,
+      "additional_line": 172
+    },
+    "evaluator": {
+      "path": "vendor/tau2-bench/src/tau2/evaluator/evaluator_env.py",
+      "line": 109
+    }
+  },
+  "coverage": {
+    "scope": "完整 dev",
+    "planned_task_count": 13,
+    "audited_task_count": 13,
+    "gold_action_count": 76,
+    "classification_counts": {
+      "明确题意与金标冲突": 1,
+      "未见明显冲突": 10,
+      "明确说明元数据不一致；动作未见明显冲突": 1,
+      "疑点：信息不足": 1
+    }
+  },
+  "method": {
+    "static_checks": [
+      "全部预期工具名与参数名可在固定工具实现定位。",
+      "引用的用户、订单、商品及款式存在；订单归属一致。",
+      "顺序检查订单写操作所需 pending/delivered 状态；修改商品前已完成所需改址。",
+      "旧款式属于订单；新款式属于同一商品且可售；新旧列表长度一致。",
+      "支付方式属于订单用户；退货使用原付款或已有礼品卡；礼品卡支付差额足够。",
+      "逐题对照用户限制、条件分支、目标规格、价格和沟通数值；检查初始状态均为 null。"
+    ],
+    "manual_review": "由代码审查代理独立核对，非真人复核；未运行模型、未执行官方工具或金标重放。",
+    "limits": [
+      "静态检查通过不等于证明题目绝对无歧义，也不保证模拟器按预期表达全部偏好。",
+      "68 的时序信息缺失只能列疑点，不能据此硬判官方金标错误。",
+      "104 的 purpose 文案有明确元数据问题，但不等于实际金标退货状态错误。",
+      "该审计不生成替代 reward，不据此扣除难题、选择提示或重写工具。"
+    ]
+  },
+  "findings_summary": {
+    "explicit_intent_gold_conflicts": [
+      "52_zh_identity"
+    ],
+    "insufficient_information": [
+      "68_zh_identity"
+    ],
+    "metadata_only_inconsistency": [
+      "104_zh_identity"
+    ],
+    "no_other_clear_action_conflict_observed": true
+  },
+  "handling": {
+    "official_dev_denominator": 13,
+    "exclude_tasks": [],
+    "modify_official_task_or_scoring": false,
+    "send_audit_or_gold_to_business_agent": false,
+    "rules": [
+      "所有正式 dev 强度比较仍使用全部 13 题，保留原生评分。",
+      "52 单列解释其题意/金标冲突，不将该题错误直接归因模型业务能力。",
+      "审计报告仅供实验维护者查看，不传入业务 Agent、用户模拟器或新增模型提示。",
+      "若后续修订题目，必须独立版本和单独报告；本次未修订任何题目。"
+    ]
+  },
+  "tasks": [
+    {
+      "canonical_task_id": "52",
+      "task_id": "52_zh_identity",
+      "classification": "明确题意与金标冲突",
+      "judgment": "题意要求除变焦外其他规格相同；金标将 24MP 原相机换成 30MP/3000万像素，违反分辨率保持不变约束。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 5,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/24/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/24/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4689314",
+          "observation": "delivered；含原相机 5996159312；PayPal 存在，动作结构合法。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/8940227892/variants/5996159312",
+          "observation": "24MP、3倍变焦、SD卡。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/8940227892/variants/9228757377",
+          "observation": "3000万像素、10倍变焦、SD卡；金标目标。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/8940227892/variants",
+          "observation": "14 个变体中，24MP+SD卡只有原 3 倍项，没有更大变焦且其余规格相同的款式。"
+        },
+        {
+          "source": "english_tasks",
+          "json_pointer": "/52/user_scenario/instructions/reason_for_call",
+          "observation": "英文原题也要求其他规格相同。"
+        },
+        {
+          "source": "english_database",
+          "json_pointer": "/products/8940227892/variants/5996159312",
+          "observation": "英文原商品同为 24MP。"
+        },
+        {
+          "source": "english_database",
+          "json_pointer": "/products/8940227892/variants/9228757377",
+          "observation": "英文金标目标为 30MP；不是中文翻译独有问题。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "53",
+      "task_id": "53_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "退掉已送达且损坏的自行车，退款到该订单原信用卡，未连带退拼图。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 6,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/25/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/25/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W3916020",
+          "observation": "delivered；自行车 7758198585 为 13420.47 元；原支付 credit_card_8105988。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/users/xue_li_9219/payment_methods/credit_card_8105988",
+          "observation": "原信用卡存在。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "36",
+      "task_id": "36_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "原总价 8168.86 元；各商品最低可售价合计 7915.95 元，低于 7917 元。只改 3 项，其余 2 项已最便宜。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 1,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/16/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/16/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9348897",
+          "observation": "pending；最贵商品运动相机 3370.50 元；支付卡存在。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/3377618313/variants/6700049080",
+          "observation": "运动相机最低可售价 3267.25 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/6817146515/variants/5320792178",
+          "observation": "台灯最低可售价 946.68 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/9523456873/variants/3234800602",
+          "observation": "T恤最低可售价 326.62 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/9743693396/variants/9879255677",
+          "observation": "现有庭院遮阳伞即最低可售价 2021.74 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/2524789262/variants/9851293632",
+          "observation": "现有背包即最低可售价 1353.66 元。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "38",
+      "task_id": "38_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "与 36 共享订单；最低可售价总计 7915.95 元仍超过 6650 元，因此按题意取消整单。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 4,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/17/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/17/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9348897",
+          "observation": "pending；原总价 8168.86 元，最贵运动相机 3370.50 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/17/evaluation_criteria/actions/2",
+          "observation": "calculate 的五项相加为 7915.95 元，与商品目录逐项最小值一致。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "30",
+      "task_id": "30_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "原平板缺货，按条件退平板并取消配套移动电源，再退运动鞋；物流号与原平板订单一致。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 13,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/14/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/14/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/8024098596/variants/3788616824",
+          "observation": "原款式 available=false，满足转为退货的条件。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W2692684",
+          "observation": "delivered；tracking 746342064230；原付款为 gift_card_7711863。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9373487",
+          "observation": "pending，只有移动电源。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W7449508",
+          "observation": "delivered，包含运动鞋 6477915553。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "32",
+      "task_id": "32_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "未为自行丢失的平板创建退货；取消移动电源及包含徒步靴、电热水壶的 pending 整单，再退已送达运动鞋。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 13,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/15/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/15/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W2692684",
+          "observation": "平板 delivered；金标不修改此单，物流号 746342064230 匹配。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9373487",
+          "observation": "pending，移动电源。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W5481803",
+          "observation": "pending，恰含徒步靴和电热水壶；不是 processed。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W7449508",
+          "observation": "delivered；运动鞋可退到原 gift_card_7711863。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "21",
+      "task_id": "21_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "一次修改两种商品，追加请求合并后从礼品卡扣差价 293.44 元；602 元余额变为 308.56 元。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 12,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/9/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/9/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9911714",
+          "observation": "pending；原鞋 9791469541、原键盘 1340995114 均在单内。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/6938111410/variants/4107812777",
+          "observation": "同类跑步鞋可售，1087.31 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/1656367028/variants/1421289881",
+          "observation": "同类机械键盘可售，1881.39 元。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/users/wei_chen_1261/payment_methods/gift_card_4332117",
+          "observation": "余额 602 元，足够支付差额。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "22",
+      "task_id": "22_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "用户先改默认及所有可改订单地址，随后仅恢复默认地址；唯一 pending 订单保持新地址。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 7,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/10/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/10/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/users/wei_chen_1261",
+          "observation": "原默认地址成都 610047；共 3 单。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9911714",
+          "observation": "唯一 pending 单，可修改地址。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4967593",
+          "observation": "processed，不应修改地址。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W5733668",
+          "observation": "processed，不应修改地址。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "102",
+      "task_id": "102_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "先改双腕表 pending 单地址，再改硅胶表为金属白色；另将已送达空气净化器改为大号/HEPA/夜间模式。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 3,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/45/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/45/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4219264",
+          "observation": "pending；含两只腕表，原硅胶表 8886009523。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W3445693",
+          "observation": "delivered；与运动鞋同单的净化器 6341716129；提供北京地址来源。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/6066914160/variants/2407258246",
+          "observation": "可售金属白色腕表。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/3821016478/variants/8302289002",
+          "observation": "可售大号、HEPA、夜间模式净化器。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "104",
+      "task_id": "104_zh_identity",
+      "classification": "明确说明元数据不一致；动作未见明显冲突",
+      "judgment": "description.purpose 描述已取消订单含书架和拼图，与固定数据库不符；实际金标退的 #W6239298 是 delivered。真正 cancelled 单未被退货，返回其真实物流号。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 5,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/46/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/46/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/46/description/purpose",
+          "observation": "说明声称 cancelled order containing 书架 and 拼图、只退另一单书架；该说明未与现有数据及追加金标同步。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W6239298",
+          "observation": "实际 delivered，含书架 4900661478 和拼图 3614853563；退这两件符合用户退所有已收书架/拼图的目标。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W1154986",
+          "observation": "真正 cancelled，含拼图但没有书架；tracking 286422338955，金标不退此单。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W8660475",
+          "observation": "delivered，退另一个书架 8479046075。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W9218746",
+          "observation": "delivered，退与吸尘器同单的背包 7824298782。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4860251",
+          "observation": "pending；先改到用户沈阳默认地址，再改行李箱颜色。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/5426915165/variants/8964750292",
+          "observation": "可售红色行李箱，2件套/硬壳与原款相同。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "68",
+      "task_id": "68_zh_identity",
+      "classification": "疑点：信息不足",
+      "judgment": "5806.01 元与所指订单金额一致；但无法仅凭公开数据确认它是最近下单的订单。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 4,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/33/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/33/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/users/haoran_song_3850/orders",
+          "observation": "列表为 #W3445693、#W4219264、#W6729841；列表末项对应金标，但未发现该列表按下单时间排序的公开保证。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W6729841",
+          "observation": "pending；两项及 payment_history 合计 5806.01 元；无下单时间字段。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4219264",
+          "observation": "另一 pending 订单，无下单时间字段，不能靠状态唯一确定最近订单。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/33/user_scenario/instructions/task_instructions",
+          "observation": "先提供错误邮编 116078 再纠正 116021 是题目明确设计，不计为数据错误。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "89",
+      "task_id": "89_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "最便宜可售键盘 1582.77 元高于 1400 元阈值，按条件退当前键盘并说明最低价及规格。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 1,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/43/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/43/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/1656367028/variants/3616838507",
+          "observation": "所有可售变体中最低价 1582.77 元；段落手感、白色背光、全尺寸。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W4680753",
+          "observation": "delivered；原键盘 9690244451 存在，退款为原 paypal_2417743。"
+        }
+      ],
+      "official_denominator_included": true
+    },
+    {
+      "canonical_task_id": "74",
+      "task_id": "74_zh_identity",
+      "classification": "未见明显冲突",
+      "judgment": "取消恰好 5 件的 pending 订单；另一 pending 笔记本改成可售 i9/256GB SSD/银色款式。",
+      "structural_checks": "通过本报告列明的静态结构检查",
+      "gold_action_count": 2,
+      "initial_state_is_null": true,
+      "evidence": [
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/36/user_scenario/instructions",
+          "observation": "用户任务与已知信息。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/tasks/36/evaluation_criteria",
+          "observation": "官方预期动作、沟通信息与自然语言断言。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W3189752",
+          "observation": "pending，恰有 5 件商品。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/orders/#W5166363",
+          "observation": "pending，原笔记本 3334537816，信用卡存在。"
+        },
+        {
+          "source": "regional",
+          "json_pointer": "/database/products/4760268021/variants/3265035808",
+          "observation": "可售；i9/256GB SSD/银色，17英寸/8GB 与原款相同。"
+        }
+      ],
+      "official_denominator_included": true
+    }
+  ]
+}
