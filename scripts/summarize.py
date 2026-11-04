@@ -126,6 +126,20 @@ def load_run(path):
     observations = read_json(observation_path) if observation_path.exists() else {}
     result["timing_comparable"] = observations.get("timing_comparable", True)
     result["runtime_observations"] = observations
+    reuse_path = path / "reuse-provenance.json"
+    if reuse_path.exists():
+        from prepare_reuse import verify_reused_simulations
+        provenance = read_json(reuse_path)
+        if provenance["target_signature"] != manifest["signature"]:
+            raise ValueError("复用来源记录与当前清单不符")
+        verify_reused_simulations(provenance, simulations)
+        result["reused_simulations"] = provenance["reused_simulations"]
+        result["new_completed_simulations"] = result["completed"] - provenance["reused_simulations"]
+        result["new_execution_wall_seconds"] = result["wall_seconds"]
+        result["reused_source_wall_seconds"] = provenance["source_wall_seconds"]
+        result["wall_seconds"] = (result["wall_seconds"] or 0) + provenance["source_wall_seconds"]
+        result["wall_seconds_per_planned_task"] = result["wall_seconds"] / result["expected"]
+        result["duration_note"] += "；本结果复用完整开发集，wall_seconds另加其历史实际运行时间，新增37题耗时单列"
     return result
 
 

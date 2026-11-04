@@ -1,0 +1,107 @@
+{
+  "window_utc": {
+    "start": "2026-11-04T12:33:05.858000+00:00",
+    "end": "2026-11-04T12:33:19.373000+00:00"
+  },
+  "completed_simulations_at_snapshot": 11,
+  "summary": {
+    "assistant": {
+      "overlap": {
+        "count": 3,
+        "median_seconds": 27.6192173960153,
+        "max_seconds": 30.926154904067516,
+        "over_30_seconds": 1
+      },
+      "nearby_without_overlap": {
+        "count": 94,
+        "median_seconds": 12.256660323473625,
+        "max_seconds": 36.84563443087973,
+        "over_30_seconds": 5
+      },
+      "all": {
+        "count": 143,
+        "median_seconds": 12.27666172082536,
+        "max_seconds": 53.56799032189883,
+        "over_30_seconds": 9
+      }
+    },
+    "user": {
+      "overlap": {
+        "count": 2,
+        "median_seconds": 6.104010166483931,
+        "max_seconds": 6.529429625952616,
+        "over_30_seconds": 0
+      },
+      "nearby_without_overlap": {
+        "count": 40,
+        "median_seconds": 5.798161372425966,
+        "max_seconds": 8.620044264942408,
+        "over_30_seconds": 0
+      },
+      "all": {
+        "count": 64,
+        "median_seconds": 6.1748194004176185,
+        "max_seconds": 10.318668534979224,
+        "over_30_seconds": 0
+      }
+    }
+  },
+  "overlapping_calls": [
+    {
+      "task_id": "32_zh_identity",
+      "message_index": 17,
+      "role": "user",
+      "effort": "medium",
+      "estimated_start_utc": "2026-11-04T12:33:00.328467+00:00",
+      "message_timestamp_utc": "2026-11-04T12:33:06.857897+00:00",
+      "wall_seconds": 6.529429625952616,
+      "overlap": true,
+      "nearby": true
+    },
+    {
+      "task_id": "32_zh_identity",
+      "message_index": 18,
+      "role": "assistant",
+      "effort": "max",
+      "estimated_start_utc": "2026-11-04T12:33:06.883917+00:00",
+      "message_timestamp_utc": "2026-11-04T12:33:34.503134+00:00",
+      "wall_seconds": 27.6192173960153,
+      "overlap": true,
+      "nearby": true
+    },
+    {
+      "task_id": "21_zh_identity",
+      "message_index": 30,
+      "role": "assistant",
+      "effort": "max",
+      "estimated_start_utc": "2026-11-04T12:33:00.910407+00:00",
+      "message_timestamp_utc": "2026-11-04T12:33:31.836562+00:00",
+      "wall_seconds": 30.926154904067516,
+      "overlap": true,
+      "nearby": true
+    },
+    {
+      "task_id": "36_zh_identity",
+      "message_index": 3,
+      "role": "user",
+      "effort": "medium",
+      "estimated_start_utc": "2026-11-04T12:33:02.179632+00:00",
+      "message_timestamp_utc": "2026-11-04T12:33:07.858223+00:00",
+      "wall_seconds": 5.678590707015246,
+      "overlap": true,
+      "nearby": true
+    },
+    {
+      "task_id": "36_zh_identity",
+      "message_index": 4,
+      "role": "assistant",
+      "effort": "max",
+      "estimated_start_utc": "2026-11-04T12:33:07.886155+00:00",
+      "message_timestamp_utc": "2026-11-04T12:33:21.417741+00:00",
+      "wall_seconds": 13.531586474040523,
+      "overlap": true,
+      "nearby": true
+    }
+  ],
+  "note": "桥接wall_seconds包含服务信号量排队、启动及调用；以消息时间戳减耗时估算起始，存在客户端传输延迟。时间重叠不单独证明因果；同档模型角色分开描述，完整任务结束后才覆盖其调用。"
+}

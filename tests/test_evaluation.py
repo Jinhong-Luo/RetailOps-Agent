@@ -1,11 +1,14 @@
 """防止分母偏差、跨组泄漏与不公平档位选择。"""
 import sys
+import random
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from common import ROOT, read_json, agent_args
 from prepare_splits import build_splits
 from summarize import summarize, select, verify_transport
+from prepare_reuse import validate_reuse, verify_reused_simulations
+from common import digest
 
 
 class EvaluationTests(unittest.TestCase):
@@ -97,6 +100,26 @@ class EvaluationTests(unittest.TestCase):
         config = read_json(ROOT / "configs" / "codex_bridge.json")
         for effort in config["efforts"]:
             self.assertEqual(agent_args(config, effort)["extra_body"]["reasoning_effort"], effort)
+
+    def test_reuse_rejects_changed_seed_and_dropped_failure(self):
+        source = self.manifest()
+        source["config"]["seed"] = 300
+        target = dict(source, split="all")
+        seed = random.Random(300).randint(0, 1000000)
+        sims = [dict(self.simulation("1_zh"), seed=seed), dict(self.simulation("2_zh", 0), seed=seed)]
+        validate_reuse(source, target, sims)
+        with self.assertRaises(ValueError):
+            validate_reuse(source, target, sims[:1])
+        sims[1]["seed"] += 1
+        with self.assertRaises(ValueError):
+            validate_reuse(source, target, sims)
+
+    def test_reuse_requires_original_trajectory(self):
+        sim = self.simulation("1_zh", 0)
+        provenance = {"simulations": [{"task_id": "1_zh", "trial": 0, "sha256": digest(sim)}]}
+        verify_reused_simulations(provenance, [sim])
+        with self.assertRaises(ValueError):
+            verify_reused_simulations(provenance, [self.simulation("1_zh", 1)])
 
 
 if __name__ == "__main__":

@@ -40,7 +40,7 @@ python3 scripts/bootstrap.py --environment measured-snapshot --uv ../.setup/boot
 
 ### 当前 Codex 登录桥接条件
 
-`configs/codex_bridge.json` 为当前实验条件：通过本机 `http://127.0.0.1:18863/v1` 使用现有 Codex 登录。桥接服务必须先启动并提供工具调用兼容接口；认证令牌从本机 `.env` 的 `CODEX_BRIDGE_TOKEN` 读取，不写入实验清单；本仓库不会读取或复制登录凭据。
+`configs/codex_dev.json` 为本次实际完整开发集条件：最多80步、并发3，通过本机 `http://127.0.0.1:18863/v1` 使用现有 Codex 登录。`codex_bridge.json` 保留上游200步预算作为另一套条件，不能混报。桥接认证令牌从本机 `.env` 的 `CODEX_BRIDGE_TOKEN` 读取，不写入实验清单；本仓库不会读取或复制登录凭据。
 
 Agent、用户模拟器和语义裁判均使用 `gpt-6.1-sol`；只有 Agent 强度变化，用户和裁判固定 `medium`。原生 Agent、环境与评分规则保留。**这是 Codex 模型传输适配基线，不能与官方直连 API 运行条件混报。**
 
@@ -54,16 +54,16 @@ python3 scripts/run_baseline.py --config configs/codex_bridge.json --split dev -
 python3 scripts/run_baseline.py --config configs/codex_bridge.json --split dev --effort low --limit 1 --native-dry-run
 
 # 工具往返探测，会真实调用模型；应使用上游独立环境。
-vendor/tau2-bench/.venv/bin/python scripts/probe_models.py --config configs/codex_bridge.json --effort low --execute
+.venv/bin/python scripts/probe_models.py --config configs/codex_bridge.json --effort low --execute
 
 # 一道开发题的真实连通实验。
 python3 scripts/run_baseline.py --config configs/codex_bridge.json --split dev --effort low --limit 1 --execute
 
 # 完整开发集思考强度对照：6档 × 13题 × 1次。
-python3 scripts/run_matrix.py --config configs/codex_bridge.json --split dev --execute --output runs/dev-matrix
+python3 scripts/run_matrix.py --config configs/codex_dev.json --split dev --execute --output runs/dev-complete
 
 # 汇总各档，缺失/失败留在原定分母。
-python3 scripts/summarize.py runs/dev-matrix/low runs/dev-matrix/medium runs/dev-matrix/high runs/dev-matrix/xhigh runs/dev-matrix/max runs/dev-matrix/ultra --output reports/dev-matrix.json
+python3 scripts/summarize.py runs/dev-complete/low runs/dev-complete/medium runs/dev-complete/high runs/dev-complete/xhigh runs/dev-complete/max runs/dev-complete/ultra --output reports/dev-matrix.json
 ```
 
 重复同一命令会让上游跳过已完成运行；这不是业务事务恢复。变更配置、任务集或固定版本时必须使用新目录，脚本会拒绝混用。
@@ -89,7 +89,7 @@ python3 scripts/summarize.py runs/dev-matrix/low runs/dev-matrix/medium runs/dev
 每档目录包含不可混用的 `manifest.json`、启动参数 `command.json`、退出状态、执行日志及上游 `native/zh-retail/results.json`。完整日志留在服务器，检查后仅提交去敏的汇总报告。
 
 ```bash
-vendor/tau2-bench/.venv/bin/tau2 view --file runs/dev-matrix/low/native
+.venv/bin/tau2 view --file runs/dev-complete/low/native
 ```
 
 源码与方法来源：[τ-bench v2.0.0](https://github.com/sierra-research/tau2-bench/tree/v2.0.0)、[原生运行说明](https://github.com/sierra-research/tau2-bench/blob/v2.0.0/docs/running-the-benchmark.md)、[原生 LLMAgent](https://github.com/sierra-research/tau2-bench/blob/v2.0.0/src/tau2/agent/llm_agent.py)。上游许可随固定源码保留。
@@ -100,7 +100,11 @@ vendor/tau2-bench/.venv/bin/tau2 view --file runs/dev-matrix/low/native
 
 ```bash
 python3 model_bridge/codex_bridge.py --check
-python3 model_bridge/codex_bridge.py --port 18861 --runtime-dir /home/luojinghong/LLM_Proj/.bridge-runtime
+# 将本机认证变量传给桥进程，不打印内容；另一个终端做探测时同样加载。
+set -a
+source .env
+set +a
+python3 model_bridge/codex_bridge.py --port 18863 --concurrency 3 --runtime-dir /home/luojinghong/LLM_Proj/.bridge-runtime
 # 在另一个终端运行；默认只测 low。
 python3 model_bridge/probe.py --base-url http://127.0.0.1:18863/v1 --effort low --output reports/bridge-smoke-low.json
 ```
