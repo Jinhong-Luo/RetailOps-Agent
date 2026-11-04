@@ -1,0 +1,376 @@
+{
+  "runs": [
+    {
+      "effort": "low",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 7,
+      "success_rate": 0.5384615384615384,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 309.7094165938369,
+      "total_duration_seconds": 4026.22241571988,
+      "observed_message_usage_count": 263,
+      "tool_calls": 114,
+      "prompt_tokens": 3014276,
+      "completion_tokens": 18814,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "49b97d71e4326981f6beb8c1d8fc3857820e6da607752c49d142e5c201defe5d",
+        "execution.json": "e63c20f8e146b6dcfbc0841e1ce7de49c8b4ed8dc3021eea2d6d055a13d74593",
+        "execution-history.jsonl": "615342c6a71b8cc66ba333dff5005f54ff15d31693f651b3b044b3dce199d11a",
+        "runtime-observations.json": "308d2c783ce30757be25787b83ad8d97734611b7d31842d98103ea5c472b821c",
+        "native/zh-retail/results.json": "453ea6c85c88125e5d224845f482bf925987e53968492ecb66015d0c4472c60f"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 263,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 1503.6130015850067,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 115.66253858346205,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": false,
+      "runtime_observations": {
+        "timing_comparable": false,
+        "reason": "本轮与同服务器大镜像上传、SSH握手超时窗口重合；调用明显变慢，尚未排除服务端排队、路由或后台重试，不能将差异归因思考强度",
+        "observed_window": "2026-11-04 约19:15起，结束待记录",
+        "change_to_model_or_scorer": false
+      }
+    },
+    {
+      "effort": "medium",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 10,
+      "success_rate": 0.7692307692307693,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 129.4080575286554,
+      "total_duration_seconds": 1682.3047478725202,
+      "observed_message_usage_count": 260,
+      "tool_calls": 113,
+      "prompt_tokens": 2973429,
+      "completion_tokens": 20067,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "d4a113697f9f0a3d8e89b9290f9a985752e2de8aab76623859422cac1419bf83",
+        "execution.json": "a1c5b06fc0aa53a75ee370cc22272d958b6048fca14bcca9222ecada76da0b22",
+        "execution-history.jsonl": "b9d6834ac5fd8190c85178db25991d6948dd970e219761ad46979221a46c91d4",
+        "native/zh-retail/results.json": "9b52a889b8010426303c8c90d673cc0af905271bddf8409408936b7ac3e83310"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 260,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 710.137363910675,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 54.625951070051926,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": true,
+      "runtime_observations": {}
+    },
+    {
+      "effort": "high",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 10,
+      "success_rate": 0.7692307692307693,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 148.5724784017612,
+      "total_duration_seconds": 1931.4422192228958,
+      "observed_message_usage_count": 263,
+      "tool_calls": 114,
+      "prompt_tokens": 3014442,
+      "completion_tokens": 31031,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "4edeea00debe7f74add29456cfc46970d37507f77436cee8d5976b1f9b51ed26",
+        "execution.json": "18062fbd038552df13ce0a34cfe4256b1634210c85cb3993ca11c1e0630bad91",
+        "execution-history.jsonl": "2e6fd8de1e0affd8ec8fffa7894c071e321d3860dffe7ee129af5883258aaf4d",
+        "native/zh-retail/results.json": "b877fd2ef6ba090cfa974fa6ff4e912d1ba8010420b0d5e44c78651e73b7a1ef"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 263,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 854.1533725261688,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 65.70410557893607,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": true,
+      "runtime_observations": {}
+    },
+    {
+      "effort": "xhigh",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 8,
+      "success_rate": 0.6153846153846154,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 210.04829896984694,
+      "total_duration_seconds": 2730.62788660801,
+      "observed_message_usage_count": 260,
+      "tool_calls": 111,
+      "prompt_tokens": 2959761,
+      "completion_tokens": 70250,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "1a77c37feb2b5430c9d63cf50a249b3146b1e9d42529960455832c0a2b87faeb",
+        "execution.json": "6a5f2c183e887db871f4ee5d117e6485c19865adac9a6f74b75a9edc9acb55a5",
+        "execution-history.jsonl": "0c38b0ccc524721262b209250a0cf537cf4073c0cf27fd5f0c52baa052b76249",
+        "native/zh-retail/results.json": "f13c0f3918b0bda43cb635da25c4e68f5d7523e65ca893319bb00a852237a28d"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 260,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 1167.94712972641,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 89.84208690203153,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": true,
+      "runtime_observations": {}
+    },
+    {
+      "effort": "max",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 8,
+      "success_rate": 0.6153846153846154,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 264.6575280361845,
+      "total_duration_seconds": 3440.547864470398,
+      "observed_message_usage_count": 264,
+      "tool_calls": 115,
+      "prompt_tokens": 3031420,
+      "completion_tokens": 100506,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "7fe1008c25d157c68edfa4f0a7a6c3f534baa003c2593731f11efaf0be5d3080",
+        "execution.json": "7bf8b01f839db98a77a1d0a222bb2ad1e962578a0b60fc268b7e061a988e48d6",
+        "execution-history.jsonl": "e426073f0183c469f93770b9298f395c7a871dd4a40db95381271445e876392a",
+        "native/zh-retail/results.json": "2a624c57eb29fd767ac91986b3c2855f39406ff75350ec218accb673c924a27f"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 264,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 1485.7511947154999,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 114.28855343965384,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": true,
+      "runtime_observations": {}
+    },
+    {
+      "effort": "ultra",
+      "candidate_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "variant": "A0-Codex传输适配",
+      "split": "dev",
+      "scope": "分组评测",
+      "comparison_key": "38e666a1bd083cc5a76c197fb3ded263f0942a6217ac5c926113ad7ded715105",
+      "expected": 13,
+      "completed": 13,
+      "missing": 0,
+      "scored": 13,
+      "successful": 8,
+      "success_rate": 0.6153846153846154,
+      "infrastructure_or_generation_errors": 0,
+      "complete_for_summary": true,
+      "complete_for_selection": true,
+      "mean_duration_seconds": 235.65745046242284,
+      "total_duration_seconds": 3063.546856011497,
+      "observed_message_usage_count": 257,
+      "tool_calls": 110,
+      "prompt_tokens": 2927170,
+      "completion_tokens": 70258,
+      "actual_cost": null,
+      "cost_note": "上游旧LiteLLM对未知模型定价失败返回0；本报告不将0当免费。需服务账单核验，消息用量不含所有裁判或失败请求。",
+      "termination_reasons": {
+        "user_stop": 13
+      },
+      "selection_tolerance": 0.02,
+      "source_artifacts_sha256": {
+        "manifest.json": "e79a8aeb2cdcf53a4ff7401dcf1e155fc9fc642e07a1035dbe9ede40a89bace8",
+        "execution.json": "02e9a887a662159a6b5465b3304161b95841ea43eb564b102bb37f8da9e1a764",
+        "execution-history.jsonl": "87953dead33156de63ad7a37a3e512830c9a1aa9b606b8da50eee336251a8336",
+        "native/zh-retail/results.json": "b6910050d03617c52892a349eeec7eb0c774126b464d4414a544003f273d039e"
+      },
+      "transport_verification": {
+        "required": true,
+        "checked_messages": 257,
+        "mismatches": 0,
+        "missing_metadata": 0,
+        "instruction_hashes": [
+          "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849"
+        ],
+        "instruction_fingerprints": [
+          "8ca3fe905ebc06aba57189f64ac0a0e0cdde8390322e69f25b12038cc10d5867"
+        ]
+      },
+      "wall_seconds": 1289.684003353119,
+      "recorded_invocations": 1,
+      "wall_seconds_per_planned_task": 99.20646179639377,
+      "duration_note": "mean_duration_seconds仅为最终保留轨迹的平均时长；wall_seconds累计本脚本记录的实际运行时间，含启动、重试和续跑",
+      "timing_comparable": true,
+      "runtime_observations": {}
+    }
+  ],
+  "selection": {
+    "effort": "medium",
+    "reason": "在成功率距最佳不超过预设阈值的档位中，累计实际运行时间除以计划任务数最低，包含本脚本记录的重试和续跑时间；需冻结后单独评测保留集",
+    "actual_cost_known": false
+  },
+  "description": "官方中文零售50题中的指定集合；不代表整个tau基准。完整运行前没有成绩结论。"
+}

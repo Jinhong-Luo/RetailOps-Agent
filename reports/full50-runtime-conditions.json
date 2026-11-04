@@ -1,0 +1,8 @@
+{
+  "timing_comparable": false,
+  "reason": "完整50题是在六档开发集选择冻结之后补齐；新增37题期间其他项目可能执行少量注册/模型探针，共享服务后端。该阶段时长只用于记录实际执行成本，不用于此前开发集档位选择，也不宣称独占负载下的吞吐。",
+  "selection_frozen_before_run": true,
+  "reused_dev_tasks": 13,
+  "new_tasks": 37,
+  "configuration_changed": false
+}

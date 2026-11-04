@@ -10,6 +10,10 @@
 - 候选强度为 `low/medium/high/xhigh/max/ultra`。列表不等于服务端已验证支持；需要真实请求和桥接服务记录。
 - 没有实际完整运行的目录不能形成成功率结论。小样本仅验证链路，不能据此选定最佳档位。
 
+2026-11-04已完成 **13道开发题 × 六档 × 每题1次，共78次真实业务运行**，均无基础设施/生成错误。本次推荐 **`gpt-6.1-sol / medium`**：medium与high同为10/13（76.9%），累计实际耗时分别710.14秒、854.15秒，按预设质量阈值和耗时规则选择medium。low为7/13，xhigh、max、ultra各8/13。实际模型/强度与指令来源已逐消息核验；low有外部负载时延干扰，未用于并列最优档的耗时比较。
+
+这是本开发集本次观测下的配置选择，不是统计显著最优。完整证据见[六档汇总](reports/dev-matrix.json)、[逐题评分](reports/dev-task-comparison.md)和[实验口径](reports/实验进展与口径.md)。目前正按相同配置复用medium全部13题并补齐剩余37题，完整50题尚未结束。
+
 ## 固定数据与分组
 
 官方入口为 `tau2 run --benchmark text --language zh --domain retail`，共 **50 道中文零售任务**，属于 `text-v1` 的一个单元，不是整个基准。
@@ -70,13 +74,13 @@ python3 scripts/summarize.py runs/dev-complete/low runs/dev-complete/medium runs
 
 ### 选档后的完整50题
 
-六档完整开发集汇总到 `reports/dev-matrix.json` 后，以其中正式选定的档位替换下例的 `选定档位`。先在新目录生成全量计划，再严格复用该档全部13题（包含失败），最后由上游只补37题：
+六档完整开发集正式选定medium。以下为首次完整运行的命令：先在新目录生成全量计划，再严格复用该档全部13题（包含失败），最后由上游只补37题。已准备好复用目录后，续跑无需重复执行`prepare_reuse.py`。
 
 ```bash
-python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50
-python3 scripts/prepare_reuse.py --source runs/dev-complete/选定档位 --target runs/full50 --selection-report reports/dev-matrix.json
-python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50 --native-dry-run
-python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort 选定档位 --output runs/full50 --execute
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort medium --output runs/full50
+python3 scripts/prepare_reuse.py --source runs/dev-complete/medium --target runs/full50 --selection-report reports/dev-matrix.json
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort medium --output runs/full50 --native-dry-run
+python3 scripts/run_baseline.py --config configs/codex_dev.json --split all --effort medium --output runs/full50 --execute
 python3 scripts/summarize.py runs/full50 --output reports/full50-summary.json
 ```
 
