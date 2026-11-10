@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 import queue
 import secrets
+import select
+import socket
 import shutil
 import subprocess
 import tempfile
@@ -203,6 +205,7 @@ class CodexSession:
         self.process = None
         self.tmp = None
         self.diagnostics = []
+        self.cancelled = None
 
     def __enter__(self):
         self.runtime_dir.mkdir(parents=True, exist_ok=True)
@@ -280,13 +283,17 @@ class CodexSession:
         self.process.stdin.flush()
 
     def receive(self, deadline: float) -> dict:
-        remaining = deadline - time.monotonic()
-        if remaining <= 0:
-            raise BridgeError("Codex 请求超时")
-        try:
-            message = self.events.get(timeout=remaining)
-        except queue.Empty as error:
-            raise BridgeError("Codex 请求超时") from error
+        while True:
+            if self.cancelled and self.cancelled():
+                raise ConnectionAbortedError("业务客户端取消了请求")
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise BridgeError("Codex 请求超时")
+            try:
+                message = self.events.get(timeout=min(remaining, 0.25) if self.cancelled else remaining)
+                break
+            except queue.Empty:
+                continue
         if "_error" in message:
             raise BridgeError(message["_error"] + ("；" + "；".join(self.diagnostics) if self.diagnostics else ""))
         if "method" in message and "id" in message:
@@ -342,12 +349,15 @@ class CodexSession:
         return started
 
     def complete(self, body: dict[str, Any], effort: str) -> tuple[dict, dict | None]:
+        startup = time.monotonic()
         model = self.model_info()
         supported = {item.get("reasoningEffort", item.get("effort")) for item in model.get("supportedReasoningEfforts", [])}
         if supported and effort not in supported:
             raise BridgeError(f"当前登录的模型目录不支持 {effort}")
         started = self.start_thread(effort)
         prompt = {key: body[key] for key in ("messages", "tools", "tool_choice", "response_format") if key in body}
+        generating = time.monotonic()
+        self.thread_ms = (generating - startup) * 1000
         self.rpc("turn/start", {
             "threadId": started["thread"]["id"], "model": MODEL, "effort": effort,
             "environments": [], "input": [{"type": "text", "text": json.dumps(prompt, ensure_ascii=False)}],
@@ -374,7 +384,11 @@ class CodexSession:
                 break
         if not final_text:
             raise BridgeError("Codex 完成但没有返回结构化消息")
-        return completion_message(json.loads(final_text), body), usage
+        parsing = time.monotonic()
+        self.generation_ms = (parsing - generating) * 1000
+        message = completion_message(json.loads(final_text), body)
+        self.parse_ms = (time.monotonic() - parsing) * 1000
+        return message, usage
 
 
 class BridgeServer(ThreadingHTTPServer):
@@ -388,6 +402,14 @@ class BridgeServer(ThreadingHTTPServer):
 
 
 class BridgeHandler(BaseHTTPRequestHandler):
+    def disconnected(self):
+        if not select.select([self.connection], [], [], 0)[0]:
+            return False
+        try:
+            return self.connection.recv(1, socket.MSG_PEEK) == b""
+        except ConnectionError:
+            return True
+
     def log_message(self, fmt, *args):
         # 不记录请求正文、Authorization、问题或参考答案。
         return
@@ -425,13 +447,26 @@ class BridgeHandler(BaseHTTPRequestHandler):
             model, effort = parse_model_effort(body, self.server.args.default_effort)
             begin = time.monotonic()
             with self.server.semaphore:
-                with CodexSession(self.server.args.codex, Path(self.server.args.runtime_dir), self.server.args.timeout) as session:
+                admitted = time.monotonic()
+                session = CodexSession(self.server.args.codex, Path(self.server.args.runtime_dir), self.server.args.timeout)
+                if self.headers.get("X-Cancel-On-Disconnect") == "1":
+                    session.cancelled = self.disconnected
+                    if session.cancelled():
+                        return
+                with session:
+                    initialized = time.monotonic()
                     message, tokens = session.complete(body, effort)
             response = {
                 "id": "chatcmpl-" + uuid.uuid4().hex, "object": "chat.completion", "created": int(time.time()),
                 "model": body.get("model", model),
                 "choices": [{"index": 0, "message": message, "finish_reason": "tool_calls" if message.get("tool_calls") else "stop"}],
                 "bridge_metadata": {"transport": TRANSPORT, "api_equivalent": False, "actual_model": MODEL, "reasoning_effort": effort, "billed_cost": None, "wall_seconds": time.monotonic() - begin, "sampling_parameters_applied": False, "multi_agent_enabled": False, "environment_access": False, "instruction_source_sha256": session.instruction_hashes},
+            }
+            response["bridge_metadata"]["stages_ms"] = {
+                "queue": (admitted - begin) * 1000,
+                "startup": (initialized - admitted) * 1000 + session.thread_ms,
+                "generation": session.generation_ms,
+                "parse": session.parse_ms,
             }
             if tokens:
                 response["usage"] = {"prompt_tokens": tokens["inputTokens"], "completion_tokens": tokens["outputTokens"], "total_tokens": tokens["totalTokens"], "prompt_tokens_details": {"cached_tokens": tokens.get("cachedInputTokens", 0)}, "completion_tokens_details": {"reasoning_tokens": tokens.get("reasoningOutputTokens", 0)}}
@@ -452,6 +487,8 @@ class BridgeHandler(BaseHTTPRequestHandler):
                 self.wfile.write(("data: " + json.dumps(chunk) + "\n\ndata: [DONE]\n\n").encode())
             else:
                 self.respond(200, response)
+        except (ConnectionAbortedError, BrokenPipeError, ConnectionResetError):
+            return
         except (BridgeError, ValueError, OSError, KeyError) as error:
             self.respond(502, {"error": {"message": str(error), "type": "codex_bridge_error"}})
 

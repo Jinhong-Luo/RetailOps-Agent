@@ -1,0 +1,1407 @@
+{
+  "runs": {
+    "service-paired-v1": {
+      "scope": "两道新编任务，同一订单独立重复，三策略配对；每题前置五轮固定商品查询",
+      "runner_sha256": "2f4efd8dd5488f40e2dd6b8a99555bc788c1c506f3e0913761d8ddc800e38c07",
+      "pack_sha256": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933",
+      "source_sha256": "b53255c6a709f4c23c0c329826c8d006030c1ff65b41380ced51fb7401429bca",
+      "planned": 18,
+      "missing": 0,
+      "failures": {
+        "model_error": 18
+      },
+      "groups": {
+        "A": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 20.055500000000002,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        },
+        "B": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 19.9765,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        },
+        "C": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 19.9395,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        }
+      },
+      "rows": [
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.024,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.714,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.142,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.212,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 19.737,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.127,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.612,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 19.752,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.087,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.216,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 20.246,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 19.889,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 14.109,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 27.278,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 14.071,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 14.121,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 14.004,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 14.048,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        }
+      ],
+      "stages_ms": {
+        "请求排队": {
+          "count": 18,
+          "median": 0.02,
+          "p95": 0.053
+        }
+      }
+    },
+    "service-paired-v2": {
+      "scope": "两道新编任务，同一订单独立重复，三策略配对；每题前置五轮固定商品查询",
+      "runner_sha256": "2f4efd8dd5488f40e2dd6b8a99555bc788c1c506f3e0913761d8ddc800e38c07",
+      "pack_sha256": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933",
+      "source_sha256": "65adc06edbaf53a9022968741c8f9b57c81559355f2416af27c782c48dbc7636",
+      "planned": 18,
+      "missing": 0,
+      "failures": {},
+      "groups": {
+        "A": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 220712,
+          "output_tokens": 1119,
+          "calls": 18,
+          "median_seconds": 18.98,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        },
+        "B": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 221823,
+          "output_tokens": 1142,
+          "calls": 18,
+          "median_seconds": 19.2545,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        },
+        "C": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 162797,
+          "output_tokens": 1145,
+          "calls": 18,
+          "median_seconds": 18.933,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        }
+      },
+      "rows": [
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 17.668,
+          "calls": 3,
+          "input_tokens": 36554,
+          "output_tokens": 172,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 21.654,
+          "calls": 3,
+          "input_tokens": 36728,
+          "output_tokens": 174,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.25,
+          "calls": 3,
+          "input_tokens": 26866,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.491,
+          "calls": 3,
+          "input_tokens": 37014,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.978,
+          "calls": 3,
+          "input_tokens": 37235,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 22.263,
+          "calls": 3,
+          "input_tokens": 27388,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 22.878,
+          "calls": 3,
+          "input_tokens": 36689,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 17.704,
+          "calls": 3,
+          "input_tokens": 26872,
+          "output_tokens": 173,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.903,
+          "calls": 3,
+          "input_tokens": 36545,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.288,
+          "calls": 3,
+          "input_tokens": 37235,
+          "output_tokens": 216,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 17.564,
+          "calls": 3,
+          "input_tokens": 27396,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.164,
+          "calls": 3,
+          "input_tokens": 37030,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 17.791,
+          "calls": 3,
+          "input_tokens": 26871,
+          "output_tokens": 172,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.469,
+          "calls": 3,
+          "input_tokens": 36539,
+          "output_tokens": 169,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.091,
+          "calls": 3,
+          "input_tokens": 36713,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.075,
+          "calls": 3,
+          "input_tokens": 27404,
+          "output_tokens": 223,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.576,
+          "calls": 3,
+          "input_tokens": 37030,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.221,
+          "calls": 3,
+          "input_tokens": 37223,
+          "output_tokens": 201,
+          "verified_medium": true
+        }
+      ],
+      "stages_ms": {
+        "请求排队": {
+          "count": 36,
+          "median": 0.034,
+          "p95": 0.062
+        },
+        "模型往返": {
+          "count": 54,
+          "median": 6258.045,
+          "p95": 8411.429
+        },
+        "桥接/generation": {
+          "count": 54,
+          "median": 5853.971,
+          "p95": 8017.277
+        },
+        "桥接/parse": {
+          "count": 54,
+          "median": 0.137,
+          "p95": 0.163
+        },
+        "桥接/queue": {
+          "count": 54,
+          "median": 0.007,
+          "p95": 0.011
+        },
+        "桥接/startup": {
+          "count": 54,
+          "median": 341.879,
+          "p95": 370.333
+        },
+        "输出解析": {
+          "count": 54,
+          "median": 0.129,
+          "p95": 0.145
+        },
+        "查询工具": {
+          "count": 18,
+          "median": 2.17,
+          "p95": 3.125
+        },
+        "执行前检查": {
+          "count": 27,
+          "median": 0.849,
+          "p95": 1.002
+        },
+        "业务工具执行": {
+          "count": 18,
+          "median": 0.401,
+          "p95": 0.717
+        },
+        "完成": {
+          "count": 18,
+          "median": 1.006,
+          "p95": 1.938
+        }
+      }
+    },
+    "service-paired-v3": {
+      "scope": "两道新编任务，同一订单独立重复，三策略配对；每题前置五轮固定商品查询",
+      "runner_sha256": "2f4efd8dd5488f40e2dd6b8a99555bc788c1c506f3e0913761d8ddc800e38c07",
+      "pack_sha256": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933",
+      "source_sha256": "cc41e3e71a570d570f204720b21f6ae1e10b1f7346ae82e2ec28ecbf23901d5f",
+      "planned": 18,
+      "missing": 0,
+      "failures": {
+        "model_error": 18
+      },
+      "groups": {
+        "A": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 0.039,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        },
+        "B": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 0.0395,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        },
+        "C": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 0,
+          "measured_usage": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "median_seconds": 0.036500000000000005,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 6,
+          "verified_model_trials": 0
+        }
+      },
+      "rows": [
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.066,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.044,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.034,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.045,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.037,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 0,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.029,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.042,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.03,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.02,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.048,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.039,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 1,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.029,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.048,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.041,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.031,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.04,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.037,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 2,
+          "success": false,
+          "missing_items": null,
+          "fact_error": null,
+          "error": "model_error",
+          "seconds": 0.027,
+          "calls": 0,
+          "input_tokens": null,
+          "output_tokens": null,
+          "verified_medium": false
+        }
+      ],
+      "stages_ms": {
+        "请求排队": {
+          "count": 18,
+          "median": 0.005,
+          "p95": 0.014
+        }
+      }
+    },
+    "service-paired-v4": {
+      "scope": "两道新编任务，同一订单独立重复，三策略配对；每题前置五轮固定商品查询",
+      "runner_sha256": "2f4efd8dd5488f40e2dd6b8a99555bc788c1c506f3e0913761d8ddc800e38c07",
+      "pack_sha256": "48c18ecd58b4159ee6e9220e14f19c1f22c387b76acf888f0849cddae29a9933",
+      "source_sha256": "8a37f8110ccc27ed27fac81da00325ec4f42079520376cc5abf6a152d42ff093",
+      "planned": 18,
+      "missing": 0,
+      "failures": {},
+      "groups": {
+        "A": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 220694,
+          "output_tokens": 1145,
+          "calls": 18,
+          "median_seconds": 19.338,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        },
+        "B": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 221791,
+          "output_tokens": 1121,
+          "calls": 18,
+          "median_seconds": 19.0685,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        },
+        "C": {
+          "planned": 6,
+          "completed_rows": 6,
+          "success": 6,
+          "measured_usage": 6,
+          "input_tokens": 162788,
+          "output_tokens": 1124,
+          "calls": 18,
+          "median_seconds": 19.0835,
+          "missing_item_trials": 0,
+          "fact_error_trials": 0,
+          "unscored_facts": 0,
+          "verified_model_trials": 6
+        }
+      },
+      "rows": [
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.931,
+          "calls": 3,
+          "input_tokens": 36552,
+          "output_tokens": 174,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.285,
+          "calls": 3,
+          "input_tokens": 36692,
+          "output_tokens": 170,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.243,
+          "calls": 3,
+          "input_tokens": 26875,
+          "output_tokens": 172,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.745,
+          "calls": 3,
+          "input_tokens": 37024,
+          "output_tokens": 225,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.724,
+          "calls": 3,
+          "input_tokens": 37227,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 0,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.922,
+          "calls": 3,
+          "input_tokens": 27390,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.864,
+          "calls": 3,
+          "input_tokens": 36708,
+          "output_tokens": 174,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.245,
+          "calls": 3,
+          "input_tokens": 26870,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.343,
+          "calls": 3,
+          "input_tokens": 36547,
+          "output_tokens": 169,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 17.952,
+          "calls": 3,
+          "input_tokens": 37235,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.227,
+          "calls": 3,
+          "input_tokens": 27398,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 1,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.153,
+          "calls": 3,
+          "input_tokens": 37018,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "C",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.214,
+          "calls": 3,
+          "input_tokens": 26865,
+          "output_tokens": 174,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "A",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.098,
+          "calls": 3,
+          "input_tokens": 36541,
+          "output_tokens": 175,
+          "verified_medium": true
+        },
+        {
+          "case": "单项保留",
+          "mode": "B",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 18.607,
+          "calls": 3,
+          "input_tokens": 36704,
+          "output_tokens": 174,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "C",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 20.504,
+          "calls": 3,
+          "input_tokens": 27390,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "A",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 21.139,
+          "calls": 3,
+          "input_tokens": 37012,
+          "output_tokens": 201,
+          "verified_medium": true
+        },
+        {
+          "case": "追加退货",
+          "mode": "B",
+          "trial": 2,
+          "success": true,
+          "missing_items": 0,
+          "fact_error": false,
+          "seconds": 19.53,
+          "calls": 3,
+          "input_tokens": 37225,
+          "output_tokens": 201,
+          "verified_medium": true
+        }
+      ],
+      "stages_ms": {
+        "请求排队": {
+          "count": 36,
+          "median": 0.007,
+          "p95": 0.02
+        },
+        "模型往返": {
+          "count": 54,
+          "median": 6365.115,
+          "p95": 7179.989
+        },
+        "桥接/generation": {
+          "count": 54,
+          "median": 5902.544,
+          "p95": 6744.653
+        },
+        "桥接/parse": {
+          "count": 54,
+          "median": 0.13,
+          "p95": 0.171
+        },
+        "桥接/queue": {
+          "count": 54,
+          "median": 0.007,
+          "p95": 0.01
+        },
+        "桥接/startup": {
+          "count": 54,
+          "median": 336.962,
+          "p95": 1907.057
+        },
+        "输出解析": {
+          "count": 54,
+          "median": 0.126,
+          "p95": 0.184
+        },
+        "查询工具": {
+          "count": 18,
+          "median": 1.461,
+          "p95": 7.589
+        },
+        "执行前检查": {
+          "count": 27,
+          "median": 0.621,
+          "p95": 0.92
+        },
+        "业务工具执行": {
+          "count": 18,
+          "median": 0.434,
+          "p95": 0.72
+        },
+        "完成": {
+          "count": 18,
+          "median": 1.06,
+          "p95": 3.376
+        }
+      }
+    }
+  },
+  "service_checks": {
+    "guard": {
+      "未经确认": {
+        "attempts": 20,
+        "effects": 0,
+        "blocked": 20,
+        "codes": {
+          "unconfirmed": 20
+        }
+      },
+      "旧版确认": {
+        "attempts": 20,
+        "effects": 0,
+        "blocked": 20,
+        "codes": {
+          "unconfirmed": 20
+        }
+      },
+      "会话用户不符": {
+        "attempts": 20,
+        "effects": 0,
+        "blocked": 20,
+        "codes": {
+          "owner": 20
+        }
+      },
+      "退款方式缺失": {
+        "attempts": 20,
+        "effects": 0,
+        "blocked": 20,
+        "codes": {
+          "missing_or_invalid": 20
+        }
+      },
+      "已授权": {
+        "attempts": 20,
+        "effects": 20,
+        "blocked": 0,
+        "codes": {}
+      }
+    },
+    "policy": [
+      {
+        "question": 1,
+        "expected_section": "Return delivered order",
+        "top3": true,
+        "cited": true,
+        "status": 200
+      },
+      {
+        "question": 2,
+        "expected_section": "Cancel pending order",
+        "top3": true,
+        "cited": true,
+        "status": 200
+      },
+      {
+        "question": 3,
+        "expected_section": "Exchange delivered order",
+        "top3": true,
+        "cited": true,
+        "status": 200
+      },
+      {
+        "question": 4,
+        "expected_section": "Modify items",
+        "top3": true,
+        "cited": true,
+        "status": 200
+      },
+      {
+        "question": 5,
+        "expected_section": "Modify payment",
+        "top3": true,
+        "cited": true,
+        "status": 200
+      }
+    ]
+  }
+}

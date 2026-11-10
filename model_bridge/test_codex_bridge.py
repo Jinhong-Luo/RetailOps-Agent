@@ -42,6 +42,12 @@ class BridgeTests(unittest.TestCase):
         with self.assertRaises(BridgeError):
             completion_message({"content": None, "tool_calls": [{"name": "exec_command", "arguments": "{}"}]}, self.request)
 
+    def test_cancelled_request_stops_waiting_for_model(self):
+        session = CodexSession("codex", Path("."), 5)
+        session.cancelled = lambda: True
+        with self.assertRaises(ConnectionAbortedError):
+            session.receive(time.monotonic() + 5)
+
     def test_invalid_arguments_and_multiple_actions_rejected(self):
         with self.assertRaises(BridgeError):
             completion_message({"content": None, "tool_calls": [{"name": "get_order", "arguments": "[]"}]}, self.request)

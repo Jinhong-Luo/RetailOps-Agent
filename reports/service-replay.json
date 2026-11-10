@@ -1,0 +1,369 @@
+{
+  "scope": "按历史调用顺序回放成功写操作，测试驱动提供版本确认，比较完整工具结果。",
+  "baseline_success": 39,
+  "with_writes": 35,
+  "no_writes": 4,
+  "all_writes_match": 35,
+  "calls": 60,
+  "matched": 60,
+  "blocked": 0,
+  "different": 0,
+  "failures": [
+    {
+      "task": "30_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "32_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "52_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "18_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "19_zh_identity",
+      "failed_checks": [
+        "DB",
+        "NL_ASSERTION"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "56_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "59_zh_identity",
+      "failed_checks": [
+        "DB",
+        "NL_ASSERTION"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "63_zh_identity",
+      "failed_checks": [
+        "DB",
+        "NL_ASSERTION"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "70_zh_identity",
+      "failed_checks": [
+        "DB"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "105_zh_identity",
+      "failed_checks": [
+        "NL_ASSERTION"
+      ],
+      "termination": "user_stop"
+    },
+    {
+      "task": "107_zh_identity",
+      "failed_checks": [
+        "DB",
+        "NL_ASSERTION"
+      ],
+      "termination": "user_stop"
+    }
+  ],
+  "rows": [
+    {
+      "task": "22_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "21_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "38_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "36_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "53_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "68_zh_identity",
+      "writes": 0,
+      "matched": 0,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "74_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "89_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "102_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "104_zh_identity",
+      "writes": 5,
+      "matched": 5,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "11_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "6_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "8_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "14_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "13_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "16_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "17_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "25_zh_identity",
+      "writes": 0,
+      "matched": 0,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "26_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "23_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "40_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "39_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "42_zh_identity",
+      "writes": 4,
+      "matched": 4,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "50_zh_identity",
+      "writes": 0,
+      "matched": 0,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "49_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "47_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "58_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "65_zh_identity",
+      "writes": 0,
+      "matched": 0,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "64_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "66_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "78_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "71_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "80_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "83_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "79_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "85_zh_identity",
+      "writes": 1,
+      "matched": 1,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "97_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "86_zh_identity",
+      "writes": 2,
+      "matched": 2,
+      "blocked": 0,
+      "different": 0
+    },
+    {
+      "task": "112_zh_identity",
+      "writes": 3,
+      "matched": 3,
+      "blocked": 0,
+      "different": 0
+    }
+  ]
+}

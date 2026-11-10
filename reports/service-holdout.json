@@ -1,0 +1,76 @@
+{
+  "planned": 6,
+  "mode": "C",
+  "hashes": {
+    "retailops/agent.py": "b2718ed80cfd9ef92513cac0fd294f6eb6c2874a2758ae62f85d94fdf4f2d297",
+    "retailops/api.py": "7eb0b62d37f73b5f68009bc205f9e81c5eaae8513aa9079aec0da5cf3a119686",
+    "retailops/context.py": "5c7f6308f54960277645040799294e90d8d0c6e2f8b42a0f1b9925ae63365821",
+    "retailops/domain.py": "47381a32613fc21206ec4e02645dbe28b5118646f84b4758c4a22fee2534cf0a",
+    "retailops/store.py": "77ffbbec5083b96a761d2524838af0dead1a2d654f2a2827a06411ddab861e3a",
+    "scripts/service_holdout.py": "f541ed37bcfc0406de5a93fe60486480c0c396b317022073f7e2af99c49a8986",
+    "model_bridge/codex_bridge.py": "6a0bc6278ebd14893895aa5c6860b5585a359c65c7934a55a588a0644b9f191e"
+  },
+  "rows": [
+    {
+      "case": "改退款方式",
+      "trial": 0,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 26.331,
+      "model_calls": 3,
+      "verified_medium": true
+    },
+    {
+      "case": "双单取消",
+      "trial": 0,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 32.648,
+      "model_calls": 4,
+      "verified_medium": true
+    },
+    {
+      "case": "改退款方式",
+      "trial": 1,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 31.591,
+      "model_calls": 4,
+      "verified_medium": true
+    },
+    {
+      "case": "双单取消",
+      "trial": 1,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 43.362,
+      "model_calls": 4,
+      "verified_medium": true
+    },
+    {
+      "case": "改退款方式",
+      "trial": 2,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 24.688,
+      "model_calls": 4,
+      "verified_medium": true
+    },
+    {
+      "case": "双单取消",
+      "trial": 2,
+      "success": true,
+      "old_confirmation_blocked": true,
+      "replay_ok": true,
+      "seconds": 23.36,
+      "model_calls": 4,
+      "verified_medium": true
+    }
+  ],
+  "success": 6
+}
