@@ -11,6 +11,8 @@ from common import ROOT, UPSTREAM, agent_args, digest, load_config, load_env, na
 
 def make_command(config, effort, task_ids, output):
     args = [str(native_python()), "-m", "tau2.cli", "run", "--benchmark", "text", "--language", "zh", "--domain", "retail", "--agent", config["agent"], "--agent-llm", config["agent_model"], "--agent-llm-args", json.dumps(agent_args(config, effort)), "--user-llm", config["user_model"], "--user-llm-args", json.dumps(config["user_model_args"]), "--save-to", str(output), "--task-ids", *task_ids]
+    if config.get("user"):
+        args += ["--user", config["user"]]
     for key in ("num_trials", "seed", "max_steps", "max_errors", "max_concurrency", "workers", "max_retries"):
         args += ["--" + key.replace("_", "-"), str(config[key])]
     if config.get("judge_override"):

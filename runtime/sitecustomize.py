@@ -21,6 +21,9 @@ if _raw:
             sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
             from official_service import register
             register()
+            if os.environ.get("RETAILOPS_CUSTOMER_BUTTON") == "1":
+                from customer_button import register_button
+                register_button()
     except Exception as _error:
         print("裁判模型配置失败，停止运行：" + type(_error).__name__, file=sys.stderr, flush=True)
         # Python默认吞掉启动钩子异常；显式退出防止错误调用其他模型。

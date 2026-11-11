@@ -37,6 +37,17 @@ def domain():
 
 
 class OfficialService(LLMAgent):
+    context_mode = "C"
+
+    def is_confirmed(self, current, text):
+        return self.version is not None and re.fullmatch(rf"\s*确认第\s*{self.version}\s*版[。.!！\s]*",text)
+
+    def confirmation_prompt(self):
+        return f"。如同意，请回复「确认第{self.version}版」。"
+
+    def after_login(self, message, state):
+        return "\n".join(m.content for m in state.messages if m.role=="user" and m.content)
+
     def __init__(self, tools, domain_policy, llm, llm_args, **kwargs):
         super().__init__([t for t in tools if t.name.startswith("find_user_id_by_")],
                          domain_policy, llm, llm_args)
@@ -90,7 +101,7 @@ class OfficialService(LLMAgent):
                 return super().generate_next_message(message,state)
             self.uid = message.content
             self.sid = self.store.identifier(self.store.open(domain().seed["users"][self.uid]["email"]))
-            text = "\n".join(m.content for m in state.messages if m.role=="user" and m.content)
+            text = self.after_login(message, state)
         elif self.writes:
             _, expected = self.writes.pop(0)
             if message.error or json.loads(message.content) != expected:
@@ -103,7 +114,7 @@ class OfficialService(LLMAgent):
         else:
             text = message.content or ""
         current, _ = self.store.snapshot(self.sid)
-        if self.version is not None and re.fullmatch(rf"\s*确认第\s*{self.version}\s*版[。.!！\s]*",text):
+        if self.is_confirmed(current, text):
             self.store.confirm(self.sid,self.version)
             receipt = self.store.execute(self.sid,self.version,uuid.uuid4().hex)
             self.writes = list(zip(current["actions"],receipt["results"],strict=True))
@@ -112,7 +123,7 @@ class OfficialService(LLMAgent):
         self.version = None
         self.metadata = {}
         self.out = self.loop.create_future()
-        self.task = self.loop.create_task(self.agent.run(self.sid,text,current["revision"],"C",uuid.uuid4().hex))
+        self.task = self.loop.create_task(self.agent.run(self.sid,text,current["revision"],self.context_mode,uuid.uuid4().hex))
         return self.advance(), state
 
     def advance(self):
@@ -124,7 +135,7 @@ class OfficialService(LLMAgent):
         reply = result["reply"]
         if result["state"]["phase"] == "待确认":
             self.version = result["state"]["version"]
-            reply += dump(result["state"]["actions"]) + f"。如同意，请回复「确认第{self.version}版」。"
+            reply += dump(result["state"]["actions"]) + self.confirmation_prompt()
         return AssistantMessage.text(reply,**self.metadata)
 
 

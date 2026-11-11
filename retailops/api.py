@@ -42,7 +42,7 @@ class Execution(Version):
 
 class Turn(Input):
     message: str = Field(min_length=1, max_length=12000)
-    mode: Literal["A", "B", "C"] = "C"
+    mode: Literal["A", "B", "C"] = "B"
     revision: int = Field(ge=0)
     request_id: str = Field(min_length=1, max_length=100)
 
