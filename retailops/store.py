@@ -34,6 +34,8 @@ class Store:
                 PRIMARY KEY(sid,version), UNIQUE(sid,request));
             CREATE TABLE IF NOT EXISTS request_versions(sid TEXT, request TEXT, version INTEGER,
                 PRIMARY KEY(sid,request));
+            CREATE TABLE IF NOT EXISTS needs(sid TEXT, source_revision INTEGER, tool TEXT, evidence TEXT,
+                status TEXT, result TEXT, PRIMARY KEY(sid,source_revision,tool));
             CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY, sid TEXT, body TEXT);
             CREATE INDEX IF NOT EXISTS events_session ON events(sid,id);
             """)
@@ -75,16 +77,23 @@ class Store:
             raise Issue("session", "会话无效", "重新核验身份", 401)
         return row
 
-    @staticmethod
-    def state(row):
-        return dict(user_id=row["uid"], revision=row["seq"], version=row["version"], phase=row["phase"],
+    def state(self, db, row):
+        needs = [dict(r) for r in db.execute(
+            "SELECT source_revision,tool,evidence,status,result FROM needs WHERE sid=? ORDER BY source_revision,tool",
+            (row["sid"],))]
+        if row["phase"] in {"待确认", "已确认"}:
+            planned = {a["tool"] for a in json.loads(row["plan"])}
+            for need in needs:
+                if need["tool"] in planned and need["status"] in {"待办理", "待补充"}:
+                    need["status"] = row["phase"]
+        return dict(needs=needs, user_id=row["uid"], revision=row["seq"], version=row["version"], phase=row["phase"],
                     confirmed_version=row["version"] if row["phase"] in {"已确认", "完成"} else None,
                     actions=json.loads(row["plan"]))
 
     def snapshot(self, sid):
         with self.connection() as db:
             row = self.row(db, sid)
-            return self.state(row), json.loads(row["history"])
+            return self.state(db, row), json.loads(row["history"])
 
     def event(self, db, sid, stage, **fields):
         body = dict(stage=stage, session_id=sid[:12], time_ns=time.time_ns(), **fields)
@@ -115,7 +124,28 @@ class Store:
             db.execute("UPDATE sessions SET seq=seq+1, phase=?,history=? WHERE sid=?",
                        (phase, dump(history), sid))
             self.event(db, sid, "接收消息", request_id=request)
-            return self.state(self.row(db, sid)), history
+            return self.state(db, self.row(db, sid)), history
+
+    def register_needs(self, sid, seq, items):
+        with self.connection(True) as db:
+            row = self.row(db, sid)
+            self.check_seq(row, seq)
+            message = json.loads(row["history"])[-1]["content"]
+            if not isinstance(items, list) or not 1 <= len(items) <= 12 or any(
+                    not isinstance(i, dict) or not all(isinstance(i.get(k), str) for k in ("tool","evidence","status"))
+                    for i in items):
+                raise Issue("invalid_fields", "事项结构不完整", "提供工具、原话与状态")
+            for item in items:
+                tool, evidence, status = (item[k] for k in ("tool", "evidence", "status"))
+                if (tool not in self.domain.writes or not isinstance(evidence, str) or not evidence
+                        or evidence not in message or status not in {"仅询问", "待办理", "待补充", "暂缓"}):
+                    raise Issue("invalid_fields", "事项需引用本轮原话并指向现有工具", "核对原话和状态")
+                db.execute("""UPDATE needs SET status='已修订' WHERE sid=? AND tool=?
+                    AND status IN ('仅询问','待办理','待补充','暂缓') AND source_revision<?""",
+                           (sid, tool, seq))
+                db.execute("INSERT OR REPLACE INTO needs VALUES (?,?,?,?,?,NULL)",
+                           (sid, seq, tool, evidence, status))
+            return self.state(db, row)
 
     def toolkit(self, db, uid):
         body = db.execute("SELECT body FROM accounts WHERE uid=?", (uid,)).fetchone()[0]
@@ -134,6 +164,10 @@ class Store:
         for act in actions:
             if not self.domain.valid_action_shape(act):
                 raise Issue("missing_or_invalid", "操作结构不完整", "提供工具名称和参数")
+            intent = db.execute("SELECT status FROM needs WHERE sid=? AND tool=? ORDER BY source_revision DESC LIMIT 1",
+                                (row["sid"], act["tool"])).fetchone()
+            if intent and intent["status"] in {"仅询问", "暂缓"}:
+                raise Issue("scope", "此事项仅询问或已暂缓", "取得顾客新的办理意图后再拟案")
             results.append(self.domain.call(tools, row["uid"], act["tool"], act["args"], self.domain.writes))
         return tools, results
 
@@ -153,7 +187,7 @@ class Store:
                 db.execute("UPDATE sessions SET plan=?,version=version+1,phase='待确认' WHERE sid=?", (dump(actions), sid))
                 self.event(db, sid, "等待确认", version=row["version"] + 1, request_id=request)
             db.execute("UPDATE sessions SET history=?,seq=seq+1 WHERE sid=?", (dump(history), sid))
-            return self.state(self.row(db, sid))
+            return self.state(db, self.row(db, sid))
 
     def confirm(self, sid, version):
         with self.connection(True) as db:
@@ -163,7 +197,7 @@ class Store:
             if row["phase"] == "待确认":
                 db.execute("UPDATE sessions SET phase='已确认',seq=seq+1 WHERE sid=?", (sid,))
                 self.event(db, sid, "用户确认", version=version)
-            return self.state(self.row(db, sid))
+            return self.state(db, self.row(db, sid))
 
     def propose(self, sid, seq, actions):
         # 手工改案也先撤销旧确认。即使新参数校验失败，旧方案也不能执行。
@@ -179,7 +213,7 @@ class Store:
             db.execute("UPDATE sessions SET seq=seq+1,version=version+1,phase=?,plan=? WHERE sid=?",
                        (phase, dump(actions), sid))
             self.event(db, sid, phase, version=row["version"]+1, code=error.data["code"] if error else None)
-            state = self.state(self.row(db, sid))
+            state = self.state(db, self.row(db, sid))
         if error:
             raise error
         return state
@@ -218,11 +252,17 @@ class Store:
                        tools=[a["tool"] for a in actions], request_id=request)
             start = time.perf_counter()
             account = tools.db.model_dump(mode="json", include={"orders", "users"})
-            body = dict(allowed=True, version=version, request_id=request, results=results)
+            items = [dict(**act, result=result) for act, result in zip(actions, results)]
+            body = dict(allowed=True, version=version, request_id=request, results=results, items=items)
+            for item in items:
+                db.execute("""UPDATE needs SET status='已办理',result=? WHERE sid=? AND tool=?
+                    AND source_revision=(SELECT max(source_revision) FROM needs WHERE sid=? AND tool=?)
+                    AND status IN ('待办理','待补充','待确认')""",
+                           (dump(item["result"]), sid, item["tool"], sid, item["tool"]))
             db.execute("UPDATE accounts SET body=? WHERE uid=?", (dump(account), row["uid"]))
             db.execute("INSERT INTO receipts VALUES (?,?,?,?)", (sid, version, request, dump(body)))
             history = json.loads(row["history"])
-            history.append(dict(role="assistant", content="业务工具已完成第%d版方案：" % version + dump(actions)))
+            history.append(dict(role="assistant", content="第%d版业务回执：" % version + dump(items)))
             db.execute("UPDATE sessions SET phase='完成',seq=seq+1,history=? WHERE sid=?", (dump(history), sid))
             self.event(db, sid, "完成", duration_ms=elapsed(start), version=version, request_id=request)
             return dict(**body, replayed=False)

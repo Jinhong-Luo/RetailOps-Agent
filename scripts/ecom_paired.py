@@ -54,6 +54,22 @@ def partition():
     return dict(pilot=pilot, formal=formal, images=images)
 
 
+def validate_write_result(name, result):
+    # 固定上游每种写工具的成功回执，拒绝和未知文本均不能提交数据库。
+    patterns = {
+        "manage_invoice_tool": r"已成功开具发票",
+        "manage_urgent_tool": r"已将.+设置为加急$",
+        "schedule_service_tool": r"预约(安装|维修|检查)服务成功$",
+        "manage_return_tool": r"退货申请已进行处理",
+        "manage_order_tool": r"订单.+?(已增加|已取消|的地址和手机号已修改)[,，]",
+        "manage_exchange_tool": r"订单.+?换货成功，",
+        "manage_ecard_tool": r"已(购买|退款)",
+        "register_cashback_by_review_tool": r".+晒单返现已经进入返现流程（返现成功）$",
+    }
+    if name not in patterns or not isinstance(result, str) or not re.match(patterns[name], result):
+        raise Issue("business_rule", str(result), "核对业务回执后修改方案")
+
+
 class Account(dict):
     def model_dump(self, **kwargs):
         return dict(self)
@@ -107,10 +123,14 @@ class Shop:
         if args.get("order_id") and args["order_id"] not in toolkit.db.get("orders",{}).get(
                 self.env.task.platform,{}).get(self.env.task.shop_id,{}).get(uid,{}):
             raise Issue("owner","订单不属于当前顾客或不存在","核对订单编号")
+        if not is_read and any(isinstance(v, str) and not v.strip() for v in args.values()):
+            raise Issue("missing_or_invalid", "业务字段为空", "向顾客补问缺少的字段")
         try:
             result = self.invoke(toolkit.db,name,args)
         except (ValueError, KeyError, TypeError) as exc:
             raise Issue("missing_or_invalid",str(exc),"核对工具字段") from exc
+        if not is_read:
+            validate_write_result(name, result)
         if is_read:
             self.trace(name,args)
         return result
@@ -206,10 +226,10 @@ async def episode(task_id, trial, arm, folder):
                 variant=ButtonService if arm=="button" else OfficialService
                 if variant.is_confirmed(service,record,text) and record["phase"] in {"待确认","已确认"}:
                     store.confirm(sid,service.version)
-                    store.execute(sid,service.version,uuid4().hex)
+                    receipt = store.execute(sid,service.version,uuid4().hex)
                     for act in record["actions"]:
                         shop.trace(act["tool"],act["args"])
-                    reply="已按您确认的方案完成操作。"
+                    reply="本次已确认操作的回执：" + dump(receipt["items"])
                     service.version=None
                 else:
                     try:

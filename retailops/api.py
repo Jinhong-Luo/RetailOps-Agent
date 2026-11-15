@@ -54,6 +54,7 @@ class State(BaseModel):
     phase: str
     confirmed_version: int | None
     actions: list[Action]
+    needs: list[dict] = Field(default_factory=list)
 
 
 class Answer(BaseModel):
@@ -66,7 +67,8 @@ class Receipt(BaseModel):
     allowed: bool
     version: int
     request_id: str
-    results: list[dict]
+    items: list[dict] = Field(default_factory=list)
+    results: list
     replayed: bool
 
 
@@ -78,10 +80,10 @@ class Decision(BaseModel):
     next_step: str
 
 
-def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120):
+def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120, domain=None):
     @asynccontextmanager
     async def lifespan(app):
-        app.state.store = Store(path or os.getenv("RETAILOPS_DB", "runs/service/retail.sqlite3"))
+        app.state.store = Store(path or os.getenv("RETAILOPS_DB", "runs/service/retail.sqlite3"), domain)
         async with httpx.AsyncClient(base_url=os.getenv("RETAILOPS_BRIDGE_URL", "http://127.0.0.1:18863/v1/"),
                                      headers={"Authorization": "Bearer " + os.getenv("CODEX_BRIDGE_TOKEN", ""),
                                               "X-Cancel-On-Disconnect": "1"},
