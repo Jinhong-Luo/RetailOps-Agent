@@ -1,0 +1,1528 @@
+{
+  "planned": 48,
+  "metrics": {
+    "无记忆": {
+      "calls": 58,
+      "first": 10,
+      "final": 12,
+      "corrections": 0,
+      "input": 402734,
+      "output": 7214,
+      "wrong_write": 0,
+      "duplicate_queries": 0,
+      "turns": 18,
+      "seconds": 480.43,
+      "failures": 0,
+      "missing": 0,
+      "median_seconds": 29.395,
+      "mean_input": 33561.17,
+      "per_success_input": 33561.17,
+      "mean_output": 601.17,
+      "per_success_output": 601.17,
+      "mean_seconds": 40.04,
+      "per_success_seconds": 40.04
+    },
+    "人工提示": {
+      "calls": 57,
+      "first": 10,
+      "final": 12,
+      "corrections": 0,
+      "input": 397790,
+      "output": 6856,
+      "wrong_write": 0,
+      "duplicate_queries": 0,
+      "turns": 18,
+      "seconds": 514.23,
+      "failures": 0,
+      "missing": 0,
+      "median_seconds": 34.775,
+      "mean_input": 33149.17,
+      "per_success_input": 33149.17,
+      "mean_output": 571.33,
+      "per_success_output": 571.33,
+      "mean_seconds": 42.85,
+      "per_success_seconds": 42.85
+    },
+    "历史检索": {
+      "calls": 54,
+      "first": 8,
+      "final": 12,
+      "corrections": 3,
+      "input": 378872,
+      "output": 7888,
+      "wrong_write": 0,
+      "duplicate_queries": 0,
+      "turns": 21,
+      "seconds": 496.23,
+      "failures": 0,
+      "missing": 0,
+      "median_seconds": 35.515,
+      "mean_input": 31572.67,
+      "per_success_input": 31572.67,
+      "mean_output": 657.33,
+      "per_success_output": 657.33,
+      "mean_seconds": 41.35,
+      "per_success_seconds": 41.35
+    },
+    "提炼记忆": {
+      "calls": 54,
+      "first": 10,
+      "final": 12,
+      "corrections": 0,
+      "input": 375195,
+      "output": 6506,
+      "wrong_write": 0,
+      "duplicate_queries": 0,
+      "turns": 18,
+      "seconds": 420.17,
+      "failures": 0,
+      "missing": 0,
+      "median_seconds": 31.84,
+      "mean_input": 31266.25,
+      "per_success_input": 31266.25,
+      "mean_output": 542.17,
+      "per_success_output": 542.17,
+      "mean_seconds": 35.01,
+      "per_success_seconds": 35.01
+    }
+  },
+  "trials": [
+    {
+      "index": 0,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 29.41,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27289,
+      "output": 481,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 0,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 27.6,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27519,
+      "output": 496,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 0,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 1,
+      "duplicate_queries": 0,
+      "seconds": 39.36,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27698,
+      "output": 669,
+      "transmitted_reference_bytes": 2140,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 1070,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 0,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 32.0,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27672,
+      "output": 529,
+      "transmitted_reference_bytes": 1440,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 360,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 27.24,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27258,
+      "output": 520,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 106.18,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27548,
+      "output": 510,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 3,
+      "corrections": 2,
+      "duplicate_queries": 0,
+      "seconds": 65.47,
+      "calls": 7,
+      "metadata_ok": true,
+      "input": 52764,
+      "output": 1493,
+      "transmitted_reference_bytes": 3745,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 1605,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 0,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 31.68,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27703,
+      "output": 584,
+      "transmitted_reference_bytes": 1440,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 360,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 29.38,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27368,
+      "output": 601,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 1,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 32.72,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27273,
+      "output": 529,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 30.05,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27561,
+      "output": 564,
+      "transmitted_reference_bytes": 2140,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 535,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 30.01,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27646,
+      "output": 488,
+      "transmitted_reference_bytes": 848,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 212,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 27.71,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27370,
+      "output": 501,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 1,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 26.86,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27662,
+      "output": 525,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 29.96,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27974,
+      "output": 577,
+      "transmitted_reference_bytes": 2140,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 535,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 1,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 28.74,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27662,
+      "output": 559,
+      "transmitted_reference_bytes": 848,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 1,
+      "reference_bytes": 212,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 15.85,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 12998,
+      "output": 240,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 2,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 13.88,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13152,
+      "output": 207,
+      "transmitted_reference_bytes": 452,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 14.61,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13192,
+      "output": 273,
+      "transmitted_reference_bytes": 636,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 318,
+      "hits": [
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 13.65,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13220,
+      "output": 257,
+      "transmitted_reference_bytes": 720,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 360,
+      "hits": [
+        [
+          "18/1/13、18/1/17、5/1/7",
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 15.61,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 12998,
+      "output": 267,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 2,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 13.77,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13152,
+      "output": 245,
+      "transmitted_reference_bytes": 452,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 226,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 14.38,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13196,
+      "output": 279,
+      "transmitted_reference_bytes": 636,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 318,
+      "hits": [
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 2,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": false,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 1,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 13.93,
+      "calls": 2,
+      "metadata_ok": true,
+      "input": 13228,
+      "output": 220,
+      "transmitted_reference_bytes": 720,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 1,
+      "reference_bytes": 360,
+      "hits": [
+        [
+          "18/1/13、18/1/17、5/1/7",
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 57.12,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 41193,
+      "output": 619,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 3,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 40.85,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 41326,
+      "output": 494,
+      "transmitted_reference_bytes": 1356,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 70.56,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 42037,
+      "output": 735,
+      "transmitted_reference_bytes": 3210,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 1070,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 42.42,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 41551,
+      "output": 526,
+      "transmitted_reference_bytes": 2160,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 720,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ],
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 38.43,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 40943,
+      "output": 470,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 3,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 40.7,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 41384,
+      "output": 461,
+      "transmitted_reference_bytes": 1356,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 32.44,
+      "calls": 5,
+      "metadata_ok": true,
+      "input": 34335,
+      "output": 454,
+      "transmitted_reference_bytes": 2675,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 1070,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 3,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 38.37,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 41642,
+      "output": 505,
+      "transmitted_reference_bytes": 2160,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 720,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ],
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 92.56,
+      "calls": 9,
+      "metadata_ok": true,
+      "input": 65460,
+      "output": 1268,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 4,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 73.38,
+      "calls": 8,
+      "metadata_ok": true,
+      "input": 57857,
+      "output": 1203,
+      "transmitted_reference_bytes": 1808,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 71.23,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 42569,
+      "output": 902,
+      "transmitted_reference_bytes": 3210,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 1070,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 61.37,
+      "calls": 7,
+      "metadata_ok": true,
+      "input": 49945,
+      "output": 1026,
+      "transmitted_reference_bytes": 2076,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 572,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ],
+        [
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 90.93,
+      "calls": 9,
+      "metadata_ok": true,
+      "input": 65702,
+      "output": 1443,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 4,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 73.86,
+      "calls": 9,
+      "metadata_ok": true,
+      "input": 66191,
+      "output": 1348,
+      "transmitted_reference_bytes": 2034,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 57.14,
+      "calls": 6,
+      "metadata_ok": true,
+      "input": 42608,
+      "output": 1143,
+      "transmitted_reference_bytes": 3210,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 1070,
+      "hits": [
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ],
+        [
+          "50/0/13",
+          "50/1/11",
+          "50/2/11"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 4,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 66.14,
+      "calls": 7,
+      "metadata_ok": true,
+      "input": 50104,
+      "output": 997,
+      "transmitted_reference_bytes": 2076,
+      "first_invoice_evidence": true,
+      "first_plan_turn": 2,
+      "reference_bytes": 572,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ],
+        [
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 0,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 25.23,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27078,
+      "output": 408,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 5,
+      "repeat": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 36.83,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27379,
+      "output": 396,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 0,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 32.67,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27475,
+      "output": 398,
+      "transmitted_reference_bytes": 1272,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 636,
+      "hits": [
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ],
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 27.47,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27412,
+      "output": 434,
+      "transmitted_reference_bytes": 1168,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 584,
+      "hits": [
+        [
+          "18/1/13、18/1/17、5/1/7",
+          "50/0/13、50/1/11、50/2/11"
+        ],
+        [
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 1,
+      "arm": "无记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 30.96,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27077,
+      "output": 396,
+      "transmitted_reference_bytes": 0,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 0,
+      "hits": [],
+      "versions": []
+    },
+    {
+      "index": 5,
+      "repeat": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 27.6,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27347,
+      "output": 442,
+      "transmitted_reference_bytes": 904,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 452,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ],
+      "versions": [
+        "b8d1a42cdb331d3a"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 1,
+      "arm": "历史检索",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 38.36,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27463,
+      "output": 401,
+      "transmitted_reference_bytes": 1272,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 636,
+      "hits": [
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ],
+        [
+          "18/1/13",
+          "18/1/17",
+          "5/1/7"
+        ]
+      ],
+      "versions": [
+        "971761494d0ed4cf"
+      ]
+    },
+    {
+      "index": 5,
+      "repeat": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "error": null,
+      "wrong_write": false,
+      "turns": 2,
+      "corrections": 0,
+      "duplicate_queries": 0,
+      "seconds": 34.39,
+      "calls": 4,
+      "metadata_ok": true,
+      "input": 27410,
+      "output": 381,
+      "transmitted_reference_bytes": 1168,
+      "first_invoice_evidence": null,
+      "first_plan_turn": 2,
+      "reference_bytes": 584,
+      "hits": [
+        [
+          "18/1/13、18/1/17、5/1/7",
+          "50/0/13、50/1/11、50/2/11"
+        ],
+        [
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ],
+      "versions": [
+        "a2a426b0de1d6a30"
+      ]
+    }
+  ]
+}
