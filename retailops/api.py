@@ -54,6 +54,7 @@ class State(BaseModel):
     phase: str
     confirmed_version: int | None
     actions: list[Action]
+    booking_wait: dict | None = None
     needs: list[dict] = Field(default_factory=list)
 
 
@@ -172,4 +173,3 @@ def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120, do
 
 
 app = create_app()
-

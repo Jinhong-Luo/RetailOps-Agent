@@ -52,6 +52,16 @@ class Agent:
             self.schemas.append(schema("register_needs", "独立登记本轮顾客的各项需求，不执行操作",
                                        {"items": {"type": "array", "items": item}}, ["items"]))
 
+        if "schedule_service_tool" in domain.writes:
+            self.schemas.append(schema("record_booking_wait", "记录仍缺的预约条件及条件来源",
+                {"condition": {"type": "string"}, "provider": {"type": "string",
+                 "enum": ["顾客", "业务查询", "安装方", "顾客暂缓"]}, "evidence": {"type": "string"}},
+                ["condition","provider","evidence"]))
+            self.prompt += ("预约前先利用本单已查结果。缺条件时登记 record_booking_wait，引用顾客原话。"
+                            "能查的资料先查；只有顾客能补时才追问。新信息已满足条件则恢复拟案。"
+                            "转接回执只证明已转接，无时段及报价回查工具时说明边界，不重复转接或承诺回电。"
+                            "尊重暂缓。区分顾客想登记某星期和要求先查到具体空档。")
+
     async def log(self, sid, stage, **fields):
         await asyncio.to_thread(self.store.record, sid, stage, **fields)
 
@@ -128,7 +138,11 @@ class Agent:
                     latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], args["actions"],
                                                      additions + completion, request)
                     return dict(reply=reply, state=latest, sources=list(sources))
-                if name == "register_needs":
+                if name == "record_booking_wait":
+                    value = await asyncio.to_thread(self.store.booking_wait, sid, state["revision"],
+                                                    args["condition"], args["provider"], args["evidence"])
+                    state["booking_wait"] = value
+                elif name == "register_needs":
                     state = await asyncio.to_thread(self.store.register_needs, sid, state["revision"], args["items"])
                     value = state["needs"]
                 elif name == "search_policy":
@@ -157,4 +171,3 @@ class Agent:
                 await self.log(sid, "工具被拦截", request_id=request, step=step, code=value["code"], tool=name)
             additions.append(dict(role="tool", tool_call_id=call["id"], content=dump(value)))
         raise Issue("step_limit", "达到单轮工具调用上限", "查看待办并缩小本轮请求")
-

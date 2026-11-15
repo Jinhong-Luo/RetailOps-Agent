@@ -34,6 +34,8 @@ class Store:
                 PRIMARY KEY(sid,version), UNIQUE(sid,request));
             CREATE TABLE IF NOT EXISTS request_versions(sid TEXT, request TEXT, version INTEGER,
                 PRIMARY KEY(sid,request));
+            CREATE TABLE IF NOT EXISTS booking_wait(sid TEXT PRIMARY KEY, condition TEXT,
+                provider TEXT, evidence TEXT, revision INTEGER);
             CREATE TABLE IF NOT EXISTS needs(sid TEXT, source_revision INTEGER, tool TEXT, evidence TEXT,
                 status TEXT, result TEXT, PRIMARY KEY(sid,source_revision,tool));
             CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY, sid TEXT, body TEXT);
@@ -86,7 +88,10 @@ class Store:
             for need in needs:
                 if need["tool"] in planned and need["status"] in {"待办理", "待补充"}:
                     need["status"] = row["phase"]
-        return dict(needs=needs, user_id=row["uid"], revision=row["seq"], version=row["version"], phase=row["phase"],
+        wait = db.execute("SELECT condition,provider,evidence,revision FROM booking_wait WHERE sid=?",
+                          (row["sid"],)).fetchone()
+        extra = {"booking_wait": dict(wait)} if wait else {}
+        return dict(**extra, needs=needs, user_id=row["uid"], revision=row["seq"], version=row["version"], phase=row["phase"],
                     confirmed_version=row["version"] if row["phase"] in {"已确认", "完成"} else None,
                     actions=json.loads(row["plan"]))
 
@@ -125,6 +130,22 @@ class Store:
                        (phase, dump(history), sid))
             self.event(db, sid, "接收消息", request_id=request)
             return self.state(db, self.row(db, sid)), history
+
+    def booking_wait(self, sid, seq, condition, provider, evidence):
+        with self.connection(True) as db:
+            row = self.row(db, sid)
+            self.check_seq(row, seq)
+            if provider not in {"顾客", "业务查询", "安装方", "顾客暂缓"} or not condition or not evidence:
+                raise Issue("invalid_fields", "等待条件不完整", "说明条件、来源和证据")
+            history = json.loads(row["history"])
+            if not any(evidence in (m.get("content") or "") for m in history if m["role"] in {"user","tool"}):
+                raise Issue("invalid_fields", "未找到所引证据", "引用本会话内的原话或已有工具回执")
+            previous = db.execute("SELECT condition,provider,evidence FROM booking_wait WHERE sid=?", (sid,)).fetchone()
+            changed = not previous or tuple(previous) != (condition, provider, evidence)
+            db.execute("INSERT OR REPLACE INTO booking_wait VALUES (?,?,?,?,?)",
+                       (sid, condition, provider, evidence, seq))
+            self.event(db, sid, "预约等待", changed=changed, provider=provider)
+            return dict(condition=condition, provider=provider, evidence=evidence, changed=changed)
 
     def register_needs(self, sid, seq, items):
         with self.connection(True) as db:
@@ -254,6 +275,8 @@ class Store:
             account = tools.db.model_dump(mode="json", include={"orders", "users"})
             items = [dict(**act, result=result) for act, result in zip(actions, results)]
             body = dict(allowed=True, version=version, request_id=request, results=results, items=items)
+            if any(item["tool"] == "schedule_service_tool" for item in items):
+                db.execute("DELETE FROM booking_wait WHERE sid=?", (sid,))
             for item in items:
                 db.execute("""UPDATE needs SET status='已办理',result=? WHERE sid=? AND tool=?
                     AND source_revision=(SELECT max(source_revision) FROM needs WHERE sid=? AND tool=?)
@@ -266,4 +289,3 @@ class Store:
             db.execute("UPDATE sessions SET phase='完成',seq=seq+1,history=? WHERE sid=?", (dump(history), sid))
             self.event(db, sid, "完成", duration_ms=elapsed(start), version=version, request_id=request)
             return dict(**body, replayed=False)
-
