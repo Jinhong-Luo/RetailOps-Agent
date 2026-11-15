@@ -1,0 +1,417 @@
+{
+  "live": [
+    {
+      "index": 0,
+      "http": 200,
+      "actions": [],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        false,
+        0
+      ],
+      "calls": 4,
+      "input": 26833,
+      "output": 349
+    },
+    {
+      "index": 1,
+      "http": 200,
+      "actions": [
+        "manage_urgent_tool"
+      ],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        true,
+        0
+      ],
+      "calls": 2,
+      "input": 12984,
+      "output": 153
+    },
+    {
+      "index": 2,
+      "http": 200,
+      "actions": [
+        "manage_urgent_tool"
+      ],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        true,
+        0
+      ],
+      "calls": 3,
+      "input": 20103,
+      "output": 420
+    },
+    {
+      "index": 3,
+      "http": 200,
+      "actions": [],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        false,
+        0
+      ],
+      "calls": 6,
+      "input": 42044,
+      "output": 894
+    }
+  ],
+  "live2": [
+    {
+      "index": 0,
+      "http": 200,
+      "actions": [],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        false,
+        0
+      ],
+      "calls": 3,
+      "input": 20026,
+      "output": 463
+    },
+    {
+      "index": 1,
+      "http": 200,
+      "actions": [
+        "manage_urgent_tool"
+      ],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        true,
+        0
+      ],
+      "calls": 2,
+      "input": 13086,
+      "output": 159
+    },
+    {
+      "index": 2,
+      "http": 200,
+      "actions": [
+        "manage_urgent_tool"
+      ],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        true,
+        0
+      ],
+      "calls": 2,
+      "input": 13255,
+      "output": 281
+    },
+    {
+      "index": 3,
+      "http": 200,
+      "actions": [],
+      "before": [
+        false,
+        0
+      ],
+      "after": [
+        false,
+        0
+      ],
+      "calls": 5,
+      "input": 34790,
+      "output": 646
+    }
+  ],
+  "paired": [
+    {
+      "index": 0,
+      "mode": "完整",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 1,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 8,
+      "input": 56943,
+      "output": 817
+    },
+    {
+      "index": 0,
+      "mode": "轻量",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 1,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 6,
+      "input": 42927,
+      "output": 808
+    },
+    {
+      "index": 1,
+      "mode": "完整",
+      "booked": false,
+      "solvable": false,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 2,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 6,
+      "input": 42077,
+      "output": 902
+    },
+    {
+      "index": 1,
+      "mode": "轻量",
+      "booked": false,
+      "solvable": false,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 2,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 5,
+      "input": 35253,
+      "output": 679
+    },
+    {
+      "index": 2,
+      "mode": "完整",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 1,
+      "repeat_turns": 0,
+      "wait_writes": 0,
+      "http_errors": 0,
+      "calls": 4,
+      "input": 26942,
+      "output": 578
+    },
+    {
+      "index": 2,
+      "mode": "轻量",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 1,
+      "repeat_turns": 0,
+      "wait_writes": 0,
+      "http_errors": 0,
+      "calls": 4,
+      "input": 27310,
+      "output": 389
+    },
+    {
+      "index": 3,
+      "mode": "完整",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 1,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 7,
+      "input": 49080,
+      "output": 777
+    },
+    {
+      "index": 3,
+      "mode": "轻量",
+      "booked": true,
+      "solvable": true,
+      "passed": true,
+      "premature_draft": false,
+      "turns": 3,
+      "repeat_turns": 1,
+      "wait_writes": 1,
+      "http_errors": 0,
+      "calls": 6,
+      "input": 42604,
+      "output": 728
+    }
+  ],
+  "scope": [
+    {
+      "index": 0,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "invalidated": null,
+      "http": [
+        200
+      ],
+      "calls": 3,
+      "input": 20321,
+      "output": 301,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ]
+    },
+    {
+      "index": 0,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "invalidated": null,
+      "http": [
+        200
+      ],
+      "calls": 3,
+      "input": 20284,
+      "output": 313,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11"
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "invalidated": null,
+      "http": [
+        200,
+        200
+      ],
+      "calls": 5,
+      "input": 34727,
+      "output": 436,
+      "hits": [
+        [
+          "人工提示"
+        ],
+        [
+          "人工提示"
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "invalidated": null,
+      "http": [
+        200,
+        200
+      ],
+      "calls": 5,
+      "input": 34897,
+      "output": 396,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ],
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "invalidated": true,
+      "http": [
+        200
+      ],
+      "calls": 2,
+      "input": 13582,
+      "output": 258,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "invalidated": true,
+      "http": [
+        200
+      ],
+      "calls": 2,
+      "input": 13432,
+      "output": 272,
+      "hits": []
+    },
+    {
+      "index": 3,
+      "arm": "人工提示",
+      "first": true,
+      "final": true,
+      "invalidated": true,
+      "http": [
+        200
+      ],
+      "calls": 2,
+      "input": 13638,
+      "output": 335,
+      "hits": [
+        [
+          "人工提示"
+        ]
+      ]
+    },
+    {
+      "index": 3,
+      "arm": "提炼记忆",
+      "first": true,
+      "final": true,
+      "invalidated": true,
+      "http": [
+        200
+      ],
+      "calls": 2,
+      "input": 13640,
+      "output": 342,
+      "hits": [
+        [
+          "50/0/13、50/1/11、50/2/11",
+          "18/1/13、18/1/17、5/1/7"
+        ]
+      ]
+    }
+  ]
+}
