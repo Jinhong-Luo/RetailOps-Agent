@@ -56,6 +56,25 @@ class ServiceTests(unittest.TestCase):
         res = self.store.execute(self.sid, state["version"], "新请求")
         self.assertEqual(res["results"][0]["return_items"], sorted(self.args["item_ids"]))
 
+    def test_light_wait_only_changes_on_new_condition(self):
+        state,_=self.store.begin_turn(self.sid,"还没有排班",0,"首次")
+        wait=dict(condition="该订单的周四时段未确认",provider="安装方",evidence="没有排班")
+        def finish(state, wait):
+            return self.store.finish(self.sid,state["revision"],messages=[
+                dict(role="tool",content="已核对本轮预约等待条件"),dict(role="assistant",content="等待时段")],booking=wait)
+        first=finish(state, wait)
+        again,_=self.store.begin_turn(self.sid,"排班依然没回来",first["revision"],"重复")
+        repeated=finish(again,dict(wait,evidence="排班依然没回来"))
+        self.assertEqual(first["booking_wait"],repeated["booking_wait"])
+        later,_=self.store.begin_turn(self.sid,"改为等周五的时段",repeated["revision"],"改日期")
+        updated=finish(later,dict(wait,condition="该订单的周五时段未确认",evidence="周五"))
+        self.assertEqual(updated["booking_wait"]["evidence"],"周五")
+        self.assertEqual(sum(e["stage"]=="预约等待" for e in self.store.events(self.sid,0)),2)
+        next_state,_=self.store.begin_turn(self.sid,"继续",updated["revision"],"错误证据")
+        with self.assertRaises(Issue):
+            finish(next_state,dict(wait,evidence="凭空猜测"))
+        self.assertEqual(self.store.snapshot(self.sid)[0],next_state)
+
     def test_unknown_confirmation(self):
         state, _ = self.store.begin_turn(self.sid, "确认", 0, "1")
         self.blocked("stale_confirmation", self.store.confirm, self.sid, state["version"])

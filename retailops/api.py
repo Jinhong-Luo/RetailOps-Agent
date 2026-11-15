@@ -81,7 +81,7 @@ class Decision(BaseModel):
     next_step: str
 
 
-def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120, domain=None):
+def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120, domain=None, booking_mode=None):
     @asynccontextmanager
     async def lifespan(app):
         app.state.store = Store(path or os.getenv("RETAILOPS_DB", "runs/service/retail.sqlite3"), domain)
@@ -89,7 +89,7 @@ def create_app(path=None, transport=None, capacity=3, waiting=6, timeout=120, do
                                      headers={"Authorization": "Bearer " + os.getenv("CODEX_BRIDGE_TOKEN", ""),
                                               "X-Cancel-On-Disconnect": "1"},
                                      timeout=timeout, transport=transport, trust_env=False) as client:
-            app.state.agent = Agent(app.state.store, client, capacity, waiting, timeout)
+            app.state.agent = Agent(app.state.store, client, capacity, waiting, timeout, booking_mode)
             yield
 
     app = FastAPI(title="零售业务 Agent", lifespan=lifespan)

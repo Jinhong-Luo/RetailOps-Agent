@@ -19,7 +19,7 @@ def schema(name, description, properties, required):
 
 
 class Agent:
-    def __init__(self, store, client, capacity=3, waiting=6, timeout=120):
+    def __init__(self, store, client, capacity=3, waiting=6, timeout=120, booking_mode=None):
         self.store = store
         self.client = client
         self.slots = asyncio.Semaphore(capacity)
@@ -61,15 +61,28 @@ class Agent:
             self.schemas.append(schema("register_needs", "独立登记本轮顾客的各项需求，不执行操作",
                                        {"items": {"type": "array", "items": item}}, ["items"]))
 
+        booking_mode = booking_mode or os.getenv("RETAILOPS_BOOKING_MODE", "完整")
+        if booking_mode not in {"完整", "轻量"}:
+            raise ValueError("未知的预约记录模式")
+        self.booking_mode = booking_mode
         if "schedule_service_tool" in domain.writes:
-            self.schemas.append(schema("record_booking_wait", "记录仍缺的预约条件及条件来源",
-                {"condition": {"type": "string"}, "provider": {"type": "string",
-                 "enum": ["顾客", "业务查询", "安装方", "顾客暂缓"]}, "evidence": {"type": "string"}},
-                ["condition","provider","evidence"]))
-            self.prompt += ("预约前先利用本单已查结果。缺条件时登记 record_booking_wait，引用顾客原话。"
+            wait_fields = {"condition": {"type": "string"}, "provider": {"type": "string",
+                 "enum": ["顾客", "业务查询", "安装方", "顾客暂缓"]}, "evidence": {"type": "string"}}
+            wait_tool = "record_booking_wait"
+            if booking_mode == "轻量":
+                wait_tool = "reply_with_booking_wait"
+                wait_fields["reply"] = {"type":"string","description":"给顾客的完整答复；说明尚缺什么以及谁能补充。"}
+            self.schemas.append(schema(wait_tool, "登记预约等待条件" + ("并同时回复" if booking_mode == "轻量" else ""),
+                                       wait_fields, list(wait_fields)))
+            self.prompt += (f"预约前先利用本单已查结果。缺条件时登记 {wait_tool}，引用顾客原话。"
                             "能查的资料先查；只有顾客能补时才追问。新信息已满足条件则恢复拟案。"
                             "转接回执只证明已转接，无时段及报价回查工具时说明边界，不重复转接或承诺回电。"
                             "尊重暂缓。区分顾客想登记某星期和要求先查到具体空档。")
+
+            if booking_mode == "轻量":
+                self.prompt += ("首次遇到阻塞或缺失条件实质变化时，用 reply_with_booking_wait 一次登记并回复。"
+                                "条件及来源相同、只是换句话询问进度时，直接依据已有记录回答。"
+                                "收到足够新资料就继续查证或拟案。")
 
     async def log(self, sid, stage, **fields):
         await asyncio.to_thread(self.store.record, sid, stage, **fields)
@@ -161,7 +174,16 @@ class Agent:
                     latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], args["actions"],
                                                      additions + completion, request)
                     return dict(reply=reply, state=latest, sources=list(sources))
-                if name == "record_booking_wait":
+                if name == "reply_with_booking_wait" and self.booking_mode == "轻量" and "schedule_service_tool" in self.store.domain.writes:
+                    reply = args.get("reply")
+                    if not isinstance(reply, str) or not reply.strip():
+                        raise Issue("invalid_fields", "缺少给顾客的回复", "答复当前问题")
+                    completion = [dict(role="tool", tool_call_id=call["id"], content="已核对本轮预约等待条件"),
+                                  dict(role="assistant", content=reply)]
+                    latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], messages=additions + completion,
+                                                     request=request, booking=args)
+                    return dict(reply=reply, state=latest, sources=list(sources))
+                if name == "record_booking_wait" and self.booking_mode == "完整" and "schedule_service_tool" in self.store.domain.writes:
                     value = await asyncio.to_thread(self.store.booking_wait, sid, state["revision"],
                                                     args["condition"], args["provider"], args["evidence"])
                     state["booking_wait"] = value

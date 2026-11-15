@@ -135,17 +135,21 @@ class Store:
         with self.connection(True) as db:
             row = self.row(db, sid)
             self.check_seq(row, seq)
-            if provider not in {"顾客", "业务查询", "安装方", "顾客暂缓"} or not condition or not evidence:
-                raise Issue("invalid_fields", "等待条件不完整", "说明条件、来源和证据")
-            history = json.loads(row["history"])
-            if not any(evidence in (m.get("content") or "") for m in history if m["role"] in {"user","tool"}):
-                raise Issue("invalid_fields", "未找到所引证据", "引用本会话内的原话或已有工具回执")
-            previous = db.execute("SELECT condition,provider,evidence FROM booking_wait WHERE sid=?", (sid,)).fetchone()
-            changed = not previous or tuple(previous) != (condition, provider, evidence)
-            db.execute("INSERT OR REPLACE INTO booking_wait VALUES (?,?,?,?,?)",
-                       (sid, condition, provider, evidence, seq))
-            self.event(db, sid, "预约等待", changed=changed, provider=provider)
-            return dict(condition=condition, provider=provider, evidence=evidence, changed=changed)
+            return self._booking_wait(db, sid, seq, condition, provider, evidence, json.loads(row["history"]))
+
+    def _booking_wait(self, db, sid, seq, condition, provider, evidence, history, lightweight=False):
+        if not isinstance(provider, str) or provider not in {"顾客", "业务查询", "安装方", "顾客暂缓"} or not all(isinstance(v,str) and v.strip() for v in (condition,evidence)):
+            raise Issue("invalid_fields", "等待条件不完整", "说明条件、来源和证据")
+        if not any(evidence in (m.get("content") or "") for m in history if m["role"] in {"user","tool"}):
+            raise Issue("invalid_fields", "未找到所引证据", "引用本会话内的原话或已有工具回执")
+        previous = db.execute("SELECT condition,provider,evidence FROM booking_wait WHERE sid=?", (sid,)).fetchone()
+        if lightweight and previous and (condition,provider) == tuple(previous)[:2]:
+            return dict(condition=condition, provider=provider, evidence=previous[2], changed=False)
+        changed = not previous or tuple(previous) != (condition, provider, evidence)
+        db.execute("INSERT OR REPLACE INTO booking_wait VALUES (?,?,?,?,?)",
+                   (sid, condition, provider, evidence, seq))
+        self.event(db, sid, "预约等待", changed=changed, provider=provider)
+        return dict(condition=condition, provider=provider, evidence=evidence, changed=changed)
 
     def register_needs(self, sid, seq, items):
         with self.connection(True) as db:
@@ -192,11 +196,14 @@ class Store:
             results.append(self.domain.call(tools, row["uid"], act["tool"], act["args"], self.domain.writes))
         return tools, results
 
-    def finish(self, sid, seq, actions=None, messages=(), request=None, incomplete=False):
+    def finish(self, sid, seq, actions=None, messages=(), request=None, incomplete=False, booking=None):
         with self.connection(True) as db:
             row = self.row(db, sid)
             self.check_seq(row, seq)
             history = json.loads(row["history"]) + list(messages)
+            if booking is not None:
+                self._booking_wait(db, sid, seq, booking.get("condition"), booking.get("provider"),
+                                   booking.get("evidence"), history[:-2], lightweight=True)
             if incomplete:
                 db.execute("UPDATE sessions SET plan=?,version=version+1,phase='待补充' WHERE sid=?", (dump(actions), sid))
                 self.event(db, sid, "待补充", version=row["version"]+1, request_id=request)
