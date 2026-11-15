@@ -8,6 +8,7 @@ import httpx
 
 from .context import context, variants
 from .domain import Issue
+from .experience import Experience
 from .store import dump, elapsed
 
 
@@ -25,6 +26,7 @@ class Agent:
         self.limit = capacity + waiting
         self.timeout = timeout
         self.active = {}
+        self.experience = Experience(os.getenv("RETAILOPS_REFERENCE", "无记忆"))
         domain = store.domain
         self.schemas = [domain.definitions[n].openai_schema for n in sorted(domain.reads)]
         self.schemas += [
@@ -96,8 +98,14 @@ class Agent:
         additions = []
         sources = {}
         incomplete_actions = None
+        reference, hits = self.experience.retrieve(history[-1]["content"], state) if mode == "B" else ("", [])
+        if reference:
+            await self.log(sid, "跨会话参考", request_id=request, version=self.experience.version,
+                           hits=hits, bytes=len(reference.encode()), chars=len(reference))
         for step in range(1, 9):
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
+            if reference:
+                messages.append(dict(role="system", content=reference))
             messages.extend(context(mode, state, history + additions))
             begin = time.perf_counter()
             response = await self.client.post("chat/completions", json={
