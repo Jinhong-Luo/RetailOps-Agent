@@ -164,7 +164,7 @@ def main(args):
             if row.startswith(prefix):
                 lines.append("| "+row+" | "+" | ".join(short(cells[m]) for m in modules)+" |")
         lines.append("")
-    (args.out/"113题八模块矩阵.md").write_text("\n".join(lines)+"\n",encoding="utf8")
+    (args.out/"113题八模块矩阵.md").write_text("\n".join(lines).rstrip()+"\n",encoding="utf8")
     print("矩阵题数",len(table),"格数",sum(counts.values()),"状态统计",dict(counts))
 
 
