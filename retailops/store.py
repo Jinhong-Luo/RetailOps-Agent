@@ -185,6 +185,11 @@ class Store:
         if not 1 <= len(actions) <= 12:
             raise Issue("missing_or_invalid", "一次方案需要一至十二项操作", "列出全部待办")
         tools = self.toolkit(db, row["uid"])
+        validate = getattr(self.domain, "validate_plan", None)
+        if validate:
+            if not all(self.domain.valid_action_shape(a) for a in actions):
+                raise Issue("missing_or_invalid", "操作结构不完整", "核对操作及参数")
+            validate(tools.db, db, row["uid"], actions)
         results = []
         for act in actions:
             if not self.domain.valid_action_shape(act):
@@ -211,6 +216,9 @@ class Store:
                 # 先在私有副本上执行整个方案，复用上游库存、支付、状态检查。
                 start = time.perf_counter()
                 self.apply(db, row, actions)
+                describe = getattr(self.domain, "describe_plan", None)
+                if describe and messages and history[-1]["role"] == "assistant":
+                    history[-1] = dict(history[-1], content=history[-1]["content"] + "\n" + describe(actions))
                 self.event(db, sid, "执行前检查", request_id=request, duration_ms=elapsed(start))
                 db.execute("UPDATE sessions SET plan=?,version=version+1,phase='待确认' WHERE sid=?", (dump(actions), sid))
                 self.event(db, sid, "等待确认", version=row["version"] + 1, request_id=request)

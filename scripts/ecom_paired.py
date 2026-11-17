@@ -104,6 +104,9 @@ class Shop:
 
     def invoke(self, data, name, args):
         tool = TOOLS[name]
+        if hasattr(self, "validate_plan"):
+            from ecom_refund import upstream_args
+            args = upstream_args(name, args)
         kwargs = tool.fn_metadata.arg_model.model_validate(args)
         server.data = data
         # 上游每次调用都整库写盘。各试次在独立进程内运行，评分前统一落盘。
@@ -139,6 +142,14 @@ class Shop:
         return [{"source":"ECom-Bench","text":self.policy}]
 
 
+def enable_refund(shop):
+    import ecom_refund
+    shop.validate_plan = lambda data, db, uid, actions: ecom_refund.validate(shop, data, db, uid, actions)
+    shop.describe_plan = ecom_refund.describe
+    shop.candidate_policy = ("取消或退货时核实实付额，退款参数填写 order_id 和 refund_reason（取消、退货或价保）。"
+                             "仅在顾客明确申请价保时拟价保差额。顾客拒绝关联退款时暂停整组，另行确认独立事项。")
+
+
 async def episode(task_id, trial, arm, folder, record_usage=False):
     env = MockStoryEnv(task_index=task_id,console_verbose=RunLogger(False))
     env._create_isolated_data()
@@ -146,6 +157,8 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
     original_save = server.set_data
     server.set_data = lambda data: None
     shop = Shop(env)
+    if arm != "old" and os.getenv("RETAILOPS_ECOM_REFUND") == "1":
+        enable_refund(shop)
     data = shop.initial(shop.uid)
     store = Store(folder / "business.db",shop)
     sid = store.identifier(store.open(shop.uid))
@@ -235,7 +248,8 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
                     store.confirm(sid,service.version)
                     receipt = store.execute(sid,service.version,uuid4().hex)
                     for act in record["actions"]:
-                        shop.trace(act["tool"],act["args"])
+                        from ecom_refund import upstream_args
+                        shop.trace(act["tool"], upstream_args(act["tool"], act["args"]))
                     reply="本次已确认操作的回执：" + dump(receipt["items"])
                     service.version=None
                 else:
