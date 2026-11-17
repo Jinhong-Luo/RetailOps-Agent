@@ -50,6 +50,11 @@ def occupied_by_shared(target):
     return count
 
 
+def public_capacity(shared, jobs, shared_slots):
+    reserve=0 if (shared/"共享全部采集完毕").is_file() else shared_slots
+    return max(1,jobs-max(reserve,occupied_by_shared(shared)))
+
+
 def reconcile(folder, row, arm, release, harness):
     valid=[]
     for attempt in folder.glob("*"):
@@ -118,7 +123,7 @@ def run(args):
         active=set()
         with ThreadPoolExecutor(max_workers=args.jobs) as pool:
             while pending or active:
-                capacity=max(1,args.jobs-occupied_by_shared(output.parent/"共享"))
+                capacity=public_capacity(output.parent/"共享",args.jobs,args.shared_slots)
                 while pending and len(active)<capacity:
                     active.add(pool.submit(one,pending.pop(0)))
                 if active:
@@ -136,4 +141,5 @@ if __name__=="__main__":
     for name in ("source","base","runtime","archive","output"):
         parser.add_argument(name,type=lambda p:Path(p).resolve())
     parser.add_argument("--jobs",type=int,default=3)
+    parser.add_argument("--shared-slots",type=int,default=2)
     sys.exit(run(parser.parse_args()))
