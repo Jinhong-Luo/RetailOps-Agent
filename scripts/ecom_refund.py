@@ -43,6 +43,32 @@ def upstream_args(name, args):
     return args
 
 
+def legacy_order(items, index, amount, uid):
+    # 从同一成功回执中取当时的订单快照，不用后来变化的现价倒推。
+    matches = []
+    for item in items[:index]:
+        args = item["args"]
+        if args.get("user_id") != uid:
+            continue
+        if item["tool"] != "manage_return_tool" and not (
+                item["tool"]=="manage_order_tool" and args.get("action")=="取消"):
+            continue
+        result = item.get("result", "")
+        start = result.find("{") if isinstance(result,str) else -1
+        if start < 0:
+            continue
+        try:
+            order, _ = json.JSONDecoder().raw_decode(result[start:])
+        except ValueError:
+            continue
+        if (isinstance(order,dict) and args.get("order_id")==order.get("订单ID")
+                and order.get("支付方式")=="京东E卡" and paid_amount(order)==amount):
+            matches.append(args["order_id"])
+    if len(matches)!=1:
+        reject("历史回执中的退款无法唯一定位，需要核实原流水")
+    return matches[0]
+
+
 def validate(shop, data, db, uid, actions):
     platform, store = shop.env.task.platform, shop.env.task.shop_id
     orders = data["orders"].get(platform, {}).get(store, {}).get(uid, {})
@@ -70,12 +96,11 @@ def validate(shop, data, db, uid, actions):
         return
     previous = {}
     for receipt, in db.execute("SELECT body FROM receipts JOIN sessions USING(sid) WHERE uid=?", (uid,)):
-        for item in json.loads(receipt)["items"]:
+        items = json.loads(receipt)["items"]
+        for index,item in enumerate(items):
             if is_refund(item):
                 args = item["args"]
-                if not args.get("order_id"):
-                    reject("已有退款流水缺少订单归属，需要核实")
-                oid = args["order_id"]
+                oid = args.get("order_id") or legacy_order(items,index,money(args["amount"]),uid)
                 previous[oid] = previous.get(oid, 0) + money(args["amount"])
     seen = set()
     for index, args in refunds:

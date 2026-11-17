@@ -274,10 +274,10 @@ class Store:
             raise error
         return state
 
-    def authorized_tools(self, db, row, version):
+    def authorized_tools(self, db, row, version, actions=None):
         if version != row["version"] or row["phase"] != "已确认":
             raise Issue("unconfirmed", "当前方案缺少有效确认", "向用户展示方案及版本并请求确认")
-        return self.apply(db, row, json.loads(row["plan"]))
+        return self.apply(db, row, json.loads(row["plan"]) if actions is None else actions)
 
     def preflight(self, sid, version):
         with self.connection() as db:
@@ -303,7 +303,7 @@ class Store:
                 return dict(**json.loads(receipt[0]), replayed=True)
             actions = json.loads(row["plan"])
             start = time.perf_counter()
-            tools, results = self.authorized_tools(db, row, version)
+            tools, results = self.authorized_tools(db, row, version, actions)
             self.event(db, sid, "业务工具执行", duration_ms=elapsed(start), version=version,
                        tools=[a["tool"] for a in actions], request_id=request)
             start = time.perf_counter()
