@@ -55,6 +55,7 @@ class State(BaseModel):
     confirmed_version: int | None
     actions: list[Action]
     booking_wait: dict | None = None
+    booking_waits: list[dict] = Field(default_factory=list)
     needs: list[dict] = Field(default_factory=list)
 
 

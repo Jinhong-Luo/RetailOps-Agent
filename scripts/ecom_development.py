@@ -18,6 +18,18 @@ DIALOGS = {
     "C04": ["商品860001的安装说明是什么？我先看看。"],
     "C05": ["甲单71001刚换过货，原来买的那款有以旧换新活动吗？"],
     "C06": ["甲单71001刚换来的新型号有赠品或回收补贴吗？"],
+    "C08": ["甲单71001的860001想装，右边有30厘米。哪些条件已经够，辅材怎么收费？"],
+    "C09": ["甲单71001我要预约安装，右侧30厘米，顶部和墙体我再量量。",
+            "顶部60毫米，是承重墙，周三可以。请用甲单已有联系人和号码预约安装。"],
+    "C10": ["甲单71001想安装，右侧40厘米、顶部10厘米、承重墙，周三有空。必须先核实总费用不超过200元，再约。"],
+    "C11": ["甲单71001想约维修，但要先核实师傅能不能周三上午十点准时到，不能确定就不要预约。",
+            "我现在暂缓，先别约。","我只是回来查一下进展。"],
+    "C12": ["甲单71001维修日期还没定，乙单71002要安装但是必须先有总报价。两单都先别提交。",
+            "甲单可以周三维修，请用本单联系人预约；乙单还是先等报价。"],
+    "联测一": ["甲单71001刚换来的型号有什么活动？顺便把乙单71002取消，钱退到哪？",
+              "先别取消乙单，我不同意这笔退款。"],
+    "联测二": ["甲单71001的860001安装辅材怎么收费？右侧40厘米，是承重墙。我要先确认总价不超过200元，还要师傅周三十点到，再约。",
+              "钟点不用确认了，周三就行。顶部还没量，总费用上限仍然是200元。", "顶部60毫米。请告诉我现在还差什么。"],
     "C07": ["两单都是同系列，我想问刚才那台的赠品。", "指乙单71002里那台。"],
 }
 
@@ -49,12 +61,18 @@ async def run(case, candidate, folder):
     if candidate:
         if case in ("C01","C02"):
             enable_refund(shop)
-        else:
+        elif case in ("C03","C04","C05","C06","C07"):
             enable_product(shop)
+        elif case.startswith("联测"):
+            enable_product(shop)
+            enable_refund(shop)
+            shop.scoped_waits = True
+        else:
+            shop.scoped_waits = True
     server.set_data = lambda data: None
     store = Store(folder/"账本.db",shop)
     sid = store.identifier(store.open(shop.uid))
-    if case in ("C05","C06"):
+    if case in ("C05","C06","联测一"):
         act = dict(tool="manage_exchange_tool",args=dict(platform="jd",shop_id="开发店",user_id=shop.uid,
                    order_id="71001",original_product_id="860001",exchange_product_id="860002",action="换货"))
         version = store.propose(sid,0,[act])["version"]
@@ -83,6 +101,15 @@ async def run(case, candidate, folder):
                 result = await agent.run(sid,message,state["revision"],"B",str(i))
                 state = result["state"]
                 turns.append(dict(输入=message,答复=result["reply"],草案=state["actions"],阶段=state["phase"]))
+            if case in ("C09","C12") and state["phase"] == "待确认":
+                service = "安装" if case=="C09" else "维修"
+                actions = state["actions"]
+                if len(actions)==1 and actions[0]["tool"]=="schedule_service_tool":
+                    args = actions[0]["args"]
+                    if (args.get("service_type"),args.get("order_id"),args.get("service_time"),args.get("phone_number")) == (
+                            service,"71001","周三","00000000001"):
+                        store.confirm(sid,state["version"])
+                        store.execute(sid,state["version"],"最终确认")
             if case in ("C01","C02") and state["phase"] == "待确认":
                 actions = state["actions"]
                 names = [a["tool"] for a in actions]

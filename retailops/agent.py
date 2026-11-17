@@ -83,6 +83,20 @@ class Agent:
             if booking_mode == "轻量":
                 wait_tool = "reply_with_booking_wait"
                 wait_fields["reply"] = {"type":"string","description":"给顾客的完整答复；说明尚缺什么以及谁能补充。"}
+            if getattr(domain, "scoped_waits", False):
+                from .booking_waits import KINDS, SERVICES
+                key = {"order_id":{"type":"string"}, "service":{"type":"string","enum":SERVICES},
+                       "kind":{"type":"string","enum":KINDS}}
+                def entries(fields):
+                    return {"type":"array","items":{"type":"object","properties":fields,"required":list(fields)}}
+                fields = {k:v for k,v in wait_fields.items() if k != "reply"}
+                wait_fields = {"waits":entries({**key, **fields}), **({"reply":wait_fields["reply"]} if "reply" in wait_fields else {})}
+                self.schemas.append(schema("resolve_booking_wait","仅更新已补齐的指定条件；逐项引用当前顾客原话。",
+                    {"items":entries({**key,"evidence":{"type":"string"},"basis":{"type":"string","enum":["已补资料","重新授权"]}})},["items"]))
+                self.prompt += ("安装先查本型号安装说明和辅材，按实测尺寸回答已满足项，再问缺口。"
+                                "区分基础安装、按量收费和安装方总报价。转接无报价及到场时刻证据。"
+                                "将多笔订单、多个前提分别列入 waits。仅用 resolve_booking_wait 恢复明确满足的条件；"
+                                "顾客暂缓须明确重新授权，外部条件只能由可靠来源核实或由顾客明确撤回。")
             self.schemas.append(schema(wait_tool, "登记预约等待条件" + ("并同时回复" if booking_mode == "轻量" else ""),
                                        wait_fields, list(wait_fields)))
             self.prompt += (f"预约前先利用本单已查结果。缺条件时登记 {wait_tool}，引用顾客原话。"
@@ -215,7 +229,19 @@ class Agent:
                     latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], messages=additions + completion,
                                                      request=request, booking=args)
                     return dict(reply=reply, state=latest, sources=list(sources))
-                if name == "record_booking_wait" and self.booking_mode == "完整" and "schedule_service_tool" in self.store.domain.writes:
+                if name == "resolve_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
+                    from .booking_waits import resolve
+                    state = await asyncio.to_thread(resolve,self.store,sid,state["revision"],args.get("items"),history+additions)
+                    value = state["booking_waits"]
+                elif name == "record_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
+                    from .booking_waits import save
+                    with self.store.connection(True) as db:
+                        row = self.store.row(db,sid)
+                        self.store.check_seq(row,state["revision"])
+                        save(self.store,db,row,args.get("waits"),history+additions)
+                        state = self.store.state(db,row)
+                    value = state["booking_waits"]
+                elif name == "record_booking_wait" and self.booking_mode == "完整" and "schedule_service_tool" in self.store.domain.writes:
                     value = await asyncio.to_thread(self.store.booking_wait, sid, state["revision"],
                                                     args["condition"], args["provider"], args["evidence"])
                     state["booking_wait"] = value

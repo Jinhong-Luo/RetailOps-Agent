@@ -36,6 +36,9 @@ class Store:
                 PRIMARY KEY(sid,request));
             CREATE TABLE IF NOT EXISTS booking_wait(sid TEXT PRIMARY KEY, condition TEXT,
                 provider TEXT, evidence TEXT, revision INTEGER);
+            CREATE TABLE IF NOT EXISTS scoped_wait(sid TEXT, order_id TEXT, service TEXT, kind TEXT,
+                provider TEXT, condition TEXT, evidence TEXT, revision INTEGER, resolved INTEGER DEFAULT 0,
+                PRIMARY KEY(sid,order_id,service,kind));
             CREATE TABLE IF NOT EXISTS needs(sid TEXT, source_revision INTEGER, tool TEXT, evidence TEXT,
                 status TEXT, result TEXT, PRIMARY KEY(sid,source_revision,tool));
             CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY, sid TEXT, body TEXT);
@@ -91,6 +94,10 @@ class Store:
         wait = db.execute("SELECT condition,provider,evidence,revision FROM booking_wait WHERE sid=?",
                           (row["sid"],)).fetchone()
         extra = {"booking_wait": dict(wait)} if wait else {}
+        if getattr(self.domain, "scoped_waits", False):
+            extra["booking_waits"] = [dict(entry) for entry in db.execute(
+                "SELECT order_id,service,kind,provider,condition,evidence,revision,resolved FROM scoped_wait WHERE sid=?",
+                (row["sid"],))]
         return dict(**extra, needs=needs, user_id=row["uid"], revision=row["seq"], version=row["version"], phase=row["phase"],
                     confirmed_version=row["version"] if row["phase"] in {"已确认", "完成"} else None,
                     actions=json.loads(row["plan"]))
@@ -198,6 +205,9 @@ class Store:
                                 (row["sid"], act["tool"])).fetchone()
             if intent and intent["status"] in {"仅询问", "暂缓"}:
                 raise Issue("scope", "此事项仅询问或已暂缓", "取得顾客新的办理意图后再拟案")
+            if getattr(self.domain, "scoped_waits", False) and act["tool"] == "schedule_service_tool":
+                from .booking_waits import check
+                check(db,row["sid"],act["args"])
             results.append(self.domain.call(tools, row["uid"], act["tool"], act["args"], self.domain.writes))
         return tools, results
 
@@ -206,7 +216,10 @@ class Store:
             row = self.row(db, sid)
             self.check_seq(row, seq)
             history = json.loads(row["history"]) + list(messages)
-            if booking is not None:
+            if booking is not None and getattr(self.domain, "scoped_waits", False):
+                from .booking_waits import save
+                save(self,db,row,booking.get("waits"),history[:-2])
+            elif booking is not None:
                 self._booking_wait(db, sid, seq, booking.get("condition"), booking.get("provider"),
                                    booking.get("evidence"), history[:-2], lightweight=True)
             if incomplete:
@@ -290,7 +303,12 @@ class Store:
             account = tools.db.model_dump(mode="json", include={"orders", "users"})
             items = [dict(**act, result=result) for act, result in zip(actions, results)]
             body = dict(allowed=True, version=version, request_id=request, results=results, items=items)
-            if any(item["tool"] == "schedule_service_tool" for item in items):
+            if getattr(self.domain, "scoped_waits", False):
+                for item in items:
+                    if item["tool"] == "schedule_service_tool":
+                        db.execute("DELETE FROM scoped_wait WHERE sid=? AND order_id=? AND service=?",
+                                   (sid,item["args"]["order_id"],item["args"]["service_type"]))
+            elif any(item["tool"] == "schedule_service_tool" for item in items):
                 db.execute("DELETE FROM booking_wait WHERE sid=?", (sid,))
             for item in items:
                 db.execute("""UPDATE needs SET status='已办理',result=? WHERE sid=? AND tool=?

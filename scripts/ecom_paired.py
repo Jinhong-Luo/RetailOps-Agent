@@ -203,6 +203,8 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
         enable_refund(shop)
     if arm != "old" and os.getenv("RETAILOPS_ECOM_PRODUCT") == "1":
         enable_product(shop)
+    if arm != "old" and os.getenv("RETAILOPS_ECOM_BOOKING") == "1":
+        shop.scoped_waits = True
     data = shop.initial(shop.uid)
     store = Store(folder / "business.db",shop)
     sid = store.identifier(store.open(shop.uid))
