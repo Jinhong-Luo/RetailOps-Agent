@@ -52,9 +52,12 @@ class Agent:
             proposal = self.schemas[len(domain.reads)]["function"]
             proposal["description"] = "提交本轮可办理且获授权的完整草案。"
             del proposal["parameters"]["properties"]["consultation_reply"]
+        if self.condition in {"policy_text_only", "policy_with_search"}:
+            self.prompt = self.prompt.replace("政策问答调用 search_policy 并引用来源。", "政策问答须指出支持结论的原政策段落。")
         if self.condition == "no_policy_search":
             self.prompt = self.prompt.replace("政策问答调用 search_policy 并引用来源。", "")
-        hidden = {"no_policy_search": "search_policy", "no_variants": "find_variants"}.get(self.condition)
+        hidden = {"no_policy_search": "search_policy", "policy_text_only": "search_policy",
+                  "no_variants": "find_variants"}.get(self.condition)
         self.schemas = [s for s in self.schemas if s["function"]["name"] != hidden]
         if "manage_invoice_tool" in domain.writes and self.condition != "no_consult":
             definition = domain.definitions["manage_invoice_tool"].openai_schema["function"]

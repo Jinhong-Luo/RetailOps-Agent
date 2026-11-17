@@ -43,6 +43,15 @@ async def check():
         assert on["tools"] == off["tools"]
         assert on["messages"][0] == off["messages"][0]
         print("短窗两组真实客服请求核验通过，关闭时未发送首轮昵称。")
+        plain = await capture(domain, root/"全文.db", "policy_text_only")
+        search = await capture(domain, root/"章节.db", "policy_with_search")
+        assert plain["messages"] == search["messages"]
+        prompt = plain["messages"][0]["content"]
+        assert domain.policy in prompt and "指出支持结论的原政策段落" in prompt
+        tools = lambda r: {tool["function"]["name"] for tool in r["tools"]}
+        assert tools(search) == tools(plain) | {"search_policy"}
+        assert "search_policy" not in tools(plain)
+        print("政策对照的实际请求中全文和引用要求相同，工具差异仅为章节查找。")
 
 
 if __name__ == "__main__":
