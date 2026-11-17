@@ -94,7 +94,7 @@ class Agent:
                 self.schemas.append(schema("resolve_booking_wait","仅更新已补齐的指定条件；逐项引用当前顾客原话。",
                     {"items":entries({**key,"evidence":{"type":"string"},"basis":{"type":"string","enum":["已补资料","重新授权"]}})},["items"]))
                 self.prompt += ("安装先查本型号安装说明和辅材，按实测尺寸回答已满足项，再问缺口。"
-                                "区分基础安装、按量收费和安装方总报价。转接无报价及到场时刻证据。"
+                                "预约工具 service_time 只接收星期；顾客提供星期就足以填日期。只在顾客明确先要具体时段时等待安装方。区分基础安装、按量收费和安装方总报价。转接无报价及到场时刻证据。"
                                 "将多笔订单、多个前提分别列入 waits。仅用 resolve_booking_wait 恢复明确满足的条件；"
                                 "顾客暂缓须明确重新授权，外部条件只能由可靠来源核实或由顾客明确撤回。")
             self.schemas.append(schema(wait_tool, "登记预约等待条件" + ("并同时回复" if booking_mode == "轻量" else ""),

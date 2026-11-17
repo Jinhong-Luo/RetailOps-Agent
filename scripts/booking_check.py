@@ -41,6 +41,13 @@ class BookingCheck(unittest.TestCase):
         with self.assertRaises(Issue):
             self.store.propose(self.sid,state["revision"],self.action("71002","安装"))
 
+    def test_no_invented_time(self):
+        state,_ = self.turn("我想周三安装。")
+        wait = dict(order_id="71002",service="安装",kind="钟点",condition="缺小时",provider="顾客",evidence="我想周三安装")
+        with self.assertRaises(Issue):
+            self.store.finish(self.sid,state["revision"],booking={"waits":[wait]},messages=[{},dict(role="assistant",content="等待")])
+        self.assertFalse(self.store.snapshot(self.sid)[0]["booking_waits"])
+
     def test_pause(self):
         state,_ = self.turn("乙单安装暂缓。")
         wait = dict(order_id="71002",service="安装",kind="办理授权",condition="暂缓",provider="顾客暂缓",evidence="暂缓")

@@ -1,6 +1,8 @@
 """同一会话内按订单、服务和待核条件保存预约依据。"""
 from .domain import Issue
 
+import re
+
 KINDS = ["日期", "钟点", "费用", "空间", "墙体", "联系人", "办理授权", "其他"]
 SERVICES = ["安装", "维修", "检查"]
 PROVIDERS = ["顾客", "业务查询", "安装方", "顾客暂缓"]
@@ -24,6 +26,9 @@ def save(store, db, row, records, history):
             invalid("等待条件缺少事实或依据")
         if not any(evidence in (m.get("content") or "") for m in history if m["role"] in {"user","tool"}):
             invalid("未找到所引依据")
+        if kind == "钟点" and (provider != "安装方" or not re.search(
+                r"几点|钟点|时段|小时|点钟|上午|下午|晚上|早上|中午|[0-9一二三四五六七八九十]+点|空档|准确时间|具体时间", evidence)):
+            invalid("预约工具只登记星期；只有顾客明确要求先核实具体时段时才登记安装方等待")
         db.execute("""INSERT INTO scoped_wait(sid,order_id,service,kind,provider,condition,evidence,revision)
                       VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(sid,order_id,service,kind)
                       DO UPDATE SET provider=excluded.provider,condition=excluded.condition,evidence=excluded.evidence,
@@ -51,7 +56,7 @@ def resolve(store, sid, seq, items, history):
             if item.get("basis")=="重新授权" and any(w in evidence for w in ("不同意","暂缓","先别","先不","不要预约","查进展")):
                 invalid("当前原话仍在暂缓或仅查询进展")
             if item.get("basis")=="重新授权" and not any(w in evidence for w in
-                    ("同意","可以预约","可以安排","请安排","现在办","不用等","不用确认","不要求","撤回","按周")):
+                    ("同意","请用","请预约","可以预约","可以安排","请安排","现在办","不用等","不用确认","不要求","撤回","按周")):
                 invalid("需要顾客明确变更原条件或重新同意办理")
             db.execute("UPDATE scoped_wait SET resolved=1 WHERE sid=? AND order_id=? AND service=? AND kind=?",key)
             store.event(db,sid,"预约补足",order_id=key[1],service=key[2],kind=key[3],evidence=evidence)
