@@ -169,8 +169,9 @@ class Agent:
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
             if reference:
                 messages.append(dict(role="system", content=reference))
-            visible_mode = {"no_state": "A", "short_history": "C"}.get(self.condition, mode)
-            messages.extend(context(visible_mode, state, history + additions))
+            visible_mode = {"no_state": "A", "short_history": "C", "short_no_recall": "C"}.get(self.condition, mode)
+            messages.extend(context(visible_mode, state, history + additions,
+                                    recover_earlier=self.condition != "short_no_recall"))
             if getattr(self.store.domain, "product_consultation", False):
                 messages.append(dict(role="system", content=f"本轮含本步还可决策{9-step}步。"
                                      "如已取得当前咨询所需资料，现在直接回复；资料不全时说明已核实的部分。"))

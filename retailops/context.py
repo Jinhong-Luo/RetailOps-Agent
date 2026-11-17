@@ -14,7 +14,7 @@ def variants(product, options, offset=0, limit=12):
                 variants=rows[offset:offset+limit])
 
 
-def context(mode, state, history, recent=3):
+def context(mode, state, history, recent=3, recover_earlier=True):
     if mode not in {"A", "B", "C"} or recent < 1:
         raise ValueError("上下文方案或窗口无效")
     preamble = [] if mode == "A" else [dict(role="system", content="服务端记录的业务进度：" + dump(state))]
@@ -29,7 +29,7 @@ def context(mode, state, history, recent=3):
     needle = dump([state["actions"], tail[-1][0] if tail else {}])
     ids = set(re.findall(r"#?[\w-]*\d[\w-]*", needle, flags=re.ASCII))
     earlier = [group for group in rounds[:-recent] if any(i in dump(group) for i in ids)]
-    groups = earlier[-2:] + tail
+    groups = (earlier[-2:] if recover_earlier else []) + tail
     compact = []
     for group in groups:
         for msg in group:
