@@ -65,6 +65,15 @@ def meter(rows):
                 输入令牌=sum(r["prompt_tokens"] for r in used),输出令牌=sum(r["completion_tokens"] for r in used))
 
 
+
+def model_check(metadata):
+    expected=[bool(m) and m.get("actual_model",m.get("model"))=="gpt-6.1-sol" and
+              m.get("reasoning_effort",m.get("effort"))=="medium" for m in metadata]
+    return dict(有元数据响应=sum(bool(m) for m in metadata),待核对响应=len(metadata),
+                模型与强度匹配=bool(expected) and all(expected),
+                采样参数生效=all(m.get("sampling_parameters_applied") is True for m in metadata) if metadata else None)
+
+
 def collect(base, key, release):
     row,kind,arm=key.split("__")
     if kind!="业务对话":
@@ -98,18 +107,23 @@ def collect(base, key, release):
         messages=sim[0]["messages"]
         events=read(folder/"events.json") if (folder/"events.json").is_file() else []
         used=[m["usage"] for m in messages if m.get("usage")]
+        result["模型核对"]=model_check([(m.get("raw_data") or {}).get("bridge_metadata",{}) for m in messages if m.get("usage")])
         result["计量"]=meter(used)
         result["计量"]["范围"]="上游消息中带用量的响应，独立语义评分未计入"
     elif row.startswith("ecom-"):
         messages,events=sqlite_trace(folder/"business.db")
         result["官方分量"]={name:value[k] for name,k in (("终态","action"),("指定查询","search"),("输出","output"))}
-        result["计量"]=meter([v["usage"] for v in objects(folder/"usage.jsonl")])
+        records=objects(folder/"usage.jsonl")
+        result["模型核对"]=model_check(records)
+        result["计量"]=meter([v["usage"] for v in records])
+        result["模型核对"]["采样参数生效"]=None
         result["计量"]["范围"]="桥接成功响应中实际记录的用量"
     else:
         raw=read(folder/"逐轮证据.json")
         checks=grade(row,raw)
         result.update(整题分=int(all(checks.values())),逐项业务判断=checks,成功回执数=len(raw["成功回执"]))
         replies=objects(folder/"模型回执.jsonl")
+        result["模型核对"]=model_check([r.get("元数据") or {} for r in replies])
         messages=[r["消息"] for r in replies]
         events=[e for session in raw["事件"] for e in session]
         result["计量"]=meter([r["用量"] for r in replies])
