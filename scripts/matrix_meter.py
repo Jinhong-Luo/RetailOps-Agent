@@ -74,6 +74,7 @@ def audit(root,business,prior):
     for marker in (root/"轨迹复核").glob("*/*/复核结果.json"):
         item=read(marker)
         checks[item["入口"]+"有效复核"]+=1
+    checks["内部检索入口补正位置"]=len(list((root/"服务入口补正").glob("*/*/复核结果.json")))
     checks["复核运行器无结果异常"]=len(list((root/"轨迹复核").glob("*/*/复核异常.json")))
     return dict(分类用量=grouped(records),独立复核次数=dict(checks),
                 说明=["τ 以官方轨迹中有用量的客服及顾客消息计数；实际请求未提供，独立语义裁判未返回单独用量。",

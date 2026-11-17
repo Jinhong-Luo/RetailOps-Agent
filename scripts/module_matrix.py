@@ -18,6 +18,16 @@ def save(path, value):
 def replay(root, row, kind, condition, release):
     place=root/"轨迹复核"/f"{row}__{kind}__{condition}"
     paths=list(place.glob("*/复核结果.json"))
+    if kind=="服务":
+        corrected=list((root/"服务入口补正"/place.name).glob("*/复核结果.json"))
+        if corrected:
+            if len(paths)!=1 or len(corrected)!=1:
+                raise ValueError("入口补正必须能唯一追溯原结果")
+            previous=read(paths[0])
+            note=read(corrected[0].parent/"补正说明.json")
+            if note["原位置"]!=place.name or note["原复核代码"]!=previous["复核代码"]:
+                raise ValueError("入口补正没有对应原记录")
+            paths=corrected
     if not paths:
         return None
     if len(paths)!=1:
@@ -25,7 +35,10 @@ def replay(root, row, kind, condition, release):
     doc=read(paths[0])
     if doc["服务提交"]!=release or (doc["题号"],doc["入口"],doc["条件"])!=(row,kind,condition):
         raise ValueError("复核输入与矩阵位置不符")
-    return doc["结果"]
+    result=doc["结果"]
+    if kind=="服务":
+        result["_核验来源"]=dict(复核代码=doc["复核代码"],入口补正=paths[0].parents[2].name=="服务入口补正")
+    return result
 
 
 DEDICATED={"多需求登记":["register_needs"],"同轮咨询":["带咨询答复的草案调用"],
@@ -57,7 +70,7 @@ def service_cell(row, root, release):
         result=replay(root,row,"服务",arm,release)
         if result is None:
             return dict(状态="待取得结果")
-        cases[arm]={}
+        cases[arm]={"核验来源":result["_核验来源"]}
         for version in ("冻结服务","早期按钮服务"):
             original=result[version]
             allowed=("状态","通过","组数","原终态相同","查询值相符","失败时回滚","席位释放","账本不变","原因")
