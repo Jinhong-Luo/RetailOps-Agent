@@ -15,6 +15,8 @@ def measured_attempt(folder, suite):
         sims=read(result)["simulations"]
         if len(sims)!=1:
             raise ValueError("单一位置落盘了多条轨迹")
+        if not sims[0]["messages"]:
+            return None
         rows=[m["usage"] for m in sims[0]["messages"] if m.get("usage")]
         return dict(**meter(rows),位置耗时秒=sims[0].get("duration"))
     if suite=="ECom":
@@ -33,7 +35,7 @@ def grouped(rows):
     keys=("已记录响应","有用量响应","输入令牌","输出令牌","已记录请求","位置耗时秒","响应耗时合计秒")
     result={}
     for name,data in rows.items():
-        result[name]=dict(位置或尝试数=len(data),完全缺少计量的位置=sum(v is None for v in data))
+        result[name]=dict(位置或尝试数=len(data),完全缺少计量的位置=sum(v is None or v.get("用量完全缺失",False) for v in data))
         for k in keys:
             values=[v[k] for v in data if v and v.get(k) is not None]
             if values:
@@ -63,6 +65,10 @@ def audit(root,business,prior):
             row=folder.parent.name.split("__")[0]
             suite="τ" if row.startswith("tau-") else "ECom" if row.startswith("ecom-") else "共享"
             records[suite+"无分尝试"].append(measured_attempt(folder,suite))
+    for marker in (root/"公开").glob("*/*/采集排除.json"):
+        row=marker.parent.parent.name.split("__")[0]
+        suite="τ" if row.startswith("tau-") else "ECom"
+        records[suite+"误补跑排除尝试"].append(measured_attempt(marker.parent,suite))
     for marker in (root/"共享").glob("D16__*/*/已采集.json"):
         blind=read(marker.parent/"盲读原始记录.json")
         records["展示盲读实跑"].append(dict(**meter([blind["用量"]]),位置耗时秒=blind["用时秒"]))

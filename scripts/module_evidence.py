@@ -110,6 +110,12 @@ def collect(base, key, release):
         result["模型核对"]=model_check([(m.get("raw_data") or {}).get("bridge_metadata",{}) for m in messages if m.get("usage")])
         result["计量"]=meter(used)
         result["计量"]["范围"]="上游消息中带用量的响应，独立语义评分未计入"
+        if value.get("模型用量缺失"):
+            result["恢复方式"]=value["来源"]
+            result["计量"].update(输入令牌=None,输出令牌=None,用量完全缺失=True,
+                                 范围="首轮预算失败的日志恢复了消息及工具，日志未保留用量。响应计数为已留存用量记录数。")
+            result["模型核对"].update(模型与强度匹配=None,说明="本位置只核实原运行配置，日志未保留逐响应元数据。")
+
     elif row.startswith("ecom-"):
         messages,events=sqlite_trace(folder/"business.db")
         result["官方分量"]={name:value[k] for name,k in (("终态","action"),("指定查询","search"),("输出","output"))}

@@ -46,8 +46,8 @@ def differences(paired):
 def totals(rows):
     count=Counter()
     for v in rows:
-        count.update({k:v["计量"][k] for k in ("已记录响应","有用量响应","输入令牌","输出令牌")})
-    return dict(位置=len(rows),整题通过=sum(v["整题分"] for v in rows),**count,
+        count.update({k:v["计量"][k] for k in ("已记录响应","有用量响应","输入令牌","输出令牌") if v["计量"].get(k) is not None})
+    return dict(位置=len(rows),用量完全缺失位置=sum(v["计量"].get("用量完全缺失",False) for v in rows),整题通过=sum(v["整题分"] for v in rows),**count,
                 有位置用时的位置=sum(v.get("位置用时秒") is not None for v in rows),
                 位置用时累计秒=round(sum(v.get("位置用时秒") or 0 for v in rows),2),
                 有响应计时的位置=sum("响应耗时合计秒" in v["计量"] for v in rows),
