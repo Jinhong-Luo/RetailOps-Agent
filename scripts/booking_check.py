@@ -71,6 +71,20 @@ class BookingCheck(unittest.TestCase):
             self.store.finish(self.sid,state["revision"],booking={"waits":[wait]},messages=[{},dict(role="assistant",content="等待")])
         self.assertFalse(self.store.snapshot(self.sid)[0]["booking_waits"])
 
+    def test_bind_old_wait(self):
+        from retailops.booking_waits import bind_legacy
+        state,_=self.turn("安装的费用先核实。")
+        self.store.booking_wait(self.sid,state["revision"],"等总价","安装方","费用先核实")
+        state,_=self.turn("旧安装报价说的是71002，不是71001。")
+        with self.assertRaises(Issue):
+            bind_legacy(self.store,self.sid,state["revision"],"71001","安装","费用","旧安装报价说的是71002，不是71001")
+        result=bind_legacy(self.store,self.sid,state["revision"],"71002","安装","费用","旧安装报价说的是71002")
+        self.assertNotIn("booking_wait",result)
+        self.assertEqual([(r["order_id"],r["condition"],r["evidence"],r["resolved"]) for r in result["booking_waits"]],
+                         [("71002","等总价","费用先核实",0)])
+        with self.assertRaises(Issue):
+            self.store.propose(self.sid,state["revision"],self.action("71002","安装"))
+
     def test_pause(self):
         state,_ = self.turn("乙单安装暂缓。")
         wait = dict(order_id="71002",service="安装",kind="办理授权",condition="暂缓",provider="顾客暂缓",evidence="暂缓")

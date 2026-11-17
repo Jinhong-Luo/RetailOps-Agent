@@ -170,9 +170,17 @@ class Agent:
                 messages.append(dict(role="system", content=f"本轮含本步还可决策{9-step}步。"
                                      "如已取得当前咨询所需资料，现在直接回复；资料不全时说明已核实的部分。"))
             begin = time.perf_counter()
+            available = self.schemas
+            if getattr(self.store.domain, "scoped_waits", False) and state.get("booking_wait"):
+                from .booking_waits import KINDS, SERVICES
+                available = [*available, schema("bind_legacy_booking_wait",
+                    "顾客明确原等待条件的订单及服务后绑定，保留原条件。引用本轮含订单号和服务的原话。",
+                    {"order_id":{"type":"string"},"service":{"type":"string","enum":SERVICES},
+                     "kind":{"type":"string","enum":KINDS},"evidence":{"type":"string"}},
+                    ["order_id","service","kind","evidence"])]
             response = await self.client.post("chat/completions", json={
                 "model": os.getenv("RETAILOPS_MODEL", "gpt-6.1-sol@medium"),
-                "messages": messages, "tools": self.schemas})
+                "messages": messages, "tools": available})
             response.raise_for_status()
             model_ms = elapsed(begin)
             begin = time.perf_counter()
@@ -199,7 +207,7 @@ class Agent:
             name = call["function"]["name"]
             begin = time.perf_counter()
             try:
-                if self.condition and name not in {s["function"]["name"] for s in self.schemas}:
+                if self.condition and name not in {s["function"]["name"] for s in available}:
                     raise Issue("operation", "当前没有提供该工具", "使用本轮可用的工具")
                 if name == "propose_plan":
                     if not isinstance(args.get("actions"), list):
@@ -229,7 +237,12 @@ class Agent:
                     latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], messages=additions + completion,
                                                      request=request, booking=args)
                     return dict(reply=reply, state=latest, sources=list(sources))
-                if name == "resolve_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
+                if name=="bind_legacy_booking_wait" and getattr(self.store.domain,"scoped_waits",False):
+                    from .booking_waits import bind_legacy
+                    state=await asyncio.to_thread(bind_legacy,self.store,sid,state["revision"],args.get("order_id"),
+                                                  args.get("service"),args.get("kind"),args.get("evidence"))
+                    value=state["booking_waits"]
+                elif name == "resolve_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
                     from .booking_waits import resolve
                     state = await asyncio.to_thread(resolve,self.store,sid,state["revision"],args.get("items"),history+additions)
                     value = state["booking_waits"]

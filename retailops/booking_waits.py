@@ -1,4 +1,6 @@
 """同一会话内按订单、服务和待核条件保存预约依据。"""
+import json
+
 from .domain import Issue
 
 import re
@@ -72,3 +74,32 @@ def check(db,sid,args):
     if db.execute("SELECT 1 FROM scoped_wait WHERE sid=? AND order_id=? AND service=? AND resolved=0",
                   (sid,args.get("order_id"),args.get("service_type"))).fetchone():
         invalid("本单仍有待补资料或授权，先逐项核实")
+
+
+def bind_legacy(store, sid, seq, oid, service, kind, evidence):
+    with store.connection(True) as db:
+        row = store.row(db,sid)
+        store.check_seq(row,seq)
+        legacy = db.execute("SELECT * FROM booking_wait WHERE sid=?", (sid,)).fetchone()
+        if not legacy:
+            invalid("当前没有待核实归属的旧预约条件")
+        task = store.domain.env.task
+        orders = store.toolkit(db,row["uid"]).db["orders"][task.platform][task.shop_id][row["uid"]]
+        latest = next(m["content"] for m in reversed(json.loads(row["history"])) if m["role"]=="user")
+        if (not isinstance(evidence,str) or not evidence or evidence not in latest or service not in SERVICES
+                or service not in evidence or kind not in KINDS or oid not in orders
+                or [order for order in orders if order in evidence] != [oid]
+                or not any(evidence in clause and not re.search("不是|并非|不属于",clause)
+                           for clause in re.split("[，。；,;]",latest))):
+            invalid("请顾客明确旧条件属于哪一笔订单和哪项服务")
+        if legacy["provider"]=="顾客暂缓":
+            kind="办理授权"
+        if db.execute("SELECT 1 FROM scoped_wait WHERE sid=? AND order_id=? AND service=? AND kind=?",
+                      (sid,oid,service,kind)).fetchone():
+            invalid("该业务已有同类等待条件，请先核实两条记录")
+        db.execute("""INSERT INTO scoped_wait(sid,order_id,service,kind,provider,condition,evidence,revision)
+                      VALUES(?,?,?,?,?,?,?,?)""",
+                   (sid,oid,service,kind,legacy["provider"],legacy["condition"],legacy["evidence"],legacy["revision"]))
+        db.execute("DELETE FROM booking_wait WHERE sid=?", (sid,))
+        store.event(db,sid,"确认旧预约归属",order_id=oid,service=service,evidence=evidence)
+        return store.state(db,row)
