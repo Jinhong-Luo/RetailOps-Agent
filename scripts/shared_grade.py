@@ -95,17 +95,37 @@ def grade(case, raw):
                       ("甲单" in first and "乙单" in first and has(first,r"抬头")),
                       修订后仅乙单开票=correct(1),终态正确=len(receipts)==1 and not order("甲单")["是否加急"] and final[0]["invoices"].get("乙单",{}).get("发票抬头")=="青禾商贸")
     elif case=="S08":
-        checks.update(首轮区分等待=all(x in first for x in ("甲","乙")) and not plans(0),
-                      仅甲单周三维修=correct(1) and booked("甲单","维修","周三"),乙单仍未约=len(receipts)==1 and len(turns)==3 and not plans(2))
+        def waiting(n,oid,service,kind,provider):
+            if n>=len(turns):
+                return False
+            records=turns[n].get("状态",{}).get("booking_waits",[])
+            return any(w.get("order_id")==oid and w.get("service")==service and w.get("kind")==kind
+                       and w.get("provider")==provider and not w.get("resolved") for w in records)
+        def external(n):
+            if n>=len(msgs):
+                return False
+            text=msgs[n]
+            return "乙" in text and has(text,r"安装方|师傅|服务商|安装人员") and has(text,r"未|尚|暂|等|还没|没有|无法|待|不能") and has(text,r"时段|钟点|时间|几点|何时|到场|到达|具体")
+        contact=any(e["stage"]=="查询工具" and e.get("request_id")=="0" and e.get("tool") in {"get_user_info_tool","manage_order_tool"}
+                    for session in raw["事件"] for e in session)
+        first_a=waiting(0,"甲单","维修","日期","顾客") or ("甲" in first and has(first,r"维修.{0,36}(日期|哪天|时间)|哪天.{0,16}维修"))
+        checks.update(首轮区分等待=first_a and (waiting(0,"乙单","安装","钟点","安装方") or external(0)) and not plans(0),
+                      首轮读取账户或订单联系人=contact,仅甲单周三维修=correct(1) and booked("甲单","维修","周三"),
+                      甲单办理后乙单仍等安装方=len(turns)==3 and external(2) and (waiting(1,"乙单","安装","钟点","安装方") or external(1)),
+                      乙单仍未约=len(receipts)==1 and len(turns)==3 and not plans(2))
     elif case=="S09":
         checks.update(首轮容量答案="14" in first and "16" in first and has(first,r"(多|增加|提升|差).{0,4}2\s*[升Ll]"),
                       首轮有效换货草案=correct(0),确认后换货一次=len(receipts)==1,
-                      中段答乙单发货=len(msgs)>=2 and "发货" in msgs[1],
-                      最后核实旧机补贴=len(msgs)>=3 and "30" in msgs[2] and query("get_gift_info_tool"))
+                      中段答乙单发货=len(msgs)>=2 and has(msgs[1],r"已.{0,3}(发货|交承运人|寄出|发出)"),
+                      最后核实旧机补贴=len(msgs)>=3 and "30" in msgs[2] and has(msgs[2],r"回收|以旧换新") and any(
+                          t["function"]["name"]=="get_gift_info_tool" and json.loads(t["function"]["arguments"]).get("product_id")=="100148801459" for t in raw["工具"]),
+                      乙单只有查询=order("乙单")==orders(initial[0])["乙单"])
     elif case=="S10":
         def address_ok(index,city,part,code):
             order=next(iter(final[index]["orders"].values()));a=order["address"]
-            return city in a["city"] and part in a["address1"]+a["address2"] and a["zip"]==code
+            province=("浙江","江苏")[index]
+            return (city in a["city"] and province in a["state"] and "样例巷"+part in a["address1"]+a["address2"]
+                    and a["zip"]==code and a["country"]==next(iter(initial[index]["orders"].values()))["address"]["country"])
         checks.update(两顾客各确认一次=len(receipts)==2,两地址正确=address_ok(0,"杭州","11号201室","310000") and address_ok(1,"苏州","22号302室","215000"),
                       乙窗口拒绝披露甲单=len(msgs)>1 and has(msgs[1],r"隐私|本人|不能|无法|无权|不便|不提供") and "11号201室" not in msgs[1] and "1号101" not in msgs[1])
     elif case=="S11":
@@ -117,6 +137,8 @@ def grade(case, raw):
         oid="#W4386313";before=initial[0]["orders"][oid];after=final[0]["orders"][oid]
         checks.update(初次草案待确认=bool(plans(0)),乙授权取消=correct(1) and len(receipts)==1,
                       旧改址被拒=bool(turns[-1].get("拒绝")) and after["address"]==before["address"],
+                      重试重放原回执=turns[-1].get("取消回执重放") is True,
+                      退回原支付渠道=after["payment_history"][-1]["payment_method_id"] in {t["payment_method_id"] for t in before["payment_history"] if t["transaction_type"]=="payment"},
                       取消仅退一次=after["status"]=="cancelled" and len(after["payment_history"])==len(before["payment_history"])+1 and
                       after["payment_history"][-1]["transaction_type"]=="refund" and after["payment_history"][-1]["amount"]==3633.49)
     else:
