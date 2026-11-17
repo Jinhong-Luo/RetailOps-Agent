@@ -1,0 +1,2 @@
+# 保留预登记文件字节，跨平台检出后仍可验证封存摘要。
+*.json -text whitespace=cr-at-eol
