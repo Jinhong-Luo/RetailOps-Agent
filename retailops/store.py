@@ -1,6 +1,7 @@
 """使用 SQLite 同一事务保存业务变更、确认状态、幂等回执和事件。"""
 import hashlib
 import json
+import os
 import secrets
 import sqlite3
 import time
@@ -23,6 +24,7 @@ class Store:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.domain = domain or Domain()
+        self.legacy_receipt = os.getenv("RETAILOPS_ALIGNED_ARM") == "legacy_plan"
         with self.connection() as db:
             db.execute("PRAGMA journal_mode=WAL")
             db.executescript("""
@@ -325,7 +327,12 @@ class Store:
             db.execute("UPDATE accounts SET body=? WHERE uid=?", (dump(account), row["uid"]))
             db.execute("INSERT INTO receipts VALUES (?,?,?,?)", (sid, version, request, dump(body)))
             history = json.loads(row["history"])
-            history.append(dict(role="assistant", content="第%d版业务回执：" % version + dump(items)))
+            if self.legacy_receipt:
+                # 沿用早期按钮服务提供给客服的回执文本，持久化回执仍保留逐项证据用于复核。
+                message = "业务工具已完成第%d版方案：" % version + dump(actions)
+            else:
+                message = "第%d版业务回执：" % version + dump(items)
+            history.append(dict(role="assistant", content=message))
             db.execute("UPDATE sessions SET phase='完成',seq=seq+1,history=? WHERE sid=?", (dump(history), sid))
             self.event(db, sid, "完成", duration_ms=elapsed(start), version=version, request_id=request)
             return dict(**body, replayed=False)

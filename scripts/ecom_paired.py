@@ -241,6 +241,12 @@ def enable_product(shop):
         "纯咨询查到依据后直接给顾客可见的回答；活动资料只能说明查到的条款。")
 
 
+def confirmed_reply(store, receipt):
+    if store.legacy_receipt:
+        return "已按您确认的方案完成操作。"
+    return "本次已确认操作的回执：" + dump(receipt["items"])
+
+
 async def episode(task_id, trial, arm, folder, record_usage=False):
     env = MockStoryEnv(task_index=task_id,console_verbose=RunLogger(False))
     env._create_isolated_data()
@@ -248,7 +254,7 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
     original_save = server.set_data
     server.set_data = lambda data: None
     shop = Shop(env)
-    if arm != "old" and os.getenv("RETAILOPS_ECOM_REFUND") == "1":
+    if arm != "old" and os.getenv("RETAILOPS_ECOM_REFUND") == "1" and os.getenv("RETAILOPS_ALIGNED_ARM") != "legacy_plan":
         enable_refund(shop)
     if arm != "old" and os.getenv("RETAILOPS_ECOM_PRODUCT") == "1":
         enable_product(shop)
@@ -345,7 +351,7 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
                     for act in record["actions"]:
                         from ecom_refund import upstream_args
                         shop.trace(act["tool"], upstream_args(act["tool"], act["args"]))
-                    reply="本次已确认操作的回执：" + dump(receipt["items"])
+                    reply = confirmed_reply(store, receipt)
                     service.version=None
                 else:
                     try:
