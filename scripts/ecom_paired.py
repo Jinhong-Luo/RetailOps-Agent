@@ -146,7 +146,7 @@ def enable_refund(shop):
     import ecom_refund
     shop.validate_plan = lambda data, db, uid, actions: ecom_refund.validate(shop, data, db, uid, actions)
     shop.describe_plan = ecom_refund.describe
-    shop.candidate_policy = ("取消或退货时核实实付额，退款参数填写 order_id 和 refund_reason（取消、退货或价保）。"
+    shop.candidate_policy = ("取消或退货先查询订单详情核实付款。已付款的单渠道订单有实付金额就采用实付额；固定上游只记订单总金额时，全额京东E卡付款以该字段为准，扣除已退流水。退款参数填写 order_id 和 refund_reason（取消、退货或价保）。"
                              "仅在顾客明确申请价保时拟价保差额。顾客拒绝关联退款时暂停整组，另行确认独立事项。")
 
 

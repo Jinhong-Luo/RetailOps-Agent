@@ -19,6 +19,11 @@ def money(value):
     reject("未能核实精确到分的订单金额")
 
 
+def paid_amount(order):
+    # 锁定上游的全额单渠道订单以订单总金额记账；有实付记录时优先取实付。
+    return money(order.get("实付金额", order.get("订单总金额")))
+
+
 def is_refund(action):
     return action["tool"] == "manage_ecard_tool" and action["args"].get("action") == "退款"
 
@@ -60,7 +65,7 @@ def validate(shop, data, db, uid, actions):
                     reject("待付款订单缺少可核实的扣款记录")
                 if oid in required:
                     reject("同一订单重复办理")
-                required[oid] = (index, "取消" if cancel else "退货", money(order.get("订单总金额")))
+                required[oid] = (index, "取消" if cancel else "退货", paid_amount(order))
     if not refunds and not required:
         return
     previous = {}
@@ -79,7 +84,7 @@ def validate(shop, data, db, uid, actions):
         if not oid:
             matches = [key for key, (_, _, total) in required.items() if total - previous.get(key, 0) == amount]
             peers = [key for key, order in orders.items() if key not in required and order.get("支付方式") == "京东E卡"
-                     and order.get("订单状态") not in {"已退货", "已取消"} and money(order.get("订单总金额")) == amount]
+                     and order.get("订单状态") not in {"已退货", "已取消"} and paid_amount(order) == amount]
             if len(matches) != 1 or peers:
                 reject("请为退款明确填写归属订单")
             oid = matches[0]
@@ -105,7 +110,7 @@ def validate(shop, data, db, uid, actions):
                 if type(qty) is not int or qty <= 0:
                     reject("价保商品数量不完整")
                 current += qty * money(catalog.get(line.get("商品ID"), {}).get("商品价格"))
-            total = money(order.get("订单总金额")) - current
+            total = paid_amount(order) - current
         if args.get("refund_reason", reason) != reason or total - previous.get(oid, 0) != amount:
             reject("退款理由或金额与该单应退金额不符")
         args.update(order_id=oid, refund_reason=reason)
