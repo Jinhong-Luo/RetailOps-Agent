@@ -10,6 +10,8 @@ from pathlib import Path
 
 import httpx
 from tau2.agent.llm_agent import LLMAgent
+from tau2.orchestrator.orchestrator import Orchestrator
+from tau2.data_model.simulation import TerminationReason
 from tau2.data_model.message import AssistantMessage, ToolCall, ToolMessage
 from tau2.domains.retail import environment
 from tau2.environment.toolkit import ToolType, is_tool
@@ -154,6 +156,17 @@ class OfficialService(LLMAgent):
         return AssistantMessage.text(reply,**self.metadata)
 
 
+_official_finalize = Orchestrator._finalize
+
+
+def finalize_with_budget(orchestrator):
+    """沿用上游预算耗尽终止规则，官方评分将这类未完成对话记零分。"""
+    if getattr(orchestrator.agent, "budget_exhausted", False):
+        orchestrator.termination_reason = TerminationReason.MAX_STEPS
+    return _official_finalize(orchestrator)
+
+
 def register():
+    Orchestrator._finalize = finalize_with_budget
     environment.RetailTools = TraceTools
     registry.register_agent_factory(OfficialService,"retailops_service")

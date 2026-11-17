@@ -1,8 +1,11 @@
 """覆盖预算业务失败与真实运行故障的区分，以及日志恢复的完整性。"""
 import asyncio
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 from budget_recovery import recover
-from official_service import OfficialService
+from official_service import OfficialService, finalize_with_budget
+from tau2.data_model.simulation import TerminationReason
 from retailops.domain import Issue
 from tau2.data_model.message import AssistantMessage, UserMessage, ToolCall, ToolMessage
 
@@ -23,6 +26,15 @@ class BudgetTests(unittest.TestCase):
             self.assertFalse(service.out.done())
         finally:
             service.loop.close()
+
+    def test_official_budget_termination(self):
+        agent=SimpleNamespace(budget_exhausted=True)
+        orchestrator=SimpleNamespace(agent=agent,termination_reason=TerminationReason.AGENT_STOP)
+        with patch("official_service._official_finalize", side_effect=lambda obj:obj.termination_reason):
+            self.assertEqual(finalize_with_budget(orchestrator),TerminationReason.MAX_STEPS)
+            agent.budget_exhausted=False
+            orchestrator.termination_reason=TerminationReason.USER_STOP
+            self.assertEqual(finalize_with_budget(orchestrator),TerminationReason.USER_STOP)
 
     def test_other_failures_propagate(self):
         service=object.__new__(OfficialService)
