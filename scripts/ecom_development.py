@@ -9,7 +9,7 @@ from types import SimpleNamespace
 
 import httpx
 from common import load_env
-from ecom_paired import Agent, ROOT, Shop, Store, enable_product, enable_refund, server
+from ecom_paired import Agent, ButtonService, ROOT, Shop, Store, enable_product, enable_refund, server
 
 DIALOGS = {
     "C01": ["请取消甲单71001，退回原来支付的卡，请先给我方案。", "你说的E卡操作会再扣我钱吗？请说清是哪一单、多少、钱去哪。", "同意刚才说的取消甲单和原路退款，请展示待确认版本。"],
@@ -91,6 +91,8 @@ async def run(case, candidate, folder):
             return response
 
     turns = []
+    stale = None
+    previous_version = None
     try:
         async with Client(base_url="http://127.0.0.1:18863/v1/",timeout=300,trust_env=False,
                           headers={"Authorization":"Bearer "+os.environ["CODEX_BRIDGE_TOKEN"]}) as client:
@@ -100,6 +102,15 @@ async def run(case, candidate, folder):
                 state = store.snapshot(sid)[0]
                 result = await agent.run(sid,message,state["revision"],"B",str(i))
                 state = result["state"]
+                if case=="联测一" and i==0 and state["phase"]=="待确认":
+                    previous_version=state["version"]
+                if case=="联测一" and i==1 and previous_version is not None:
+                    service=SimpleNamespace(store=store,sid=sid,version=previous_version)
+                    try:
+                        ButtonService.click(service,previous_version)
+                        stale="旧版确认被接受"
+                    except ValueError:
+                        stale="旧版确认已拒绝"
                 turns.append(dict(输入=message,答复=result["reply"],草案=state["actions"],阶段=state["phase"]))
             if case in ("C09","C12") and state["phase"] == "待确认":
                 service = "安装" if case=="C09" else "维修"
@@ -119,7 +130,7 @@ async def run(case, candidate, folder):
                     store.confirm(sid,state["version"])
                     store.execute(sid,state["version"],"最终确认")
     finally:
-        (folder/"开发记录.json").write_text(json.dumps(dict(轮次=turns,模型调用=calls,工具=shop.env.tool_calls,
+        (folder/"开发记录.json").write_text(json.dumps(dict(轮次=turns,旧确认=stale,模型调用=calls,工具=shop.env.tool_calls,
                                                   状态=store.snapshot(sid)[0]),ensure_ascii=False,indent=2))
 
 
