@@ -51,7 +51,10 @@ def resolve(store, sid, seq, items, history):
                 invalid("需要登记之后的新依据")
             if evidence not in latest:
                 invalid("恢复办理需要当前顾客提供的资料或授权原话")
-            if wait["provider"] in {"安装方","顾客暂缓"} and item.get("basis")!="重新授权":
+            # 用户撤回具体时段前提，与安装方确认可到场是不同事件。
+            waived_time = (wait["kind"]=="钟点" and wait["provider"]=="安装方"
+                           and re.search(r"(钟点|时段|几点|时间).{0,6}(不用确认|不要求|不必确认)", evidence))
+            if wait["provider"] in {"安装方","顾客暂缓"} and item.get("basis")!="重新授权" and not waived_time:
                 invalid("转接或查进度不能解除安装方待核条件或暂缓")
             if item.get("basis")=="重新授权" and any(w in evidence for w in ("不同意","暂缓","先别","先不","不要预约","查进展")):
                 invalid("当前原话仍在暂缓或仅查询进展")

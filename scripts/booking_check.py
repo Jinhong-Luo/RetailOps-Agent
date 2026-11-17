@@ -55,6 +55,15 @@ class BookingCheck(unittest.TestCase):
         with self.assertRaises(Issue):
             self.store.propose(self.sid,plan["revision"],self.action("71002","安装"))
 
+    def test_withdraw_time_only(self):
+        state,_=self.turn("先确认周三十点能到，总价不超过200元。")
+        waits=[dict(order_id="71001",service="安装",kind=k,condition=k,provider="安装方",evidence=q)
+               for k,q in [("钟点","先确认周三十点能到"),("费用","总价不超过200元")]]
+        self.store.finish(self.sid,state["revision"],booking={"waits":waits},messages=[{},dict(role="assistant",content="已记录")])
+        state,history=self.turn("钟点不用确认了，周三就行。")
+        state=resolve(self.store,self.sid,state["revision"],[dict(waits[0],evidence=history[-1]["content"],basis="已补资料")],history)
+        self.assertEqual([w["kind"] for w in state["booking_waits"] if not w["resolved"]],["费用"])
+
     def test_no_invented_time(self):
         state,_ = self.turn("我想周三安装。")
         wait = dict(order_id="71002",service="安装",kind="钟点",condition="缺小时",provider="顾客",evidence="我想周三安装")
