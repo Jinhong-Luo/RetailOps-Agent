@@ -134,11 +134,27 @@ class Agent:
             await self.log(sid, "跨会话参考", request_id=request, version=self.experience.version,
                            hits=hits, bytes=len(reference.encode()), chars=len(reference))
         for step in range(1, 9):
+            opening = getattr(self.store.domain, "opening_read", None)
+            lookup = opening(history + additions) if opening else None
+            if lookup:
+                name, args = lookup
+                call_id = f"read_{request}_{step}"
+                start = time.perf_counter()
+                result = await asyncio.to_thread(self.store.read, sid, name, args)
+                additions.extend([dict(role="assistant", content=None, tool_calls=[
+                    dict(id=call_id, type="function", function=dict(name=name, arguments=dump(args)))]),
+                    dict(role="tool", tool_call_id=call_id, content=dump(result))])
+                await self.log(sid, "查询工具", request_id=request, step=step, tool=name,
+                               origin="服务开场核验", duration_ms=elapsed(start))
+                continue
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
             if reference:
                 messages.append(dict(role="system", content=reference))
             visible_mode = {"no_state": "A", "short_history": "C"}.get(self.condition, mode)
             messages.extend(context(visible_mode, state, history + additions))
+            if getattr(self.store.domain, "product_consultation", False):
+                messages.append(dict(role="system", content=f"本轮含本步还可决策{9-step}步。"
+                                     "如已取得当前咨询所需资料，现在直接回复；资料不全时说明已核实的部分。"))
             begin = time.perf_counter()
             response = await self.client.post("chat/completions", json={
                 "model": os.getenv("RETAILOPS_MODEL", "gpt-6.1-sol@medium"),

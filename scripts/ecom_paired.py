@@ -150,6 +150,48 @@ def enable_refund(shop):
                              "仅在顾客明确申请价保时拟价保差额。顾客拒绝关联退款时暂停整组，另行确认独立事项。")
 
 
+def opening_read(shop, history):
+    completed = {}
+    names = {}
+    for message in history:
+        if message.get("role") == "assistant":
+            for call in message.get("tool_calls") or []:
+                names[call["id"]] = call["function"]["name"]
+        elif message.get("role") == "tool":
+            name = names.get(message.get("tool_call_id"))
+            if name in {"get_user_info_tool", "get_user_orders_info_tool", "manage_order_tool"}:
+                result = json.loads(message["content"])
+                if isinstance(result, str):
+                    try:
+                        result = json.loads(result)
+                    except ValueError:
+                        if name == "get_user_orders_info_tool" and "没有找到" in result:
+                            result = {"订单ID": []}
+                if isinstance(result, dict) and "code" not in result:
+                    completed[name] = result
+    args = dict(platform=shop.env.task.platform, shop_id=shop.env.task.shop_id, user_id=shop.uid)
+    if "get_user_info_tool" not in completed:
+        return "get_user_info_tool", {"user_id": shop.uid}
+    if "get_user_orders_info_tool" not in completed:
+        return "get_user_orders_info_tool", args
+    ids = completed["get_user_orders_info_tool"].get("订单ID", [])
+    if ids and "订单ID" not in completed.get("manage_order_tool", {}):
+        text = next((m["content"] for m in reversed(history) if m["role"] == "user"), "")
+        target = next((oid for oid in ids if oid in text), ids[0])
+        return "manage_order_tool", dict(args, order_id=target, action="查询")
+
+
+def enable_product(shop):
+    shop.product_consultation = True
+    shop.opening_read = lambda history: opening_read(shop, history)
+    shop.candidate_policy = getattr(shop, "candidate_policy", "") + (
+        "\n开场先读买家基本资料和订单详情，订单列表仅提供编号。复用本会话已查到的订单明细。"
+        "顾客明确给出商品编号时按该编号查当轮所问的资料；匹配后停止翻其他订单。"
+        "维修查维修说明、安装查安装说明、辅材查辅材材料、以旧换新活动查赠品信息。"
+        "问原购型号或换入型号时从已成功执行的换货回执取对应编号。多单指代不明先澄清。"
+        "纯咨询查到依据后直接给顾客可见的回答；活动资料只能说明查到的条款。")
+
+
 async def episode(task_id, trial, arm, folder, record_usage=False):
     env = MockStoryEnv(task_index=task_id,console_verbose=RunLogger(False))
     env._create_isolated_data()
@@ -159,6 +201,8 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
     shop = Shop(env)
     if arm != "old" and os.getenv("RETAILOPS_ECOM_REFUND") == "1":
         enable_refund(shop)
+    if arm != "old" and os.getenv("RETAILOPS_ECOM_PRODUCT") == "1":
+        enable_product(shop)
     data = shop.initial(shop.uid)
     store = Store(folder / "business.db",shop)
     sid = store.identifier(store.open(shop.uid))
