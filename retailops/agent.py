@@ -149,7 +149,7 @@ class Agent:
                            hits=hits, bytes=len(reference.encode()), chars=len(reference))
         for step in range(1, 9):
             opening = getattr(self.store.domain, "opening_read", None)
-            lookup = opening(history + additions) if opening else None
+            lookup = opening(history + additions, self.store, sid) if opening else None
             if lookup:
                 name, args = lookup
                 call_id = f"read_{request}_{step}"
@@ -159,7 +159,7 @@ class Agent:
                     dict(id=call_id, type="function", function=dict(name=name, arguments=dump(args)))]),
                     dict(role="tool", tool_call_id=call_id, content=dump(result))])
                 await self.log(sid, "查询工具", request_id=request, step=step, tool=name,
-                               origin="服务开场核验", duration_ms=elapsed(start))
+                               origin="服务预算内查询", duration_ms=elapsed(start))
                 continue
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
             if reference:

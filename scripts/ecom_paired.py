@@ -150,7 +150,40 @@ def enable_refund(shop):
                              "仅在顾客明确申请价保时拟价保差额。顾客拒绝关联退款时暂停整组，另行确认独立事项。")
 
 
-def opening_read(shop, history):
+def exchange_activity(shop, history, store, sid):
+    start = max(i for i,m in enumerate(history) if m["role"]=="user")
+    text = history[start]["content"]
+    clauses = re.split(r"[。？！?！；;]", text)
+    question = next((q for q in clauses if re.search("赠品|活动|以旧换新|回收补贴",q)), "")
+    if not question:
+        return
+    old = re.search("原购|原来|原型号|原机|当初",question)
+    new = re.search("换后|换入|换来的|换过来的|新型号|换的新",question)
+    if bool(old)==bool(new):
+        return
+    exchanges = {}
+    with store.connection() as db:
+        for receipt, in db.execute("SELECT body FROM receipts WHERE sid=? ORDER BY version", (sid,)):
+            for item in json.loads(receipt)["items"]:
+                if item["tool"]=="manage_exchange_tool" and item["args"].get("action")=="换货":
+                    exchanges[item["args"]["order_id"]] = item["args"]
+    related = [args for oid,args in exchanges.items() if oid in question]
+    if len(related)==1:
+        exchange = related[0]
+    elif not related and len(exchanges)==1:
+        exchange = next(iter(exchanges.values()))
+    else:
+        return
+    pid = exchange["original_product_id" if old else "exchange_product_id"]
+    for msg in history[start+1:]:
+        for call in msg.get("tool_calls") or []:
+            fn = call["function"]
+            if fn["name"]=="get_gift_info_tool" and json.loads(fn["arguments"]).get("product_id")==pid:
+                return
+    return "get_gift_info_tool", dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id,product_id=pid)
+
+
+def opening_read(shop, history, store, sid):
     completed = {}
     names = {}
     for message in history:
@@ -179,15 +212,16 @@ def opening_read(shop, history):
         text = next((m["content"] for m in reversed(history) if m["role"] == "user"), "")
         target = next((oid for oid in ids if oid in text), ids[0])
         return "manage_order_tool", dict(args, order_id=target, action="查询")
+    return exchange_activity(shop,history,store,sid)
 
 
 def enable_product(shop):
     shop.product_consultation = True
-    shop.opening_read = lambda history: opening_read(shop, history)
+    shop.opening_read = lambda history, store, sid: opening_read(shop, history, store, sid)
     shop.candidate_policy = getattr(shop, "candidate_policy", "") + (
         "\n开场先读买家基本资料和订单详情，订单列表仅提供编号。复用本会话已查到的订单明细。"
         "顾客明确给出商品编号时按该编号查当轮所问的资料；匹配后停止翻其他订单。"
-        "维修查维修说明、安装查安装说明、辅材查辅材材料、以旧换新活动查赠品信息。"
+        "维修查维修说明、安装查安装说明、辅材查辅材材料。顾客问某型号有什么活动，先用 get_gift_info_tool 核实该型号的赠品和回收补贴；店铺折扣不能替代商品活动。"
         "问原购型号或换入型号时从已成功执行的换货回执取对应编号。多单指代不明先澄清。"
         "纯咨询查到依据后直接给顾客可见的回答；活动资料只能说明查到的条款。")
 
