@@ -154,11 +154,16 @@ class Agent:
                 name, args = lookup
                 call_id = f"read_{request}_{step}"
                 start = time.perf_counter()
-                result = await asyncio.to_thread(self.store.read, sid, name, args)
+                try:
+                    result = await asyncio.to_thread(self.store.read, sid, name, args)
+                    stage = "查询工具"
+                except Issue as exc:
+                    result = exc.data
+                    stage = "工具被拦截"
                 additions.extend([dict(role="assistant", content=None, tool_calls=[
                     dict(id=call_id, type="function", function=dict(name=name, arguments=dump(args)))]),
                     dict(role="tool", tool_call_id=call_id, content=dump(result))])
-                await self.log(sid, "查询工具", request_id=request, step=step, tool=name,
+                await self.log(sid, stage, request_id=request, step=step, tool=name,
                                origin="服务预算内查询", duration_ms=elapsed(start))
                 continue
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]

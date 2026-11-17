@@ -183,6 +183,18 @@ def exchange_activity(shop, history, store, sid):
     return "get_gift_info_tool", dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id,product_id=pid)
 
 
+def consultation_read(shop, history):
+    start = max(i for i,message in enumerate(history) if message["role"]=="user")
+    text = history[start]["content"]
+    targeted = []
+    if re.search(r"优惠券|满减|折扣|(?:有|查|问|看|享受|了解).{0,10}优惠|优惠(?:活动|政策|力度|多少)", text):
+        targeted.append(("get_discount_info_tool",dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id)))
+    for name,args in targeted:
+        if not any(call["function"]["name"]==name and json.loads(call["function"]["arguments"])==args
+                   for message in history[start+1:] for call in message.get("tool_calls") or []):
+            return name,args
+
+
 def opening_read(shop, history, store, sid):
     completed = {}
     names = {}
@@ -212,7 +224,7 @@ def opening_read(shop, history, store, sid):
         text = next((m["content"] for m in reversed(history) if m["role"] == "user"), "")
         target = next((oid for oid in ids if oid in text), ids[0])
         return "manage_order_tool", dict(args, order_id=target, action="查询")
-    return exchange_activity(shop,history,store,sid)
+    return exchange_activity(shop,history,store,sid) or consultation_read(shop,history)
 
 
 def enable_product(shop):
