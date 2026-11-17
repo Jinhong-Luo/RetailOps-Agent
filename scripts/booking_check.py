@@ -41,6 +41,20 @@ class BookingCheck(unittest.TestCase):
         with self.assertRaises(Issue):
             self.store.propose(self.sid,state["revision"],self.action("71002","安装"))
 
+    def test_scoped_reauthorization(self):
+        state,_ = self.turn("两单暂缓。")
+        waits=[dict(order_id=oid,service=service,kind="办理授权",condition="暂缓",provider="顾客暂缓",evidence="两单暂缓")
+               for oid,service in [("71001","维修"),("71002","安装")]]
+        self.store.finish(self.sid,state["revision"],booking={"waits":waits},messages=[{},dict(role="assistant",content="已记录")])
+        state,history=self.turn("同意甲单周三维修；乙单暂缓。")
+        seq=state["revision"]
+        self.store.register_needs(self.sid,seq,[dict(tool="schedule_service_tool",evidence="乙单暂缓",status="暂缓")])
+        resolve(self.store,self.sid,seq,[dict(waits[0],evidence="同意甲单周三维修",basis="重新授权")],history)
+        plan=self.store.propose(self.sid,seq,self.action("71001","维修"))
+        self.assertEqual(plan["phase"],"待确认")
+        with self.assertRaises(Issue):
+            self.store.propose(self.sid,plan["revision"],self.action("71002","安装"))
+
     def test_no_invented_time(self):
         state,_ = self.turn("我想周三安装。")
         wait = dict(order_id="71002",service="安装",kind="钟点",condition="缺小时",provider="顾客",evidence="我想周三安装")

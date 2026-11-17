@@ -58,7 +58,7 @@ def resolve(store, sid, seq, items, history):
             if item.get("basis")=="重新授权" and not any(w in evidence for w in
                     ("同意","请用","请预约","可以预约","可以安排","请安排","现在办","不用等","不用确认","不要求","撤回","按周")):
                 invalid("需要顾客明确变更原条件或重新同意办理")
-            db.execute("UPDATE scoped_wait SET resolved=1 WHERE sid=? AND order_id=? AND service=? AND kind=?",key)
+            db.execute("UPDATE scoped_wait SET resolved=1,revision=? WHERE sid=? AND order_id=? AND service=? AND kind=?", (seq,*key))
             store.event(db,sid,"预约补足",order_id=key[1],service=key[2],kind=key[3],evidence=evidence)
         return store.state(db,row)
 

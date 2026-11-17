@@ -201,9 +201,16 @@ class Store:
         for act in actions:
             if not self.domain.valid_action_shape(act):
                 raise Issue("missing_or_invalid", "操作结构不完整", "提供工具名称和参数")
-            intent = db.execute("SELECT status FROM needs WHERE sid=? AND tool=? ORDER BY source_revision DESC LIMIT 1",
+            intent = db.execute("SELECT status,source_revision FROM needs WHERE sid=? AND tool=? ORDER BY source_revision DESC LIMIT 1",
                                 (row["sid"], act["tool"])).fetchone()
-            if intent and intent["status"] in {"仅询问", "暂缓"}:
+            scoped = getattr(self.domain, "scoped_waits", False) and act["tool"] == "schedule_service_tool"
+            renewed = None
+            if scoped and intent and intent["status"] == "暂缓":
+                # 同一工具可能属于两单。仅采信本单本服务在该轮或之后明确恢复的授权。
+                renewed = db.execute("""SELECT 1 FROM scoped_wait WHERE sid=? AND order_id=? AND service=?
+                    AND kind='办理授权' AND resolved=1 AND revision>=?""",
+                    (row["sid"],act["args"].get("order_id"),act["args"].get("service_type"),intent["source_revision"])).fetchone()
+            if intent and intent["status"] in {"仅询问", "暂缓"} and not renewed:
                 raise Issue("scope", "此事项仅询问或已暂缓", "取得顾客新的办理意图后再拟案")
             if getattr(self.domain, "scoped_waits", False) and act["tool"] == "schedule_service_tool":
                 from .booking_waits import check
