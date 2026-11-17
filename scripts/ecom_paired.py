@@ -187,6 +187,9 @@ def consultation_read(shop, history):
     start = max(i for i,message in enumerate(history) if message["role"]=="user")
     text = history[start]["content"]
     targeted = []
+    if re.search(r"(?:京东)?[EeＥｅ]\s*卡|电子卡",text) and re.search(
+            r"怎么用|如何使用|怎么使用|使用.{0,6}(限制|条件|范围|规则|说明)|有效期|能否提现|能不能提现",text):
+        targeted.append(("manage_ecard_tool",dict(platform=shop.env.task.platform,user_id=shop.uid,action="信息查询")))
     if re.search(r"优惠券|满减|折扣|(?:有|查|问|看|享受|了解).{0,10}优惠|优惠(?:活动|政策|力度|多少)", text):
         targeted.append(("get_discount_info_tool",dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id)))
     for name,args in targeted:

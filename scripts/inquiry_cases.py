@@ -43,6 +43,11 @@ class InquiryCases(unittest.TestCase):
         self.assertIn(("get_discount_info_tool",None),names)
         self.assertEqual(names.count(("get_discount_info_tool",None)),1)
 
+    def test_card_rules(self):
+        names=self.reads("京东E卡具体怎么用？有效期多久，能否提现吗？")
+        self.assertIn(("manage_ecard_tool","信息查询"),names)
+        self.assertNotIn(("manage_ecard_tool","余额查询"),names)
+
     def test_unrelated(self):
         names=self.reads("我用京东E卡支付的，想查一下维修进度。")
         self.assertNotIn(("manage_ecard_tool","信息查询"),names)
