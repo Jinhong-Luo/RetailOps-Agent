@@ -13,7 +13,7 @@ from module_manifest import build
 from public_modules import load, sha, write
 
 
-def original(root,row):
+def original(root,row,release=None):
     public=row.startswith(("tau-","ecom-"))
     sub=root/("公开" if public else "共享")/(row+"__业务对话__full")
     matches=list(sub.glob("*/"+("官方评分.json" if public else "已采集.json")))
@@ -21,15 +21,21 @@ def original(root,row):
         return None
     assert len(matches)==1
     record=load(matches[0])
-    return Path(record["原评分文件"]).parent if record.get("来源")=="复用" else matches[0].parent
+    if release is not None and record.get("冻结参照")!=release:
+        raise ValueError("源轨迹服务参照与要求的冻结提交不符")
+    if record.get("来源")=="复用":
+        raw=Path(record["原评分文件"])
+        if release is not None and load(raw).get("提交")!=release:
+            raise ValueError("复用源评分并非指定版本")
+        return raw.parent
+    return matches[0].parent
 
 
 def child(args):
     base,folder,src=args.base,args.folder,args.src
     sys.path[:0]=[str(base/"scripts"),str(base),str(base/"runtime"),str(base/"vendor/tau2-bench/src")]
-    from ecom_paired import ROOT,server
+    from common import ROOT
     assert ROOT==base and sha(base)==args.release
-    save=server.set_data
     if args.kind=="服务":
         from trace_service import replay
         result=replay(args.row,src,folder,args.condition=="故障")
@@ -47,7 +53,7 @@ def child(args):
         register_button()
         result=tau(src,False)
         result["一致"]=result["原整题分"]==result["复核分"]
-    server.set_data=save
+
     write(folder/"复核结果.json",dict(题号=args.row,入口=args.kind,条件=args.condition,
                                  服务提交=args.release,复核代码=args.checker,结果=result))
 
@@ -59,7 +65,7 @@ def dispatch(args):
     pack.mkdir(exist_ok=True)
     pending=[]
     for row,cells in entries.items():
-        src=original(args.root,row)
+        src=original(args.root,row,release)
         if src is None:
             continue
         options=[]
@@ -87,13 +93,17 @@ def dispatch(args):
     environment["OPENAI_API_KEY"]=environment["CODEX_BRIDGE_TOKEN"]
     environment["TAU2_DATA_DIR"]=str(args.base/"vendor/tau2-bench/data")
     judge=load(args.base/"configs/customer_button.json")["judge_override"]
-    environment["RETAILOPS_JUDGE_OVERRIDE"]=json.dumps(judge)
-    environment["PYTHONPATH"]=os.pathsep.join(str(args.base/p) for p in (".","runtime","vendor/tau2-bench/src"))
+    if args.phase=="零售评分":
+        environment["RETAILOPS_JUDGE_OVERRIDE"]=json.dumps(judge)
+    else:
+        environment.pop("RETAILOPS_JUDGE_OVERRIDE",None)
+    environment["PYTHONPATH"]=os.pathsep.join(map(str,[args.base,args.base/"runtime",args.base/"vendor/tau2-bench/src"]))
+    interpreter=str(args.base/".venv/bin/python") if args.phase=="零售评分" else sys.executable
     def one(job):
         row,kind,condition,src,place=job
         folder=place/uuid4().hex
         folder.mkdir(parents=True)
-        command=[sys.executable,__file__,"单项",str(args.base),str(src),str(folder),row,kind,condition,release,args.checker]
+        command=[interpreter,__file__,"单项",str(args.base),str(src),str(folder),row,kind,condition,release,args.checker]
         with (folder/"运行.log").open("w") as log:
             proc=subprocess.run(command,env=environment,stdout=log,stderr=subprocess.STDOUT)
         if proc.returncode:
