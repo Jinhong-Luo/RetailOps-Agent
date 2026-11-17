@@ -59,6 +59,9 @@ class Agent:
         hidden = {"no_policy_search": "search_policy", "policy_text_only": "search_policy",
                   "no_variants": "find_variants"}.get(self.condition)
         self.schemas = [s for s in self.schemas if s["function"]["name"] != hidden]
+        if self.condition == "basic_context":
+            self.schemas = [s for s in self.schemas if s["function"]["name"] not in {"search_policy", "find_variants"}]
+            self.prompt = self.prompt.replace("政策问答调用 search_policy 并引用来源。", "政策问答须引用原政策来源。")
         if "manage_invoice_tool" in domain.writes and self.condition != "no_consult":
             definition = domain.definitions["manage_invoice_tool"].openai_schema["function"]
             types = definition["parameters"]["properties"]["invoice_type"].get("enum", [])
@@ -172,7 +175,8 @@ class Agent:
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
             if reference:
                 messages.append(dict(role="system", content=reference))
-            visible_mode = {"no_state": "A", "short_history": "C", "short_no_recall": "C"}.get(self.condition, mode)
+            visible_mode = {"no_state": "A", "basic_context": "A", "short_history": "C",
+                            "short_no_recall": "C"}.get(self.condition, mode)
             messages.extend(context(visible_mode, state, history + additions,
                                     recover_earlier=self.condition != "short_no_recall"))
             if getattr(self.store.domain, "product_consultation", False):

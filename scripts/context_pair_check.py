@@ -52,6 +52,15 @@ async def check():
         assert tools(search) == tools(plain) | {"search_policy"}
         assert "search_policy" not in tools(plain)
         print("政策对照的实际请求中全文和引用要求相同，工具差异仅为章节查找。")
+        full = await capture(domain, root/"常规.db", "full")
+        basic = await capture(domain, root/"基础.db", "basic_context")
+        assert current(full) == current(basic) and len(current(full)) == 6
+        assert domain.policy in basic["messages"][0]["content"]
+        assert tools(full) - tools(basic) == {"search_policy", "find_variants"}
+        assert "get_product_details" in tools(basic)
+        has_state = lambda r: any(m.get("content", "").startswith("服务端记录的业务进度") for m in r["messages"])
+        assert has_state(full) and not has_state(basic)
+        print("基础上下文保留完整历史、政策和原始商品工具，移去状态段、政策查找和款式分页。")
 
 
 if __name__ == "__main__":
