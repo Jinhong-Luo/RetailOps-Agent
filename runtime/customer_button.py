@@ -1,4 +1,5 @@
 """给每个模拟顾客提供独立的方案确认按钮。"""
+import os
 from tau2.data_model.message import ToolMessage, UserMessage
 from tau2.domains.retail import environment
 from tau2.environment.db import DB
@@ -86,6 +87,16 @@ class ButtonService(OfficialService):
 
 
 def register_button():
+    if os.getenv("RETAILOPS_ALIGNED_ARM") == "text":
+        # 仅切换顾客确认通道。两个版本保留相同登录前历史和 B 上下文。
+        registry.register_agent_factory(TextPairedService, "retailops_button")
+        registry.register_user(UserSimulator, "retailops_button_customer")
+        return
     environment.Environment = ButtonEnvironment
     registry.register_agent_factory(ButtonService, "retailops_button")
     registry.register_user(ButtonCustomer, "retailops_button_customer")
+
+
+class TextPairedService(OfficialService):
+    context_mode = "B"
+    after_login = ButtonService.after_login

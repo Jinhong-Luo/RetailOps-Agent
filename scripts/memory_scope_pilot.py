@@ -9,7 +9,7 @@ from retailops.api import create_app
 from retailops.experience import Experience
 
 
-def trial(job):
+def trial(job, booking_mode="完整"):
     folder, index, arm = job
     shop = ExperimentShop(970 + index)
     uid, oid = shop.uid, shop.orders[1]
@@ -30,7 +30,7 @@ def trial(job):
     message, expected=cases[index]
     out=folder/f"{index}-{arm}"
     out.mkdir(parents=True,exist_ok=False)
-    with TestClient(create_app(out/"账本.db",domain=shop,timeout=180,booking_mode="完整")) as client:
+    with TestClient(create_app(out/"账本.db",domain=shop,timeout=180,booking_mode=booking_mode)) as client:
         client.app.state.agent.experience=Experience(arm)
         token=client.post("/sessions",json={"email":uid}).json()["token"]
         client.headers["Authorization"]="Bearer "+token

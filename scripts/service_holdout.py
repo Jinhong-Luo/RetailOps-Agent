@@ -43,7 +43,7 @@ def scenarios(domain):
     raise RuntimeError("没有找到足够的独立模拟账户")
 
 
-async def evaluate(app, client, case, spec, n, folder):
+async def evaluate(app, client, case, spec, n, folder, mode="C"):
     store = app.state.store
     token = store.open(store.domain.seed["users"][spec["user"]]["email"])
     headers = {"Authorization":"Bearer "+token}
@@ -60,7 +60,7 @@ async def evaluate(app, client, case, spec, n, folder):
         state = store.snapshot(sid)[0]
         for i, text in enumerate(spec["questions"]):
             reply = await post("/messages", dict(revision=state["revision"], message=text,
-                                                request_id=f"{case}-{n}-{i}", mode="C"))
+                                                request_id=f"{case}-{n}-{i}", mode=mode))
             state=reply["state"]
             if state["phase"] != "待确认":
                 raise ValueError("没有提交完整草案")

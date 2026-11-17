@@ -139,7 +139,7 @@ class Shop:
         return [{"source":"ECom-Bench","text":self.policy}]
 
 
-async def episode(task_id, trial, arm, folder):
+async def episode(task_id, trial, arm, folder, record_usage=False):
     env = MockStoryEnv(task_index=task_id,console_verbose=RunLogger(False))
     env._create_isolated_data()
     server.cache_dir = env.cache_dir
@@ -164,7 +164,14 @@ async def episode(task_id, trial, arm, folder):
                           {"version":{"type":"integer"}},["version"])
     class PairedClient(httpx.AsyncClient):
         async def post(self, path, *, json):
-            return await super().post(path,json={**json,"seed":seed})
+            response = await super().post(path,json={**json,"seed":seed})
+            if record_usage and response.is_success:
+                body = response.json()
+                meta = body.get("bridge_metadata", {})
+                with (folder/"usage.jsonl").open("a", encoding="utf8") as stream:
+                    stream.write(dump(dict(usage=body.get("usage"), model=meta.get("actual_model"),
+                                           effort=meta.get("reasoning_effort"))) + "\n")
+            return response
 
     async with PairedClient(base_url=url,headers=headers,timeout=300,trust_env=False) as client:
         bot = Agent(store,client,timeout=600)

@@ -89,6 +89,9 @@ class OfficialService(LLMAgent):
             self.loop.run_until_complete(asyncio.gather(self.task,return_exceptions=True))
         self.loop.run_until_complete(self.http.aclose())
         self.loop.close()
+        trace = os.getenv("RETAILOPS_ALIGNED_TRACE")
+        if trace and self.sid:
+            Path(trace).write_text(dump(self.store.events(self.sid, 0)), encoding="utf8")
         self.tmp.cleanup()
 
     def emit_write(self):

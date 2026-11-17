@@ -41,12 +41,12 @@ def equal(left,right):
     return sorted(json.dumps(a,sort_keys=True) for a in left)==sorted(json.dumps(a,sort_keys=True) for a in right)
 
 
-def run(job):
+def run(job, *, scenario=None, shop_number=None):
     folder,index,arm,repeat = job
     out=folder/f"{index}-{repeat}-{arm}"
     out.mkdir(parents=True,exist_ok=False)
-    d=ExperimentShop(300+index)
-    script=case(index,d)
+    d=ExperimentShop(300+index if shop_number is None else shop_number)
+    script=case(index,d) if scenario is None else scenario(d)
     app=create_app(out/"business.db",domain=d,timeout=180)
     start=time.monotonic()
     rows=[]

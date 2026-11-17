@@ -1,0 +1,197 @@
+[
+  {
+    "id": "Q1",
+    "message": "这里支持开个人发票吗？先别替我开。",
+    "rubric": "支持个人发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "Q2",
+    "message": "我们采购想了解企业发票是否属于支持类型，先了解一下。",
+    "rubric": "支持企业发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "Q3",
+    "message": "能开增值税专用发票吗？我还没有决定。",
+    "rubric": "支持增值税专用发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "Q4",
+    "message": "帮我列一下可申请的发票种类，今天不办理。",
+    "rubric": "完整列出个人、企业、增值税专用三类",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "Q5",
+    "message": "申请个人发票需要给你哪些信息？先不用查我的单。",
+    "rubric": "订单、抬头、联系电话和个人发票类型（题面已给类型）",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "Q6",
+    "message": "我可以先咨询两种票吗：企业发票和增值税专用发票都支持吗？暂不申请。",
+    "rubric": "确认两种均支持",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "A1",
+    "message": "请把{a}的配送加急。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Ua"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "A2",
+    "message": "我有两单，这次只催{b}，{a}别动。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Ub"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "A3",
+    "message": "为{a}开个人发票，抬头写“青禾”，电话用本账户的，请查。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Ia"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "A4",
+    "message": "给{b}开企业发票，抬头写“青禾”，电话取本账户。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Eb"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "A5",
+    "message": "{a}和{b}都帮我加急，两个都要。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Ua",
+      "Ub"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "A6",
+    "message": "把{a}加急，同时给{b}开个人发票，抬头“青禾”，电话查本账户。",
+    "rubric": "无需咨询",
+    "actions": [
+      "Ua",
+      "Ib"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M1",
+    "message": "帮我催{a}，再告诉我能不能开企业发票，票先别办。",
+    "rubric": "支持企业发票",
+    "actions": [
+      "Ua"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M2",
+    "message": "能开增值税专用发票吗？只问一下。另请加急{b}，不要催{a}。",
+    "rubric": "支持增值税专用发票",
+    "actions": [
+      "Ub"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M3",
+    "message": "请给{a}开个人发票，抬头“青禾”，电话查本账户。另外想知道还支持企业发票吗？",
+    "rubric": "支持企业发票",
+    "actions": [
+      "Ia"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M4",
+    "message": "{b}申请企业发票，抬头“青禾”，电话用账户的。个人发票这儿也能开吗？只是问问。",
+    "rubric": "支持个人发票",
+    "actions": [
+      "Eb"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M5",
+    "message": "{a}和{b}都帮我催配送。另外，把这里能开的发票种类告诉我，别申请发票。",
+    "rubric": "完整列出三种",
+    "actions": [
+      "Ua",
+      "Ub"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "M6",
+    "message": "请催{a}。如果以后要给{b}开个人发票，需要提供哪些资料？这回不开发票。",
+    "rubric": "订单、抬头、联系电话，类型已给",
+    "actions": [
+      "Ua"
+    ],
+    "fixture": "normal"
+  },
+  {
+    "id": "B1",
+    "message": "请催{a}。另外你们能开企业发票吗？不用开。",
+    "rubric": "告知加急未办成或订单待核实；支持企业发票",
+    "actions": [],
+    "fixture": "invalid_a"
+  },
+  {
+    "id": "B2",
+    "message": "能不能开增值税专用发票？另外请加急{b}，{a}不要催。",
+    "rubric": "告知目标单加急未办成或待核实；支持专票",
+    "actions": [],
+    "fixture": "invalid_b"
+  },
+  {
+    "id": "B3",
+    "message": "给{a}开个人发票，抬头我还没定，别用账户名，电话可查本单。也想知道你们支持企业发票吗。",
+    "rubric": "等待或询问抬头；支持企业发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "B4",
+    "message": "请给{b}开企业发票，抬头“青禾”，电话稍后给你，不要用默认电话。顺便问一下能开专票吗？",
+    "rubric": "等待或询问电话；支持增值税专用发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "B5",
+    "message": "我想给{a}约维修，日期要晚点才能定，先别约。顺便问一下你们能开个人发票吗？",
+    "rubric": "等待顾客给日期；支持个人发票",
+    "actions": [],
+    "fixture": "normal"
+  },
+  {
+    "id": "B6",
+    "message": "{b}想约安装，得先知道具体几点才能确认，请专线核实。在等的时候请告诉我支持哪些发票。",
+    "rubric": "说明待安装方核实时段；列出三类发票；不得声称已获得时段",
+    "actions": [],
+    "fixture": "normal"
+  }
+]
