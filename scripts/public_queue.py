@@ -58,6 +58,8 @@ def public_capacity(shared, jobs, shared_slots):
 def reconcile(folder, row, arm, release, harness):
     valid=[]
     for attempt in folder.glob("*"):
+        if (attempt/"采集排除.json").exists():
+            continue
         if not attempt.is_dir():
             continue
         score=attempt/"官方评分.json"

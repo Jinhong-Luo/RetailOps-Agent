@@ -15,7 +15,7 @@ from tau2.domains.retail import environment
 from tau2.environment.toolkit import ToolType, is_tool
 from tau2.registry import registry
 from retailops.agent import Agent
-from retailops.domain import Domain
+from retailops.domain import Domain, Issue
 from retailops.store import Store, dump
 
 
@@ -129,11 +129,23 @@ class OfficialService(LLMAgent):
         self.task = self.loop.create_task(self.agent.run(self.sid,text,current["revision"],self.context_mode,uuid.uuid4().hex))
         return self.advance(), state
 
+    def is_stop(self, message):
+        """预算耗尽时结束当前实验对话，保留上游已记录的工具与消息。"""
+        return getattr(self, "budget_exhausted", False) or super().is_stop(message)
+
     def advance(self):
         self.loop.run_until_complete(asyncio.wait([self.task,self.out],return_when=asyncio.FIRST_COMPLETED))
         if self.out.done():
             return self.out.result()
-        result = self.task.result()
+        try:
+            result = self.task.result()
+        except Issue as error:
+            if error.data["code"] != "step_limit":
+                raise
+            self.task = None
+            self.version = None
+            self.budget_exhausted = True
+            return AssistantMessage.text("本轮已达到工具调用上限，本次处理结束。", **self.metadata)
         self.task = None
         reply = result["reply"]
         if result["state"]["phase"] == "待确认":
