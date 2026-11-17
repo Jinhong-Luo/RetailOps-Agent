@@ -11,6 +11,7 @@ import sys
 
 from ecom_paired import Agent, Issue, MockStoryEnv, ROOT, RunLogger, Shop, Store, dump, enable_refund, server
 from retailops.domain import Domain
+from retailops.context import variants
 from shared_fixture import ORDER_IDS, ecom_case, tau_case
 import httpx
 
@@ -81,6 +82,9 @@ def tau_source(folder):
                     groups.append((uid,dict(version=current_version,items=group)))
                     group=[]
                 current_version=args["version"]
+            elif name=="service_step" and uid and args.get("operation") in {"search_policy","find_variants"}:
+                params=args["arguments"]
+                reads.append((args["operation"],json.loads(params) if isinstance(params,str) else params))
             elif name in domain.reads and uid:
                 reads.append((name,args))
             elif name in domain.writes:
@@ -108,7 +112,7 @@ def source(row, folder):
     reads=[]
     for message in history:
         for name,args in upstream_calls(message.get("tool_calls") or []):
-            if name in domain.reads and (name not in domain.writes or args.get("action") in {"查询","余额查询","信息查询"}):
+            if name in {"search_policy","find_variants"} or (name in domain.reads and (name not in domain.writes or args.get("action") in {"查询","余额查询","信息查询"})):
                 reads.append((name,args))
     text=next((m["content"] for m in history if m["role"]=="user" and m.get("content")),"")
     return domain,list(final),receipts,reads,text,final
@@ -127,7 +131,13 @@ async def read_trial(store,agent_class,sid,uid,reads,text,fault):
     chosen=None
     for name,args in reads:
         try:
-            expected=store.read(sid,name,args)
+            if name=="search_policy":
+                expected=store.domain.search(args["query"])
+            elif name=="find_variants":
+                product=store.read(sid,"get_product_details",dict(product_id=args["product_id"]))
+                expected=variants(product,args["options"],args.get("offset",0))
+            else:
+                expected=store.read(sid,name,args)
         except (Issue,ValueError,TypeError,KeyError):
             continue
         chosen=(name,args,expected)
