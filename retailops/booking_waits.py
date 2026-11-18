@@ -75,6 +75,23 @@ def resolve(store, sid, seq, items, history):
         return store.state(db,row)
 
 
+def other_order_hold(db, row, args, intent):
+    """另一笔订单的暂缓不得覆盖顾客本轮对目标单明确给出的预约指示。"""
+    records = db.execute("SELECT order_id,service,revision,resolved FROM scoped_wait WHERE sid=?", (row["sid"],)).fetchall()
+    target = args.get("order_id")
+    others = {w["order_id"] for w in records if w["order_id"] in intent["evidence"]}
+    if len(others)!=1 or target in others or not any(w["order_id"]==target and w["service"]==args.get("service_type") and w["resolved"] and w["revision"]>=intent["source_revision"] for w in records):
+        return False
+    message = next(m["content"] for m in reversed(json.loads(row["history"])) if m["role"]=="user")
+    clauses = re.split(r"[。；;！!]",message)
+    related = [c for c in clauses if target in c]
+    return (len(related)==1 and not any(other in related[0] for other in others)
+            and args.get("service_type") in related[0] and args.get("service_time") in related[0]
+            and not re.search(r"不|别|先等|暂缓|如果|能否|是否|吗|[？?]",related[0])
+            and all(c in related or any(other in c for other in others) or
+                    not re.search(r"不约|别约|别办|暂缓|先别",c) for c in clauses))
+
+
 def check(db,sid,args):
     if db.execute("SELECT 1 FROM booking_wait WHERE sid=?",(sid,)).fetchone():
         invalid("旧预约记录未绑定订单，需先核实原条件的归属")
