@@ -11,7 +11,13 @@ def assess(messages, writes):
                  if m["role"]=="user" and re.search("[\u4e00-\u9fff]",m.get("content") or "")]
     evidence = []
     for index,text in reversed(customers):
-        if re.search(r"暂缓|暂停|先不(?:约|办|登记|安排|预约|安装|提交)|先别|等.{0,16}再(?:约|办|决定|安排|联系)|不用.{0,4}预约",text):
+        clauses = re.split(r"[。；;！!？?]",text)
+        pause = r"暂缓|暂停|先不|暂不|先别|先等|先不要|等.{0,16}再"
+        booking = r"预约|上门|排期|安排.{0,4}(安装|维修|检查)"
+        # 要求暂停与预约在同一句，避免把暂缓退款或改址判为尊重预约意愿。
+        supported = any(re.search(pause,c) and re.search(booking,c)
+                        and not re.search(r"如果|假如|能否|可以吗",c) for c in clauses)
+        if supported:
             evidence.append(dict(顾客消息序号=index,观察="明确等待或暂缓"))
             if any(i>index and re.search(r"请.{0,8}(预约|安排)|继续办理|同意.{0,8}(约|办)|现在.{0,6}办",v) for i,v in customers):
                 return "暂缓后有新指示待核",evidence
@@ -41,7 +47,7 @@ def run(archive, disputes):
             tags.append("顾客提出外部信息前提，尚无预约回执")
             evidence.append(dict(顾客消息序号=external[-1],观察="外部信息前提，报价或时段是否取得需复核"))
         if label=="顾客明确暂缓且无预约写入":
-            tags.append("尊重当次暂缓")
+            tags.append("有顾客暂缓表态，未见预约写入")
         if case in disputes and score["score"]==0:
             tags.append("实际记录与官方参考有差异")
         rows.append(dict(过程观察=tags,题号=int(case),官方整题分=score["score"],成功预约回执项数=writes,
