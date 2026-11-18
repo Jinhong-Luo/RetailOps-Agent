@@ -7,6 +7,7 @@ import time
 import httpx
 
 from .context import context, variants
+from .booking_waits import explain_wait
 from .domain import Issue
 from .experience import Experience
 from .store import dump, elapsed
@@ -215,7 +216,7 @@ class Agent:
             if not calls:
                 latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], incomplete_actions,
                                                  additions, request, incomplete_actions is not None)
-                return dict(reply=msg["content"], state=latest, sources=list(sources))
+                return dict(reply=explain_wait(msg["content"],latest), state=latest, sources=list(sources))
             call = calls[0]
             name = call["function"]["name"]
             begin = time.perf_counter()
@@ -240,7 +241,7 @@ class Agent:
                                                      additions + completion, request)
                     if hasattr(self.store.domain, "describe_plan"):
                         reply = (reply + "\n" + self.store.domain.describe_plan(latest["actions"])).strip()
-                    return dict(reply=reply, state=latest, sources=list(sources))
+                    return dict(reply=explain_wait(reply,latest), state=latest, sources=list(sources))
                 if name == "reply_with_booking_wait" and self.booking_mode == "轻量" and "schedule_service_tool" in self.store.domain.writes:
                     reply = args.get("reply")
                     if not isinstance(reply, str) or not reply.strip():
@@ -249,7 +250,7 @@ class Agent:
                                   dict(role="assistant", content=reply)]
                     latest = await asyncio.to_thread(self.store.finish, sid, state["revision"], messages=additions + completion,
                                                      request=request, booking=args)
-                    return dict(reply=reply, state=latest, sources=list(sources))
+                    return dict(reply=explain_wait(reply,latest), state=latest, sources=list(sources))
                 if name=="bind_legacy_booking_wait" and getattr(self.store.domain,"scoped_waits",False):
                     from .booking_waits import bind_legacy
                     state=await asyncio.to_thread(bind_legacy,self.store,sid,state["revision"],args.get("order_id"),

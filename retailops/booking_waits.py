@@ -127,3 +127,14 @@ def bind_legacy(store, sid, seq, oid, service, kind, evidence):
         db.execute("DELETE FROM booking_wait WHERE sid=?", (sid,))
         store.event(db,sid,"确认旧预约归属",order_id=oid,service=service,evidence=evidence)
         return store.state(db,row)
+
+
+def explain_wait(reply, state):
+    """将仍待安装方确认的上门时间写入面客回复。"""
+    waiting = sorted({(w["order_id"],w["service"]) for w in state.get("booking_waits",[])
+                      if not w["resolved"] and w["provider"]=="安装方" and w["kind"]=="钟点"})
+    for order,service in waiting:
+        notice=f"{order}的{service}还在等待安装方确认上门时间。目前没有取得确切时段，预约仍处于等待状态。"
+        if notice not in reply:
+            reply += "\n"+notice
+    return reply
