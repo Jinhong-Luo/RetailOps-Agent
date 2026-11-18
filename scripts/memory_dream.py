@@ -1,6 +1,7 @@
 """只整理已完成对话及当次官方分量，不读取题单、标准答案或未来话术。"""
 import json
 import os
+import time
 from pathlib import Path
 import sqlite3
 import httpx
@@ -47,6 +48,7 @@ def private_input(folder):
 
 def dream(bank_path,episode_folder,output):
     """拒绝的提炼留档但不反复采样；快照仍记录已经处理该轨迹。"""
+    started=time.monotonic()
     load_env()
     bank=read_json(bank_path)
     transcript,sensitive,feedback=private_input(episode_folder)
@@ -55,6 +57,8 @@ def dream(bank_path,episode_folder,output):
         report=read_json(output/"更新.json")
         if report["输入记忆摘要"]!=digest(bank) or report["轨迹摘要"]!=source:
             raise ValueError("已有提炼与输入不一致")
+        if digest(read_json(output/"记忆.json"))!=report["输出记忆摘要"]:
+            raise ValueError("已保存记忆快照损坏")
         return output/"记忆.json"
     output.mkdir(parents=True)
     payload=dict(旧记忆=bank["entries"],本次轨迹=[dict(index=i,**m) for i,m in enumerate(transcript)],官方分量=feedback)
@@ -78,5 +82,5 @@ def dream(bank_path,episode_folder,output):
     write_json(output/"记忆.json",updated)
     write_json(output/"更新.json",dict(输入记忆摘要=digest(bank),输出记忆摘要=digest(updated),轨迹摘要=source,
         版本=updated["revision"],条目数=len(updated["entries"]),变更=audit,格式或字段拒绝=error,
-        模型=meta.get("actual_model"),强度=meta.get("reasoning_effort"),用量=body.get("usage")))
+        模型=meta.get("actual_model"),强度=meta.get("reasoning_effort"),用量=body.get("usage"),用时秒=time.monotonic()-started))
     return output/"记忆.json"
