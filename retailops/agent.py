@@ -258,7 +258,12 @@ class Agent:
                 elif name == "resolve_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
                     from .booking_waits import resolve
                     state = await asyncio.to_thread(resolve,self.store,sid,state["revision"],args.get("items"),history+additions)
-                    value = state["booking_waits"]
+                    pending = [w for w in state["booking_waits"] if not w["resolved"]]
+                    touched = {(i["order_id"],i["service"]) for i in args["items"]}
+                    ready = sorted(touched - {(w["order_id"],w["service"]) for w in pending})
+                    value = dict(剩余等待=pending,已无登记缺项=ready,
+                                 下一步="对于本轮顾客要求继续且字段齐全的事项，现在调用 propose_plan 提交待确认方案，采用新提供的联系信息。")
+
                 elif name == "record_booking_wait" and getattr(self.store.domain, "scoped_waits", False):
                     from .booking_waits import save
                     with self.store.connection(True) as db:

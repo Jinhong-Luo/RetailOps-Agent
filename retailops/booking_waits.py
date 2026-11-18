@@ -58,11 +58,18 @@ def resolve(store, sid, seq, items, history):
                            and re.search(r"(钟点|时段|几点|时间).{0,6}(不用确认|不要求|不必确认)", evidence))
             if wait["provider"] in {"安装方","顾客暂缓"} and item.get("basis")!="重新授权" and not waived_time:
                 invalid("转接或查进度不能解除安装方待核条件或暂缓")
-            if item.get("basis")=="重新授权" and any(w in evidence for w in ("不同意","暂缓","先别","先不","不要预约","查进展")):
-                invalid("当前原话仍在暂缓或仅查询进展")
-            if item.get("basis")=="重新授权" and not any(w in evidence for w in
-                    ("同意","请用","请预约","可以预约","可以安排","请安排","现在办","不用等","不用确认","不要求","撤回","按周")):
-                invalid("需要顾客明确变更原条件或重新同意办理")
+            if item.get("basis") == "重新授权":
+                pending = db.execute("SELECT DISTINCT order_id,service FROM scoped_wait WHERE sid=? AND resolved=0", (sid,)).fetchall()
+                if len(pending)>1 and key[1] not in evidence:
+                    invalid("有多项等待，恢复授权须引用指明本单的原话")
+                # 原话可能同时授权甲单并暂缓乙单，只检查包含本次证据的完整分句。
+                clauses = [part for part in re.split(r"[。；;！!，,]", latest) if evidence in part or part.strip() and part in evidence]
+                if len(pending)==1 and re.search(r"暂缓|先别|别约|先不(?:约|办|提交)|不要(?:约|办|提交)", latest):
+                    invalid("本轮仍含暂缓条件")
+                if not clauses or any(re.search(r"不同意|暂缓|先别|先不|不要|别约|别办|别继续|不继续|不能|尚未|查进展|能否|是否|如果|假如|等.{0,6}再|可以吗|[？?]", part) for part in clauses):
+                    invalid("需要已生效的办理授权")
+                if not re.search(r"同意|请用|请预约|可以预约|可以安排|请安排|现在办|不用等|不用确认|不要求|撤回|按周|(?:按|照).{0,12}继续|继续(?:办理|预约|安排)", evidence):
+                    invalid("需要顾客明确变更原条件或重新同意办理")
             db.execute("UPDATE scoped_wait SET resolved=1,revision=? WHERE sid=? AND order_id=? AND service=? AND kind=?", (seq,*key))
             store.event(db,sid,"预约补足",order_id=key[1],service=key[2],kind=key[3],evidence=evidence)
         return store.state(db,row)
