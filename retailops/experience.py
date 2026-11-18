@@ -1,6 +1,7 @@
 """只读的跨会话方法检索；不接收评分、顾客脚本或未来消息。"""
 import hashlib
 import json
+import os
 from pathlib import Path
 
 CONFIG = Path(__file__).resolve().parents[1] / "configs"
@@ -19,7 +20,12 @@ class Experience:
         self.rows = []
         if arm in {"历史检索","提炼记忆"}:
             file = "experience_sources.json" if arm == "历史检索" else "experience_notes.json"
-            self.rows = json.loads((CONFIG / file).read_text(encoding="utf8"))
+            bank = os.getenv("RETAILOPS_MEMORY_BANK") if arm == "提炼记忆" else None
+            self.rows = json.loads((Path(bank) if bank else CONFIG / file).read_text(encoding="utf8"))
+            if not isinstance(self.rows, list) or any(not isinstance(row, list) or len(row)!=3
+                    or row[0] not in TOPICS or not all(isinstance(v,str) and v.strip() for v in row)
+                    for row in self.rows):
+                raise ValueError("经验快照格式或主题不符")
         self.version = hashlib.sha256(json.dumps([arm,HINT,self.rows,TOPICS,LIMIT],ensure_ascii=False).encode()).hexdigest()[:16]
 
     def retrieve(self, message, state):
