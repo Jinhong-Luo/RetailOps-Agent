@@ -1,0 +1,45 @@
+{
+  "输入记忆摘要": "ae95e9eefee42e1e069f30b48a0c3cf62315d7a5d57b9cf9e42273b8274d0f06",
+  "输出记忆摘要": "063ec444999cc83f4119241410a8d793d18952520da98be070659bb5e1825288",
+  "轨迹摘要": "afbb4a612bdd98b4b6176077201b6da62dd7fb2da34fed6ab1ddde3a951c0f5d",
+  "版本": 1,
+  "条目数": 2,
+  "变更": [
+    {
+      "action": "add",
+      "id": "经验-11c55d57d7dc4911",
+      "evidence": [
+        26,
+        30,
+        34,
+        40
+      ]
+    },
+    {
+      "action": "add",
+      "id": "经验-d889c123e3917387",
+      "evidence": [
+        44,
+        46,
+        50,
+        51,
+        52,
+        53
+      ]
+    }
+  ],
+  "格式或字段拒绝": null,
+  "模型": "gpt-6.1-sol",
+  "强度": "medium",
+  "用量": {
+    "prompt_tokens": 17061,
+    "completion_tokens": 270,
+    "total_tokens": 17331,
+    "prompt_tokens_details": {
+      "cached_tokens": 3456
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 70
+    }
+  }
+}

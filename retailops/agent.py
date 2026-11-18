@@ -10,6 +10,7 @@ from .context import context, variants
 from .booking_waits import explain_wait
 from .domain import Issue
 from .experience import Experience
+from .continual_memory import ContinualMemory
 from .store import dump, elapsed
 
 
@@ -29,7 +30,9 @@ class Agent:
         self.active = {}
         # 每个评测进程只运行一个条件。常规服务仍沿用调用方选择的配置。
         self.condition = os.getenv("RETAILOPS_ALIGNED_ARM", "")
-        self.experience = Experience(os.getenv("RETAILOPS_REFERENCE", "无记忆"))
+        memory_mode = os.getenv("RETAILOPS_REFERENCE", "无记忆")
+        self.experience = (ContinualMemory(os.environ["RETAILOPS_CONTINUAL_BANK"])
+                           if memory_mode == "持续记忆" else Experience(memory_mode))
         domain = store.domain
         self.schemas = [domain.definitions[n].openai_schema for n in sorted(domain.reads)]
         self.schemas += [
