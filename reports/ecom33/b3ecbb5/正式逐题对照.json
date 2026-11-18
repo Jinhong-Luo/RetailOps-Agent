@@ -1,0 +1,4613 @@
+{
+  "旧配置": {
+    "提交": "b2cf403e22465e47da00cdb20225a148a91f9ce7",
+    "上游": "bc5018daaf45eea12330941bce68cebd293cfa85",
+    "客服模型": "gpt-6.1-sol",
+    "顾客模型": "gpt-6.1-sol",
+    "强度": "medium",
+    "种子": 300,
+    "每轮步数": 8,
+    "整单轮数": 20,
+    "重复次数": 1,
+    "条件": [
+      "三项全开"
+    ],
+    "记忆": "提炼记忆",
+    "授权": "按钮",
+    "等待": "轻量",
+    "预检": [
+      1,
+      3
+    ],
+    "正式": [
+      4,
+      5,
+      8,
+      13,
+      17,
+      18,
+      19,
+      20,
+      21,
+      23,
+      24,
+      25,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      40,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      49,
+      50,
+      52
+    ]
+  },
+  "新配置": {
+    "提交": "b3ecbb5a365f8bdaf4482ad974f6673604efd458",
+    "上游": "bc5018daaf45eea12330941bce68cebd293cfa85",
+    "客服模型": "gpt-6.1-sol",
+    "顾客模型": "gpt-6.1-sol",
+    "强度": "medium",
+    "种子": 300,
+    "每轮步数": 8,
+    "整单轮数": 20,
+    "重复次数": 1,
+    "条件": [
+      "三项全开"
+    ],
+    "记忆": "提炼记忆",
+    "授权": "按钮",
+    "等待": "轻量",
+    "预检": [
+      1,
+      3
+    ],
+    "正式": [
+      4,
+      5,
+      8,
+      13,
+      17,
+      18,
+      19,
+      20,
+      21,
+      23,
+      24,
+      25,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      40,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      49,
+      50,
+      52
+    ]
+  },
+  "成绩顺序": [
+    "整题",
+    "终态",
+    "指定查询",
+    "输出"
+  ],
+  "旧版汇总": [
+    16,
+    16,
+    31,
+    33
+  ],
+  "新版汇总": [
+    17,
+    17,
+    33,
+    33
+  ],
+  "改善": [
+    13,
+    18,
+    19
+  ],
+  "退化": [
+    31,
+    49
+  ],
+  "逐题": [
+    {
+      "题号": 4,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 9,
+        "旧工具": "transfer_to_specialist_tool",
+        "新工具": "schedule_service_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "schedule_service_tool"
+      ],
+      "新写入工具": [
+        "schedule_service_tool"
+      ],
+      "旧轮数": 9,
+      "新轮数": 6,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "get_repair_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "register_needs": 3,
+          "transfer_to_specialist_tool": 1,
+          "reply_with_booking_wait": 1,
+          "resolve_booking_wait": 2,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 1
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "get_repair_info_tool": 1,
+          "search_policy": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "register_needs": 1,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      }
+    },
+    {
+      "题号": 5,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "manage_order_tool",
+        "新工具": "get_installation_service_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 8,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_repair_info_tool": 1,
+          "search_policy": 1,
+          "propose_plan": 2,
+          "register_needs": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_repair_info_tool": 2,
+          "search_policy": 2,
+          "get_installation_service_info_tool": 1,
+          "propose_plan": 2,
+          "register_needs": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 8,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "get_auxiliary_materials_info_tool",
+        "新工具": "get_discount_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_ecard_tool",
+        "manage_exchange_tool",
+        "manage_urgent_tool"
+      ],
+      "新写入工具": [
+        "manage_ecard_tool",
+        "manage_exchange_tool",
+        "manage_urgent_tool"
+      ],
+      "旧轮数": 11,
+      "新轮数": 10,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 3,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "register_needs": 2,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_discount_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "get_product_info_tool": 1,
+          "propose_plan": 3,
+          "manage_exchange_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_ecard_tool",
+          "manage_exchange_tool",
+          "manage_urgent_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 3,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_installation_service_info_tool": 1,
+          "get_discount_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "get_product_info_tool": 1,
+          "propose_plan": 3,
+          "manage_exchange_tool": 1,
+          "register_needs": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_ecard_tool",
+          "manage_exchange_tool",
+          "manage_urgent_tool"
+        ]
+      }
+    },
+    {
+      "题号": 13,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 8,
+        "旧工具": "manage_ecard_tool",
+        "新工具": "manage_order_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "结束",
+        "新工具": "manage_order_tool",
+        "不同参数字段": []
+      },
+      "旧写入工具": [],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 6,
+      "新轮数": 7,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_ecard_tool": 3,
+          "get_product_info_tool": 4,
+          "search_policy": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_ecard_tool": 2,
+          "search_policy": 1,
+          "get_product_info_tool": 3,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 17,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 14,
+        "旧工具": "transfer_to_specialist_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_return_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_return_tool"
+      ],
+      "旧轮数": 17,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 4,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 5,
+          "search_policy": 3,
+          "propose_plan": 4,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_return_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 5,
+          "propose_plan": 2,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_return_tool"
+        ]
+      }
+    },
+    {
+      "题号": 18,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 8,
+        "旧工具": "manage_order_tool",
+        "新工具": "manage_exchange_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "manage_return_tool",
+        "新工具": "manage_exchange_tool",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_exchange_tool",
+        "manage_return_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 7,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 4,
+          "get_installation_service_info_tool": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 4,
+          "register_needs": 2,
+          "get_installation_service_info_tool": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool",
+          "manage_return_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 19,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "get_auxiliary_materials_info_tool",
+        "新工具": "manage_exchange_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 2,
+        "旧工具": "结束",
+        "新工具": "manage_order_tool",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "manage_exchange_tool"
+      ],
+      "新写入工具": [
+        "manage_exchange_tool",
+        "manage_order_tool"
+      ],
+      "旧轮数": 9,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "register_needs": 1,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 1,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "register_needs": 2,
+          "get_installation_service_info_tool": 1,
+          "manage_exchange_tool": 1,
+          "search_policy": 1,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool",
+          "manage_order_tool"
+        ]
+      }
+    },
+    {
+      "题号": 20,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 8,
+        "旧工具": "get_logistics_info_tool",
+        "新工具": "manage_order_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool"
+      ],
+      "旧轮数": 9,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "propose_plan": 1,
+          "get_logistics_info_tool": 2,
+          "register_needs": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 4,
+          "propose_plan": 1,
+          "get_logistics_info_tool": 2,
+          "register_needs": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool"
+        ]
+      }
+    },
+    {
+      "题号": 21,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 12,
+        "旧工具": "transfer_to_specialist_tool",
+        "新工具": "manage_order_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_order_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_order_tool"
+      ],
+      "旧轮数": 14,
+      "新轮数": 11,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 5,
+          "propose_plan": 1,
+          "get_product_info_tool": 1,
+          "get_logistics_info_tool": 2,
+          "register_needs": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_order_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 6,
+          "register_needs": 2,
+          "propose_plan": 1,
+          "get_product_info_tool": 1,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_order_tool"
+        ]
+      }
+    },
+    {
+      "题号": 23,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 8,
+      "新轮数": 8,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_discount_info_tool": 1,
+          "search_policy": 1,
+          "compare_products_info_tool": 1,
+          "manage_ecard_tool": 2,
+          "get_product_info_tool": 2,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_discount_info_tool": 1,
+          "search_policy": 1,
+          "compare_products_info_tool": 1,
+          "manage_ecard_tool": 2,
+          "get_product_info_tool": 2,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 24,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 7,
+        "旧工具": "manage_ecard_tool",
+        "新工具": "manage_ecard_tool",
+        "不同参数字段": [
+          "shop_id"
+        ]
+      },
+      "首处写入调用差异": {
+        "调用序号": 2,
+        "旧工具": "manage_ecard_tool",
+        "新工具": "manage_ecard_tool",
+        "不同参数字段": [
+          "shop_id"
+        ]
+      },
+      "旧写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_return_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 9,
+      "新轮数": 7,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_discount_info_tool": 2,
+          "search_policy": 2,
+          "propose_plan": 2,
+          "get_product_info_tool": 2,
+          "manage_ecard_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_discount_info_tool": 2,
+          "search_policy": 1,
+          "propose_plan": 2,
+          "manage_ecard_tool": 1,
+          "get_product_info_tool": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_return_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 25,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 6,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 5,
+      "新轮数": 5,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "propose_plan": 2,
+          "manage_ecard_tool": 1,
+          "get_product_info_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "propose_plan": 2,
+          "manage_ecard_tool": 1,
+          "get_product_info_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 27,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 6,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_urgent_tool",
+        "manage_invoice_tool"
+      ],
+      "新写入工具": [
+        "manage_urgent_tool",
+        "manage_invoice_tool"
+      ],
+      "旧轮数": 6,
+      "新轮数": 7,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "register_needs": 3,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_urgent_tool",
+          "manage_invoice_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "register_needs": 3,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_urgent_tool",
+          "manage_invoice_tool"
+        ]
+      }
+    },
+    {
+      "题号": 28,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 7,
+        "旧工具": "manage_order_tool",
+        "新工具": "manage_order_tool",
+        "不同参数字段": [
+          "address",
+          "phone_number"
+        ]
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "manage_order_tool",
+        "新工具": "manage_order_tool",
+        "不同参数字段": [
+          "address",
+          "phone_number"
+        ]
+      },
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_urgent_tool",
+        "manage_urgent_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool",
+        "manage_urgent_tool",
+        "manage_urgent_tool"
+      ],
+      "旧轮数": 6,
+      "新轮数": 7,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 2,
+          "manage_order_tool": 1,
+          "get_product_info_tool": 2,
+          "manage_ecard_tool": 1,
+          "propose_plan": 2,
+          "register_needs": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_urgent_tool",
+          "manage_urgent_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_product_info_tool": 2,
+          "manage_ecard_tool": 1,
+          "propose_plan": 2,
+          "register_needs": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool",
+          "manage_urgent_tool",
+          "manage_urgent_tool"
+        ]
+      }
+    },
+    {
+      "题号": 29,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "旧轮数": 5,
+      "新轮数": 5,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_gift_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_gift_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      }
+    },
+    {
+      "题号": 30,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 8,
+      "新轮数": 10,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "reply_with_booking_wait": 1,
+          "register_needs": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "费用",
+            "来源": "安装方",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "register_needs": 1,
+          "search_policy": 1,
+          "reply_with_booking_wait": 2,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "费用",
+            "来源": "安装方",
+            "已解除": false
+          },
+          {
+            "服务": "安装",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 31,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 6,
+        "旧工具": "transfer_to_specialist_tool",
+        "新工具": "get_logistics_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "schedule_service_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "schedule_service_tool"
+      ],
+      "新写入工具": [],
+      "旧轮数": 7,
+      "新轮数": 20,
+      "旧结束": "顾客结束",
+      "新结束": "轮数上限",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "register_needs": 2,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 2,
+          "register_needs": 5,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "transfer_to_specialist_tool": 2,
+          "reply_with_booking_wait": 1,
+          "search_policy": 1,
+          "resolve_booking_wait": 8,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 2,
+          "需要登记之后的新依据": 5,
+          "转接或查进度不能解除安装方待核条件或暂缓": 1,
+          "本单仍有待补资料或授权，先逐项核实": 1,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "其他",
+            "来源": "安装方",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 32,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 6,
+        "旧工具": "get_logistics_info_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "manage_order_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "manage_order_tool"
+      ],
+      "新写入工具": [],
+      "旧轮数": 8,
+      "新轮数": 6,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_logistics_info_tool": 2,
+          "transfer_to_specialist_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 33,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_exchange_tool"
+      ],
+      "新写入工具": [
+        "manage_exchange_tool"
+      ],
+      "旧轮数": 7,
+      "新轮数": 7,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_repair_info_tool": 1,
+          "search_policy": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_repair_info_tool": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool"
+        ]
+      }
+    },
+    {
+      "题号": 34,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 6,
+        "旧工具": "get_gift_info_tool",
+        "新工具": "get_auxiliary_materials_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 20,
+      "新轮数": 20,
+      "旧结束": "轮数上限",
+      "新结束": "轮数上限",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "get_repair_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "register_needs": 2,
+          "transfer_to_specialist_tool": 1,
+          "reply_with_booking_wait": 1,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "维修",
+            "条件": "费用",
+            "来源": "业务查询",
+            "已解除": false
+          },
+          {
+            "服务": "维修",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "get_repair_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 4,
+          "get_gift_info_tool": 1,
+          "search_policy": 1,
+          "transfer_to_specialist_tool": 1,
+          "register_needs": 1,
+          "reply_with_booking_wait": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "维修",
+            "条件": "费用",
+            "来源": "业务查询",
+            "已解除": false
+          },
+          {
+            "服务": "维修",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 35,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "get_installation_service_info_tool",
+        "新工具": "get_auxiliary_materials_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 7,
+      "新轮数": 8,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "register_needs": 1,
+          "reply_with_booking_wait": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "费用",
+            "来源": "安装方",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_auxiliary_materials_info_tool": 3,
+          "get_installation_service_info_tool": 1,
+          "reply_with_booking_wait": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "费用",
+            "来源": "安装方",
+            "已解除": false
+          },
+          {
+            "服务": "安装",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 36,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 7,
+        "旧工具": "schedule_service_tool",
+        "新工具": "get_gift_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "schedule_service_tool"
+      ],
+      "新写入工具": [
+        "schedule_service_tool"
+      ],
+      "旧轮数": 5,
+      "新轮数": 5,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "register_needs": 2,
+          "get_auxiliary_materials_info_tool": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_gift_info_tool": 2,
+          "get_auxiliary_materials_info_tool": 1,
+          "register_needs": 1,
+          "search_policy": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      }
+    },
+    {
+      "题号": 37,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 5,
+      "新轮数": 4,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "manage_exchange_tool": 1,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "manage_exchange_tool": 1,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 40,
+      "旧版": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "get_logistics_info_tool",
+        "新工具": "get_auxiliary_materials_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 5,
+      "新轮数": 8,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_logistics_info_tool": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "register_needs": 1,
+          "reply_with_booking_wait": 1,
+          "get_logistics_info_tool": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "安装",
+            "条件": "其他",
+            "来源": "安装方",
+            "已解除": false
+          },
+          {
+            "服务": "安装",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 42,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 6,
+        "旧工具": "transfer_to_specialist_tool",
+        "新工具": "get_repair_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 12,
+      "新轮数": 20,
+      "旧结束": "顾客结束",
+      "新结束": "轮数上限",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "register_needs": 3,
+          "get_repair_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "reply_with_booking_wait": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "维修",
+            "条件": "费用",
+            "来源": "业务查询",
+            "已解除": false
+          },
+          {
+            "服务": "维修",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "register_needs": 3,
+          "get_repair_info_tool": 2,
+          "search_policy": 1,
+          "reply_with_booking_wait": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [
+          {
+            "服务": "维修",
+            "条件": "费用",
+            "来源": "顾客",
+            "已解除": false
+          },
+          {
+            "服务": "维修",
+            "条件": "办理授权",
+            "来源": "顾客暂缓",
+            "已解除": false
+          }
+        ],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 43,
+      "旧版": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 7,
+        "旧工具": "get_product_info_tool",
+        "新工具": "manage_ecard_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 20,
+      "新轮数": 11,
+      "旧结束": "轮数上限",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_product_info_tool": 2,
+          "manage_ecard_tool": 1,
+          "search_policy": 3,
+          "transfer_to_specialist_tool": 1,
+          "register_needs": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_product_info_tool": 2,
+          "manage_ecard_tool": 2,
+          "search_policy": 2,
+          "transfer_to_specialist_tool": 1,
+          "register_needs": 4,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "reply_with_booking_wait": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 44,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 6,
+        "旧工具": "get_logistics_info_tool",
+        "新工具": "get_gift_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": null,
+      "旧写入工具": [],
+      "新写入工具": [],
+      "旧轮数": 20,
+      "新轮数": 20,
+      "旧结束": "轮数上限",
+      "新结束": "轮数上限",
+      "旧业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 4,
+          "transfer_to_specialist_tool": 2,
+          "register_needs": 2,
+          "get_gift_info_tool": 1,
+          "search_policy": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 3,
+          "transfer_to_specialist_tool": 2,
+          "register_needs": 2,
+          "get_gift_info_tool": 3,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 45,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "schedule_service_tool"
+      ],
+      "新写入工具": [
+        "schedule_service_tool"
+      ],
+      "旧轮数": 6,
+      "新轮数": 6,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "register_needs": 1,
+          "get_repair_info_tool": 1,
+          "propose_plan": 1,
+          "get_gift_info_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_fault_code_info_tool": 1,
+          "register_needs": 1,
+          "get_repair_info_tool": 1,
+          "propose_plan": 1,
+          "get_gift_info_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      }
+    },
+    {
+      "题号": 46,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "get_product_info_tool",
+        "新工具": "transfer_to_specialist_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "manage_order_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_ecard_tool"
+      ],
+      "新写入工具": [],
+      "旧轮数": 18,
+      "新轮数": 11,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "manage_exchange_tool": 1,
+          "register_needs": 2,
+          "get_product_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "propose_plan": 2,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_ecard_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "manage_exchange_tool": 1,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "get_gift_info_tool": 2,
+          "register_needs": 5,
+          "manage_ecard_tool": 1,
+          "get_product_info_tool": 2,
+          "search_policy": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 47,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 3,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "schedule_service_tool"
+      ],
+      "新写入工具": [
+        "schedule_service_tool"
+      ],
+      "旧轮数": 6,
+      "新轮数": 6,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "search_policy": 1,
+          "register_needs": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "get_installation_service_info_tool": 1,
+          "get_auxiliary_materials_info_tool": 1,
+          "register_needs": 1,
+          "propose_plan": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "schedule_service_tool"
+        ]
+      }
+    },
+    {
+      "题号": 49,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": {
+        "调用序号": 5,
+        "旧工具": "manage_exchange_tool",
+        "新工具": "get_product_info_tool",
+        "不同参数字段": []
+      },
+      "首处写入调用差异": {
+        "调用序号": 1,
+        "旧工具": "manage_exchange_tool",
+        "新工具": "结束",
+        "不同参数字段": []
+      },
+      "旧写入工具": [
+        "manage_exchange_tool"
+      ],
+      "新写入工具": [],
+      "旧轮数": 5,
+      "新轮数": 6,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 1,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "manage_exchange_tool": 1,
+          "propose_plan": 1,
+          "get_gift_info_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_exchange_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "空闲",
+        "草案版本数": 0,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 1,
+          "manage_exchange_tool": 1,
+          "get_product_info_tool": 1,
+          "get_gift_info_tool": 1,
+          "search_policy": 1,
+          "compare_products_info_tool": 1,
+          "transfer_to_specialist_tool": 1
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": []
+      }
+    },
+    {
+      "题号": 50,
+      "旧版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "新版": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_urgent_tool",
+        "manage_invoice_tool"
+      ],
+      "新写入工具": [
+        "manage_urgent_tool",
+        "manage_invoice_tool"
+      ],
+      "旧轮数": 8,
+      "新轮数": 8,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 2,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "get_logistics_info_tool": 1,
+          "register_needs": 3,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_urgent_tool",
+          "manage_invoice_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 2,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 3,
+          "get_logistics_info_tool": 1,
+          "register_needs": 3,
+          "propose_plan": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_urgent_tool",
+          "manage_invoice_tool"
+        ]
+      }
+    },
+    {
+      "题号": 52,
+      "旧版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "新版": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "首处消息差异": 2,
+      "首处上游调用差异": null,
+      "首处写入调用差异": null,
+      "旧写入工具": [
+        "manage_order_tool",
+        "manage_invoice_tool"
+      ],
+      "新写入工具": [
+        "manage_order_tool",
+        "manage_invoice_tool"
+      ],
+      "旧轮数": 8,
+      "新轮数": 9,
+      "旧结束": "顾客结束",
+      "新结束": "顾客结束",
+      "旧业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "propose_plan": 2,
+          "register_needs": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_invoice_tool"
+        ]
+      },
+      "新业务事实": {
+        "最终阶段": "完成",
+        "草案版本数": 2,
+        "历史工具次数": {
+          "get_user_info_tool": 1,
+          "get_user_orders_info_tool": 1,
+          "manage_order_tool": 2,
+          "get_logistics_info_tool": 1,
+          "transfer_to_specialist_tool": 1,
+          "propose_plan": 2,
+          "register_needs": 2
+        },
+        "等待恢复错误": {
+          "需要已生效的办理授权": 0,
+          "需要登记之后的新依据": 0,
+          "转接或查进度不能解除安装方待核条件或暂缓": 0,
+          "本单仍有待补资料或授权，先逐项核实": 0,
+          "需要顾客明确变更原条件或重新同意办理": 0
+        },
+        "等待": [],
+        "写回执工具": [
+          "manage_order_tool",
+          "manage_invoice_tool"
+        ]
+      }
+    }
+  ],
+  "计量": {
+    "正式已评分": {
+      "成功模型响应数": 746,
+      "全部回执模型强度匹配": true,
+      "prompt_tokens": 10017323,
+      "completion_tokens": 100357,
+      "total_tokens": 10117680
+    },
+    "正式无评分尝试": {
+      "成功模型响应数": 0,
+      "全部回执模型强度匹配": false
+    },
+    "预检": {
+      "成功模型响应数": 65,
+      "全部回执模型强度匹配": true,
+      "prompt_tokens": 1141816,
+      "completion_tokens": 14240,
+      "total_tokens": 1156056
+    },
+    "无评分尝试数": 0,
+    "正式位置数": 33,
+    "单题累计耗时秒": 9726.759807986207
+  },
+  "文件指纹": [
+    {
+      "版本": "旧版",
+      "题号": 4,
+      "文件": "官方评分.json",
+      "摘要": "5e964e7cf4920c1098cc67838f033d877b292edf8ce1f9650d891e04b543f178"
+    },
+    {
+      "版本": "旧版",
+      "题号": 4,
+      "文件": "trajectory.json",
+      "摘要": "2c115ff70afea981b8f40bc35839ebf3c74e41e86049b383e2d8094a675a5edb"
+    },
+    {
+      "版本": "旧版",
+      "题号": 4,
+      "文件": "business.db",
+      "摘要": "e699b690267f372d014f2e97b39afc98c92beabdcd5b04d8cdc39458967ce6e7"
+    },
+    {
+      "版本": "旧版",
+      "题号": 4,
+      "文件": "usage.jsonl",
+      "摘要": "b8501a9836fce2835eaf86ae9657ad79af5a921a8faf061c5708f288412e106a"
+    },
+    {
+      "版本": "新版",
+      "题号": 4,
+      "文件": "官方评分.json",
+      "摘要": "517f0e9b625f90b2504000d05dedb1470129e14240398484bd5c977720902fff"
+    },
+    {
+      "版本": "新版",
+      "题号": 4,
+      "文件": "trajectory.json",
+      "摘要": "670832fe0f710af10a487d722e8d0271631dcc047eaebe895f5bbd5f8910c5e6"
+    },
+    {
+      "版本": "新版",
+      "题号": 4,
+      "文件": "business.db",
+      "摘要": "c33bad2ee4671c4e93fd10bfc589fbf00f9520963d71d4e399748dc2d278a335"
+    },
+    {
+      "版本": "新版",
+      "题号": 4,
+      "文件": "usage.jsonl",
+      "摘要": "42f628b07eb501cb9b48ff246d4d5dcb17316b48add89a601f7f8cfe510398ba"
+    },
+    {
+      "版本": "旧版",
+      "题号": 5,
+      "文件": "官方评分.json",
+      "摘要": "7aaf57f7c72de560367d428c05b18cb7d1cfe59773c21e64155b55323d0d4765"
+    },
+    {
+      "版本": "旧版",
+      "题号": 5,
+      "文件": "trajectory.json",
+      "摘要": "092cdb0ea55844d8866c74c91461fa4faf0c3f9bef2a0eaffbf7396831431461"
+    },
+    {
+      "版本": "旧版",
+      "题号": 5,
+      "文件": "business.db",
+      "摘要": "5e54a821956f78f75bfda082d1c808543bd9e791b4c13216e0dd963c1a39bf18"
+    },
+    {
+      "版本": "旧版",
+      "题号": 5,
+      "文件": "usage.jsonl",
+      "摘要": "8b646bb3522e81badea5e2a873649ac508c9679d73c3c82126a0695ee8242dd5"
+    },
+    {
+      "版本": "新版",
+      "题号": 5,
+      "文件": "官方评分.json",
+      "摘要": "66a93accf7c75e73b2e1d96627969f1fd33157a3129cf7f9febbc2f845f12903"
+    },
+    {
+      "版本": "新版",
+      "题号": 5,
+      "文件": "trajectory.json",
+      "摘要": "039a41656e953729e500b03f68844cf04833fea10dee1bd78bd4017c762e19b2"
+    },
+    {
+      "版本": "新版",
+      "题号": 5,
+      "文件": "business.db",
+      "摘要": "c4edad3a7e0902d0f23b036fb172137348cbb534696404de3932b0c23b9b73b8"
+    },
+    {
+      "版本": "新版",
+      "题号": 5,
+      "文件": "usage.jsonl",
+      "摘要": "743214359b21d2c6be2240eb0343de760566aaa2c232e6fda3da3341f112ad6e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 8,
+      "文件": "官方评分.json",
+      "摘要": "efd9853a37430c1ff8bee925ab994ea1835cb4b089cae7a2523ab14dacfc9bff"
+    },
+    {
+      "版本": "旧版",
+      "题号": 8,
+      "文件": "trajectory.json",
+      "摘要": "7ee52493e4c992a559590e8d227c512a247b525bf59b84145a98de8ce952386d"
+    },
+    {
+      "版本": "旧版",
+      "题号": 8,
+      "文件": "business.db",
+      "摘要": "1a2da1c67a0aeb61f7df4967b8c40dc5bd2aeaa71e9a031b95f94bd9d5aed860"
+    },
+    {
+      "版本": "旧版",
+      "题号": 8,
+      "文件": "usage.jsonl",
+      "摘要": "d2b164ab42afa09acee37ca19c8d39921a462744b554b2a5832716e0a17364fe"
+    },
+    {
+      "版本": "新版",
+      "题号": 8,
+      "文件": "官方评分.json",
+      "摘要": "4bbf1eb08d6b9e779b2224979c70ae194f4e222285843ed08a5117cf8b69796f"
+    },
+    {
+      "版本": "新版",
+      "题号": 8,
+      "文件": "trajectory.json",
+      "摘要": "63ec66565cdca80e7bbfb60a7bdc1a13cf22b2556f0fbe626781b9e269de9464"
+    },
+    {
+      "版本": "新版",
+      "题号": 8,
+      "文件": "business.db",
+      "摘要": "d035458ca8519e2304246d932ef46ee4009e0088d09cf0e89c9d3076caed8e44"
+    },
+    {
+      "版本": "新版",
+      "题号": 8,
+      "文件": "usage.jsonl",
+      "摘要": "1cd5aba4c66b92113f0d9d2c15b6b7ce8e2d7d8b4b47a279a9ceb61b7c07fc5e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 13,
+      "文件": "官方评分.json",
+      "摘要": "b79b2020771ed3df6ffe41d639bc98e4b0e078ddb53b0dc196bfde4dcdd0bf18"
+    },
+    {
+      "版本": "旧版",
+      "题号": 13,
+      "文件": "trajectory.json",
+      "摘要": "b6ff1e95ba9a1340e07bd300d2ff330c98cb428a05dfa907ec5a98a7571ec5d5"
+    },
+    {
+      "版本": "旧版",
+      "题号": 13,
+      "文件": "business.db",
+      "摘要": "c77788e781d0eab280df630e68692986310d05dbabda53c1c23582a5da40ba72"
+    },
+    {
+      "版本": "旧版",
+      "题号": 13,
+      "文件": "usage.jsonl",
+      "摘要": "f30ddd6c1182a95084eb65085bac48427a2320166e66272e82a4c2f61f401570"
+    },
+    {
+      "版本": "新版",
+      "题号": 13,
+      "文件": "官方评分.json",
+      "摘要": "29ce4b38caf8e50486530dd8364dfc84828e8a56d4ccca99b1aad4bafbf5a3fd"
+    },
+    {
+      "版本": "新版",
+      "题号": 13,
+      "文件": "trajectory.json",
+      "摘要": "6c67d1478d4dbffb71a3d16e8d5bed43cc325e2db4d8826ceab390cc70f0cce9"
+    },
+    {
+      "版本": "新版",
+      "题号": 13,
+      "文件": "business.db",
+      "摘要": "3f1ae169156095ef3e1c061f16501f822bc33dceac70edde009d6fa6bbd22cee"
+    },
+    {
+      "版本": "新版",
+      "题号": 13,
+      "文件": "usage.jsonl",
+      "摘要": "6ad466920a47041ea42a1af4c30365352be2fb817992280aa3150663b5a6062b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 17,
+      "文件": "官方评分.json",
+      "摘要": "ff305da17d5a3215f69cfb0744975977f7875066cfdd7a49c16f607c2085f5dc"
+    },
+    {
+      "版本": "旧版",
+      "题号": 17,
+      "文件": "trajectory.json",
+      "摘要": "852a98c6df2642981feec905c2a2bfe48ee4263d5197b0f98ac05fdc162f6bab"
+    },
+    {
+      "版本": "旧版",
+      "题号": 17,
+      "文件": "business.db",
+      "摘要": "744d936a115acc73c9adfd493ca330a49bf09753765f124a34c03e367871d140"
+    },
+    {
+      "版本": "旧版",
+      "题号": 17,
+      "文件": "usage.jsonl",
+      "摘要": "9090eca3d54858bd2647f0ba045bf9ced47f912f06eb38000ac7acf5b1c125e6"
+    },
+    {
+      "版本": "新版",
+      "题号": 17,
+      "文件": "官方评分.json",
+      "摘要": "6dea1f525140d460bf2d73c9e506cdf945f166f7b311111dd891e937c0844324"
+    },
+    {
+      "版本": "新版",
+      "题号": 17,
+      "文件": "trajectory.json",
+      "摘要": "3a8f258eabb9a578b84dedabfc1eab2855ca3402390509519fd1ad60994729cd"
+    },
+    {
+      "版本": "新版",
+      "题号": 17,
+      "文件": "business.db",
+      "摘要": "abb5f45c9563d3ae95107ea05faa9dfa39e2094b9c19e1a8cfd9a693d8892df2"
+    },
+    {
+      "版本": "新版",
+      "题号": 17,
+      "文件": "usage.jsonl",
+      "摘要": "ea833fd7257c99e4d74fa5da9cbf542286d762b651961ac381afdead43661db9"
+    },
+    {
+      "版本": "旧版",
+      "题号": 18,
+      "文件": "官方评分.json",
+      "摘要": "c83013fa7a793c952281e449d0279f813131402d060c5f7a5720bee57d985e5d"
+    },
+    {
+      "版本": "旧版",
+      "题号": 18,
+      "文件": "trajectory.json",
+      "摘要": "dd4bcd57177e78a01133b5b0149411b5a4381777cdd433d69e1451a5775591d4"
+    },
+    {
+      "版本": "旧版",
+      "题号": 18,
+      "文件": "business.db",
+      "摘要": "49b9045ca8b621248861c852c1c3e5319958c4ebf1852ffb493b9ebafdee18b9"
+    },
+    {
+      "版本": "旧版",
+      "题号": 18,
+      "文件": "usage.jsonl",
+      "摘要": "dfd3575493f67c03e816502ffec6d60ca29237f53d6d4f26acd32f488d0e3a87"
+    },
+    {
+      "版本": "新版",
+      "题号": 18,
+      "文件": "官方评分.json",
+      "摘要": "e7d8ea4d5e32bc22a3422b3a926180864ed20d5c836afc2220c4463b5a859fe9"
+    },
+    {
+      "版本": "新版",
+      "题号": 18,
+      "文件": "trajectory.json",
+      "摘要": "bcbf2bccdd9f126134630bed678933a24f0aaec3bb4ed59f53e6bc5035b26ae0"
+    },
+    {
+      "版本": "新版",
+      "题号": 18,
+      "文件": "business.db",
+      "摘要": "a4051e46f8a1df5a404f4649d2834a26c42a3be90488b48d8cfe3863940671ca"
+    },
+    {
+      "版本": "新版",
+      "题号": 18,
+      "文件": "usage.jsonl",
+      "摘要": "e824c25fb95a9f626a1eb5e46b9043c2960fb97c90f5cb08f35efd1cf3463108"
+    },
+    {
+      "版本": "旧版",
+      "题号": 19,
+      "文件": "官方评分.json",
+      "摘要": "5d51ebc280c35f8bc4f78387f58a36d31853898d84e1965e1725d9cebf7b7221"
+    },
+    {
+      "版本": "旧版",
+      "题号": 19,
+      "文件": "trajectory.json",
+      "摘要": "b47a92e0de857c498e7cf32b9d65e4a2d79e41a37ee2d87de22bb3bd35dc16a0"
+    },
+    {
+      "版本": "旧版",
+      "题号": 19,
+      "文件": "business.db",
+      "摘要": "1749d6e51d9d6c51eee3282424fac730379db267eee94c6df6c22748a54241a2"
+    },
+    {
+      "版本": "旧版",
+      "题号": 19,
+      "文件": "usage.jsonl",
+      "摘要": "d282f292481d08efdaa1f0b79323fa25aa4da9412f53ab35bdb0821a5f48f039"
+    },
+    {
+      "版本": "新版",
+      "题号": 19,
+      "文件": "官方评分.json",
+      "摘要": "68e40afe597a0ca0168e32b88370c96e4f9b3463e85ac562442c6658b5af48f0"
+    },
+    {
+      "版本": "新版",
+      "题号": 19,
+      "文件": "trajectory.json",
+      "摘要": "b33f63967442059a0248a068b04027f7387278f470744751bfae969a62b6a1c8"
+    },
+    {
+      "版本": "新版",
+      "题号": 19,
+      "文件": "business.db",
+      "摘要": "808b462de20322089ff4374dd41c92dc0dc6dc23b6136822e401bba68057d63f"
+    },
+    {
+      "版本": "新版",
+      "题号": 19,
+      "文件": "usage.jsonl",
+      "摘要": "1b112bd6dd2169b7a1171004410c03f215957851c09940ed4570cd5f2e6d5f07"
+    },
+    {
+      "版本": "旧版",
+      "题号": 20,
+      "文件": "官方评分.json",
+      "摘要": "838598ace7dae637310fddd11b9caeb68dc2e8f15b195b7be181d0181dbf37ff"
+    },
+    {
+      "版本": "旧版",
+      "题号": 20,
+      "文件": "trajectory.json",
+      "摘要": "8967bc7cec2b46c6709e5a10e2996d76e876b69e615dc109b6b2e08eb769c6fd"
+    },
+    {
+      "版本": "旧版",
+      "题号": 20,
+      "文件": "business.db",
+      "摘要": "4e2fab76c25c5b99939f2591fefc5796bf3bf5f984f4d1565d126b784e500ed5"
+    },
+    {
+      "版本": "旧版",
+      "题号": 20,
+      "文件": "usage.jsonl",
+      "摘要": "5b7b08dfcc7b8c74edf26546f081b3ed5c0e1958d9bb752ad50cc819968c88bc"
+    },
+    {
+      "版本": "新版",
+      "题号": 20,
+      "文件": "官方评分.json",
+      "摘要": "2dee3919e2093c2cce6ee022d280f0a040c8580c09d469ed3eb18ac59984aa99"
+    },
+    {
+      "版本": "新版",
+      "题号": 20,
+      "文件": "trajectory.json",
+      "摘要": "a7c6bd23619baa5074a3a2b778e9386414c5a9a7f80dbc453c89600d5e370291"
+    },
+    {
+      "版本": "新版",
+      "题号": 20,
+      "文件": "business.db",
+      "摘要": "8b74578cb8a563a7a6584b370bbfb6731df4f369e5c0f30190705a033c0d4732"
+    },
+    {
+      "版本": "新版",
+      "题号": 20,
+      "文件": "usage.jsonl",
+      "摘要": "ac144c5159c6362ef4b2b724e6f59cd543d6b34ff45c9d41c5b21045d7d37c5c"
+    },
+    {
+      "版本": "旧版",
+      "题号": 21,
+      "文件": "官方评分.json",
+      "摘要": "f54ea0181010e0a6bb038a497d3d41992531f3980c0ce43660491bd4718bd665"
+    },
+    {
+      "版本": "旧版",
+      "题号": 21,
+      "文件": "trajectory.json",
+      "摘要": "677021968d1b9ae33d5f1027768a904be6a3ab77cb834e1a75b802e06476a438"
+    },
+    {
+      "版本": "旧版",
+      "题号": 21,
+      "文件": "business.db",
+      "摘要": "56513bee112d9b10527dcb7794b3d960a1aad4b05acfb3ea613dc1b6f74b2f36"
+    },
+    {
+      "版本": "旧版",
+      "题号": 21,
+      "文件": "usage.jsonl",
+      "摘要": "400c0cb16d23500cc6ad07ef5f4fc7bd480494f7374efc8c7d9a227960a51914"
+    },
+    {
+      "版本": "新版",
+      "题号": 21,
+      "文件": "官方评分.json",
+      "摘要": "8871a06ece5ea40c29f91cb40e110187aa0383878c0f9c1557b1e2536ef8ac0e"
+    },
+    {
+      "版本": "新版",
+      "题号": 21,
+      "文件": "trajectory.json",
+      "摘要": "503d388c18e9c64a146b8960bf66d6bd7e364cf0e97217f55d8a261be7b4c389"
+    },
+    {
+      "版本": "新版",
+      "题号": 21,
+      "文件": "business.db",
+      "摘要": "280427cfa45b173f123b1a2ee68514b4dd1201816b46447a9f1f4f948d9517e5"
+    },
+    {
+      "版本": "新版",
+      "题号": 21,
+      "文件": "usage.jsonl",
+      "摘要": "12130276c7d52a361a09c5eeddad74d02965a3367eb8409fd0030252983c001d"
+    },
+    {
+      "版本": "旧版",
+      "题号": 23,
+      "文件": "官方评分.json",
+      "摘要": "fd2c4879214904cc71aa233c39acd48b8046267bf7fda81074fcecb1bf8fb8b7"
+    },
+    {
+      "版本": "旧版",
+      "题号": 23,
+      "文件": "trajectory.json",
+      "摘要": "c3728c07bb30af2da9b8f5834d5d80ec4225f60f282830d723b8bb639563f362"
+    },
+    {
+      "版本": "旧版",
+      "题号": 23,
+      "文件": "business.db",
+      "摘要": "ae3257315a45acdfe391b9a737b05481c2f22608442e6bb279c5914e5b5f8e89"
+    },
+    {
+      "版本": "旧版",
+      "题号": 23,
+      "文件": "usage.jsonl",
+      "摘要": "a5b3d2f2e0b2fcb7a395759983177f6c863cd8ae77ad095a6bced87547d2f463"
+    },
+    {
+      "版本": "新版",
+      "题号": 23,
+      "文件": "官方评分.json",
+      "摘要": "d8aba18424bc50bb5227caa1acfe1395a6d79afa75c00e2b87bf51327db3278f"
+    },
+    {
+      "版本": "新版",
+      "题号": 23,
+      "文件": "trajectory.json",
+      "摘要": "a3fe147ad1648c5a92e59c6334653bb25e0bcc2525757f4070c641adfd7c083b"
+    },
+    {
+      "版本": "新版",
+      "题号": 23,
+      "文件": "business.db",
+      "摘要": "879e61e2056c26ffb10caa10a826dbfb9699cb778ca4c8080cdca66781a0493b"
+    },
+    {
+      "版本": "新版",
+      "题号": 23,
+      "文件": "usage.jsonl",
+      "摘要": "17ce018b4a725c316bc6012b56f412aa58d8b0ea7667f360c1bb5bcffbc19025"
+    },
+    {
+      "版本": "旧版",
+      "题号": 24,
+      "文件": "官方评分.json",
+      "摘要": "b3ea20926beab48536a8e943dda7180a9c52126ef1f6bc46222800546b3a56f7"
+    },
+    {
+      "版本": "旧版",
+      "题号": 24,
+      "文件": "trajectory.json",
+      "摘要": "392cc3de00d1bd675a897cc1fbf85a7cf7f04a7cec69476cf44ae107ea22dc5b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 24,
+      "文件": "business.db",
+      "摘要": "3abf6e32028affb11e9a7dcba5980089ee39f31b49fc0f22525fda4a3f8858b9"
+    },
+    {
+      "版本": "旧版",
+      "题号": 24,
+      "文件": "usage.jsonl",
+      "摘要": "b6820afacc56495099513fb171b689c51276ac562ef9b5c2c8ef868db159d20a"
+    },
+    {
+      "版本": "新版",
+      "题号": 24,
+      "文件": "官方评分.json",
+      "摘要": "fa28ae2e0e3a02b298ede37b55e5a0f3a8a0fb3dbb1f64fc84032181353180cf"
+    },
+    {
+      "版本": "新版",
+      "题号": 24,
+      "文件": "trajectory.json",
+      "摘要": "cc5f465ede1a79e412183c77ad8df50eb31186d1a0072dd8d6f96440e966dd60"
+    },
+    {
+      "版本": "新版",
+      "题号": 24,
+      "文件": "business.db",
+      "摘要": "27631dea421ec385f2c20305e7a34e091dd40108f532fa0fbb44516c7f6f19d1"
+    },
+    {
+      "版本": "新版",
+      "题号": 24,
+      "文件": "usage.jsonl",
+      "摘要": "3b68b01f9cc69f9c0c0e8d1cc600d8a7355c12f9a63071db76374392931de972"
+    },
+    {
+      "版本": "旧版",
+      "题号": 25,
+      "文件": "官方评分.json",
+      "摘要": "1da19512860c4b63334464c3caf93bab673de905b0e281cb30a48b0c4aa168cf"
+    },
+    {
+      "版本": "旧版",
+      "题号": 25,
+      "文件": "trajectory.json",
+      "摘要": "4fefa305af2fa14aa4cf97ed283f24078d53696b6116f4134fc4d18d73cb6ab8"
+    },
+    {
+      "版本": "旧版",
+      "题号": 25,
+      "文件": "business.db",
+      "摘要": "fa55c4135124b6c585b103accd49b620a33a8da2336e36965f0c21ba91e9c942"
+    },
+    {
+      "版本": "旧版",
+      "题号": 25,
+      "文件": "usage.jsonl",
+      "摘要": "a87140aa7504c7772416f9b198816e73a697f6fb542672d3ae4dc1d19801a269"
+    },
+    {
+      "版本": "新版",
+      "题号": 25,
+      "文件": "官方评分.json",
+      "摘要": "725b62b4f5b46d96fa865430d12840595951c32fd89417deeecc1a0794bd9ce3"
+    },
+    {
+      "版本": "新版",
+      "题号": 25,
+      "文件": "trajectory.json",
+      "摘要": "194ee4850a28552382b4c6fb5c91583acec270e3717d54eb3eacbe5afd622a82"
+    },
+    {
+      "版本": "新版",
+      "题号": 25,
+      "文件": "business.db",
+      "摘要": "ca45d179859d903f34af6ff3a7898e7cbab62094bed5503f9776592e1a1f8322"
+    },
+    {
+      "版本": "新版",
+      "题号": 25,
+      "文件": "usage.jsonl",
+      "摘要": "5c97e97f37e8ed1f102e49c40a2971325b641c027abb2f70657fea8b43110765"
+    },
+    {
+      "版本": "旧版",
+      "题号": 27,
+      "文件": "官方评分.json",
+      "摘要": "c03c6a330ba0ff768eee2bd82f0f501aecc77280279f2b58be32e24ba5e87ff3"
+    },
+    {
+      "版本": "旧版",
+      "题号": 27,
+      "文件": "trajectory.json",
+      "摘要": "237b3705f1d5526d1026b997da9b80aae3a36fa61a7346949068706f021e3fa2"
+    },
+    {
+      "版本": "旧版",
+      "题号": 27,
+      "文件": "business.db",
+      "摘要": "1102aba63cfcae969800b7d4dc0343a7d860af810877eb26fd2a3c949fe50f23"
+    },
+    {
+      "版本": "旧版",
+      "题号": 27,
+      "文件": "usage.jsonl",
+      "摘要": "04ff53775138d8f5da5134a1b15d25c312b6f34fa7cb05115cd58ee65b64e052"
+    },
+    {
+      "版本": "新版",
+      "题号": 27,
+      "文件": "官方评分.json",
+      "摘要": "c5f7bb32063212fa4e8185ecb84ccab5b175fa341e52caeb2cc9d426e1651ea1"
+    },
+    {
+      "版本": "新版",
+      "题号": 27,
+      "文件": "trajectory.json",
+      "摘要": "bedcb0ccef8fd4884559150159f1d2c5f38862b455da3e17a9ff34fa0f80153a"
+    },
+    {
+      "版本": "新版",
+      "题号": 27,
+      "文件": "business.db",
+      "摘要": "59d7149ae251db08fe1e81487f9f6672853108900957ba4765489b333faa6839"
+    },
+    {
+      "版本": "新版",
+      "题号": 27,
+      "文件": "usage.jsonl",
+      "摘要": "5b2fff60be7fb8a4705bd5f140acf4be3e4a3d49c558f73334f144ab375117c5"
+    },
+    {
+      "版本": "旧版",
+      "题号": 28,
+      "文件": "官方评分.json",
+      "摘要": "1f9aa3ad6fec6640b4ca53f5d04c8f335ecc4cd87398ba574ebbe6bf67602362"
+    },
+    {
+      "版本": "旧版",
+      "题号": 28,
+      "文件": "trajectory.json",
+      "摘要": "5229ae5a0f687373c960b11fca3ec88faae24e1bafd92884ed02711c105fe164"
+    },
+    {
+      "版本": "旧版",
+      "题号": 28,
+      "文件": "business.db",
+      "摘要": "bd4d2ea9e5afff801fa768f3676f0a3caba6c6cb72fb34a70fd055c68cd5b976"
+    },
+    {
+      "版本": "旧版",
+      "题号": 28,
+      "文件": "usage.jsonl",
+      "摘要": "6a92250d8ed91cd0983f7912042eb5b396224680e5c1d8bc48aeb78f80897b03"
+    },
+    {
+      "版本": "新版",
+      "题号": 28,
+      "文件": "官方评分.json",
+      "摘要": "1aea53a98232c86f39eebc511aec3e9fe268754cf6f98a56a589e65c0fc59f27"
+    },
+    {
+      "版本": "新版",
+      "题号": 28,
+      "文件": "trajectory.json",
+      "摘要": "0d8d6240019002ad519185002a6c3b55052627f88132f314d1c53559aeaa15eb"
+    },
+    {
+      "版本": "新版",
+      "题号": 28,
+      "文件": "business.db",
+      "摘要": "ea54eb47c68bbc5caa8ea64c220601165a97fffebac07cab5bb4ff03f739133a"
+    },
+    {
+      "版本": "新版",
+      "题号": 28,
+      "文件": "usage.jsonl",
+      "摘要": "6b7d291ad69fe652b98e2479d6df463ef6f07b9c8c429a2a0e4a6a377c7b347b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 29,
+      "文件": "官方评分.json",
+      "摘要": "19d523a363fccd8278fb4cb8681fcc22a9ee566fb85fb72d59234116796157cf"
+    },
+    {
+      "版本": "旧版",
+      "题号": 29,
+      "文件": "trajectory.json",
+      "摘要": "d012bbc67a03b9788d6ee5d2a4d9425813191b8c50305017b05459887937ae22"
+    },
+    {
+      "版本": "旧版",
+      "题号": 29,
+      "文件": "business.db",
+      "摘要": "627a1bf5a2d179ab4af7cab574cbfd223648f027128e0f00a4e63ecc9d1a7519"
+    },
+    {
+      "版本": "旧版",
+      "题号": 29,
+      "文件": "usage.jsonl",
+      "摘要": "c44155a06cf2b77d54430b1cc6e78e9d52d997c3ae4b83e931001a15d543cbc2"
+    },
+    {
+      "版本": "新版",
+      "题号": 29,
+      "文件": "官方评分.json",
+      "摘要": "8b20b524e6becf936fab19473e289bfc04143aeb6d7e8de59e839e61d6359dbc"
+    },
+    {
+      "版本": "新版",
+      "题号": 29,
+      "文件": "trajectory.json",
+      "摘要": "5a7b125dbb25e32a27da60552f7fb65de75dfe30c6c124257a4127bb5acf92d5"
+    },
+    {
+      "版本": "新版",
+      "题号": 29,
+      "文件": "business.db",
+      "摘要": "6617f4142033b7e2ad190cbba0c595eb687bcab3e6ef31f99d8bf416f1c209da"
+    },
+    {
+      "版本": "新版",
+      "题号": 29,
+      "文件": "usage.jsonl",
+      "摘要": "b9cc17002dfa07f250b62b2b391d82a6242a80c4ec19d5c7e0e95ff393969950"
+    },
+    {
+      "版本": "旧版",
+      "题号": 30,
+      "文件": "官方评分.json",
+      "摘要": "b6a52d853c9b3afdcba93d0e43838834b6a5bfb7d769f30ef5edb7b03da877d6"
+    },
+    {
+      "版本": "旧版",
+      "题号": 30,
+      "文件": "trajectory.json",
+      "摘要": "35b7a03d396dddb325255055faa383e1ea1d6b8852831b498a8e5ebb26247ba9"
+    },
+    {
+      "版本": "旧版",
+      "题号": 30,
+      "文件": "business.db",
+      "摘要": "d350a20e08a028ab237eebb40db908779c7dc1e37f36b2fbb5b1e87d53ebd3a8"
+    },
+    {
+      "版本": "旧版",
+      "题号": 30,
+      "文件": "usage.jsonl",
+      "摘要": "139600011f0b3e992e08ede81fd289f4a301ad72fada22e321d8e10a0f10302d"
+    },
+    {
+      "版本": "新版",
+      "题号": 30,
+      "文件": "官方评分.json",
+      "摘要": "03ba162081467a80aed08a7bf1f8197a504ba728b5987a32032bc6203e692d73"
+    },
+    {
+      "版本": "新版",
+      "题号": 30,
+      "文件": "trajectory.json",
+      "摘要": "0d626a53feb1032c7f6f5e5071c6c27b73e3d7776b0d711f30d928d4b19e0a35"
+    },
+    {
+      "版本": "新版",
+      "题号": 30,
+      "文件": "business.db",
+      "摘要": "da398c3da5d2db7b1ae8ef35c78c0afd731fbfb71f32c21b71809e7a729e7654"
+    },
+    {
+      "版本": "新版",
+      "题号": 30,
+      "文件": "usage.jsonl",
+      "摘要": "28fd87a4b8a1b36d2777a8f5bd62812ae5992065a70956d856679baf2e7af85a"
+    },
+    {
+      "版本": "旧版",
+      "题号": 31,
+      "文件": "官方评分.json",
+      "摘要": "c6e10245b48a3c361e2e1d63d8976b2b879367fa98616513551f3da0e4aca099"
+    },
+    {
+      "版本": "旧版",
+      "题号": 31,
+      "文件": "trajectory.json",
+      "摘要": "75e61833c3b3280c82205d751dc60ba5875958f29da03ed749c968a66cf96f1c"
+    },
+    {
+      "版本": "旧版",
+      "题号": 31,
+      "文件": "business.db",
+      "摘要": "772d25a358ded6a3e15d7777389537fa06a523ef4c6351f759d055575803b3c3"
+    },
+    {
+      "版本": "旧版",
+      "题号": 31,
+      "文件": "usage.jsonl",
+      "摘要": "a47c5ff744d0ab093a0d563feeac24481696626e1f4783fafbbe608651a78322"
+    },
+    {
+      "版本": "新版",
+      "题号": 31,
+      "文件": "官方评分.json",
+      "摘要": "be4d7930e54771e46fe8d5ae662932acce7cc67d3dc4e403becc37f3c9572809"
+    },
+    {
+      "版本": "新版",
+      "题号": 31,
+      "文件": "trajectory.json",
+      "摘要": "88f5cc0747ec6b24c1ec7d4d8a9ca0e3b8e3d43fbe6dd1374e3bc85fc4737eaf"
+    },
+    {
+      "版本": "新版",
+      "题号": 31,
+      "文件": "business.db",
+      "摘要": "e5ed8af0b34a1b833e06bafc46bad20347c613383f6ba52b9485a8c926f93ebe"
+    },
+    {
+      "版本": "新版",
+      "题号": 31,
+      "文件": "usage.jsonl",
+      "摘要": "73b921bb2707d03c8556617b4717986433cc8d5028d9516ab21f53d71746da17"
+    },
+    {
+      "版本": "旧版",
+      "题号": 32,
+      "文件": "官方评分.json",
+      "摘要": "315014693884a1bd711025cf3f7d0a14666b50166049af218377df36c2f1bd84"
+    },
+    {
+      "版本": "旧版",
+      "题号": 32,
+      "文件": "trajectory.json",
+      "摘要": "35a80a69c118df48973066ee13399d0b70766d07377079e4f9181c7e06499c1a"
+    },
+    {
+      "版本": "旧版",
+      "题号": 32,
+      "文件": "business.db",
+      "摘要": "4252f673bba8a559984463e29746a4bc47c2337ac35fd903293a4e02e2196aff"
+    },
+    {
+      "版本": "旧版",
+      "题号": 32,
+      "文件": "usage.jsonl",
+      "摘要": "6d200752cba3b7af11a684fdcab8a5bd02720635819d5035f82cba30a7dd37af"
+    },
+    {
+      "版本": "新版",
+      "题号": 32,
+      "文件": "官方评分.json",
+      "摘要": "53e35f1787cc42cb5691d21d9dd89a54488512a22c78424b28b079ea7135bb15"
+    },
+    {
+      "版本": "新版",
+      "题号": 32,
+      "文件": "trajectory.json",
+      "摘要": "3221f60f70a72c6f5a793e1c94989ac7c530b268ddc9f9e3601afc51f34b9ebe"
+    },
+    {
+      "版本": "新版",
+      "题号": 32,
+      "文件": "business.db",
+      "摘要": "962133cb318ed124168c918a7eae0afbe74108168a1ccba6eb77c48b24832c76"
+    },
+    {
+      "版本": "新版",
+      "题号": 32,
+      "文件": "usage.jsonl",
+      "摘要": "cf5d54eff2da33ba005ee0a96204c18ba78f4da64e7ec7fd336f7d15f4789953"
+    },
+    {
+      "版本": "旧版",
+      "题号": 33,
+      "文件": "官方评分.json",
+      "摘要": "4b3444f509c95391fa3723e1c0c15a27b5d223570c6e5cc41f416842602a45fd"
+    },
+    {
+      "版本": "旧版",
+      "题号": 33,
+      "文件": "trajectory.json",
+      "摘要": "401e3c39794d3b10aa6e2c270f17d5878ee4a151bfcdc9cd0e8bcdb2a89cf432"
+    },
+    {
+      "版本": "旧版",
+      "题号": 33,
+      "文件": "business.db",
+      "摘要": "86dce2e4ee33a0daafc2af08fb893fd8c44e7504e945405f917a91635d23aa48"
+    },
+    {
+      "版本": "旧版",
+      "题号": 33,
+      "文件": "usage.jsonl",
+      "摘要": "d2a593dc7e593b2e8ce82068b387e4a01eaeaccf4d02645f07d203ce12d17b7f"
+    },
+    {
+      "版本": "新版",
+      "题号": 33,
+      "文件": "官方评分.json",
+      "摘要": "50aa2e4b3056024b7bb84f868ded31b6864c4edff4d330fdac54bb85429183c7"
+    },
+    {
+      "版本": "新版",
+      "题号": 33,
+      "文件": "trajectory.json",
+      "摘要": "ad9bb020eba6ce590b81d547ad516d3118f74584773518b491981274e87e607e"
+    },
+    {
+      "版本": "新版",
+      "题号": 33,
+      "文件": "business.db",
+      "摘要": "8f3609f0396fa1db22493609637ca5462ca0b90ebfe43e957223569ac4ffb5cb"
+    },
+    {
+      "版本": "新版",
+      "题号": 33,
+      "文件": "usage.jsonl",
+      "摘要": "09eb6c969ef85e9aadea1b5a552c5016a43ca4bcd7952ee39cae10f6f4833727"
+    },
+    {
+      "版本": "旧版",
+      "题号": 34,
+      "文件": "官方评分.json",
+      "摘要": "f52f5c8d0d6f670d79721adc956a165374335f6f77679feccc50314e3b744011"
+    },
+    {
+      "版本": "旧版",
+      "题号": 34,
+      "文件": "trajectory.json",
+      "摘要": "bef52fb8859967db20d65b4f090add8e96c235bdcba80f5ce9a18b2dd2c0020b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 34,
+      "文件": "business.db",
+      "摘要": "05ca5765d63f1156b5fc956c7e9f2a44e8cd05fa8179ab046971963082a3533a"
+    },
+    {
+      "版本": "旧版",
+      "题号": 34,
+      "文件": "usage.jsonl",
+      "摘要": "321f6fb3b79fa85c1428e645804f6b630ceb914563cb8665783426e987aacb1c"
+    },
+    {
+      "版本": "新版",
+      "题号": 34,
+      "文件": "官方评分.json",
+      "摘要": "86e38830cfad2c9bb4912feacba4f975ae902f248ea3c208c759c0fd390af263"
+    },
+    {
+      "版本": "新版",
+      "题号": 34,
+      "文件": "trajectory.json",
+      "摘要": "9eea4596a0f68d0d01b5c2dd49417f473e502722fdfd74141aa2eba92cfe0bb8"
+    },
+    {
+      "版本": "新版",
+      "题号": 34,
+      "文件": "business.db",
+      "摘要": "15b4343bae1cb08e5b4a5b7c8ea7b426d985a2bd04d5e49f178ff06c6c765ad9"
+    },
+    {
+      "版本": "新版",
+      "题号": 34,
+      "文件": "usage.jsonl",
+      "摘要": "351ccee10c5b0539929476135f40711796ff54a50bb270ce68d61f1c9828215e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 35,
+      "文件": "官方评分.json",
+      "摘要": "b91664e465ed835a931dca9b9d9f0f37bdb973a2eb4ecc5a208d69ae4a05bc51"
+    },
+    {
+      "版本": "旧版",
+      "题号": 35,
+      "文件": "trajectory.json",
+      "摘要": "854f815fb820f19a5d311da353f962088ded41b5438eb735702a825c3fcbe444"
+    },
+    {
+      "版本": "旧版",
+      "题号": 35,
+      "文件": "business.db",
+      "摘要": "6187396f902091df7236d71fa3a34d0d59f0b940685054c05811b6f50eb0effc"
+    },
+    {
+      "版本": "旧版",
+      "题号": 35,
+      "文件": "usage.jsonl",
+      "摘要": "410887bbf87fd7d99b10a6a86440f00f3d9db8169250a109636b08d5399017c6"
+    },
+    {
+      "版本": "新版",
+      "题号": 35,
+      "文件": "官方评分.json",
+      "摘要": "7ddbb377f022e31361d97ef5282fce2e115e473407aa749dbe9125e48f32fdc2"
+    },
+    {
+      "版本": "新版",
+      "题号": 35,
+      "文件": "trajectory.json",
+      "摘要": "d488dd2c8c246846b6447961e9e1ef9ac5a7a50485ecc2cfe86f174da10c1250"
+    },
+    {
+      "版本": "新版",
+      "题号": 35,
+      "文件": "business.db",
+      "摘要": "40ce3c27913e1b331187a4a59a98391018d7bd6e5bbb1426ffd36ad4f89848c2"
+    },
+    {
+      "版本": "新版",
+      "题号": 35,
+      "文件": "usage.jsonl",
+      "摘要": "920842b17151d10127a749ab38a65e6ced54833783ac88e5e46142b55571888e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 36,
+      "文件": "官方评分.json",
+      "摘要": "865a0a5b8ff60e7d1591ec067989a5331c42b5e30e9e3be6cbe0d99db1fe1ef8"
+    },
+    {
+      "版本": "旧版",
+      "题号": 36,
+      "文件": "trajectory.json",
+      "摘要": "461aea79287ff91e1133d3fdc58de474d32c437077c2c90291645816e8143f53"
+    },
+    {
+      "版本": "旧版",
+      "题号": 36,
+      "文件": "business.db",
+      "摘要": "e17735a143b5ba5f0dac6ecbe6cff9b92aba53f68674f4aca244443c0a31b9c0"
+    },
+    {
+      "版本": "旧版",
+      "题号": 36,
+      "文件": "usage.jsonl",
+      "摘要": "e54192788c6ecb8912967d4846877038281862e89b0c1807d777dd38fbc62c76"
+    },
+    {
+      "版本": "新版",
+      "题号": 36,
+      "文件": "官方评分.json",
+      "摘要": "ea412e9be1121a0a70818a892fa04c8bf2379cb2a5dd7d71318ea155fa27bed1"
+    },
+    {
+      "版本": "新版",
+      "题号": 36,
+      "文件": "trajectory.json",
+      "摘要": "6b95f04a47daecb40628e410716656b08501400d001f53d1b80f1f9f4e295945"
+    },
+    {
+      "版本": "新版",
+      "题号": 36,
+      "文件": "business.db",
+      "摘要": "6b5802a6ea303ad8d2e44f4ea64c1335caa0ef40aaabd41141fa504ff7757b74"
+    },
+    {
+      "版本": "新版",
+      "题号": 36,
+      "文件": "usage.jsonl",
+      "摘要": "10b4033dcd5cc36ac420827bd8dbe037c173875df07cc2088776bd800ccbc8b0"
+    },
+    {
+      "版本": "旧版",
+      "题号": 37,
+      "文件": "官方评分.json",
+      "摘要": "cb1f22efdbb08c3be75533e5f0dd92aba1515eb0f57b39b6e43d72d63b5ca4a6"
+    },
+    {
+      "版本": "旧版",
+      "题号": 37,
+      "文件": "trajectory.json",
+      "摘要": "42dbae2bb93497bac1923b315e42d6c55315819b6452c90851091d0b93b2dd2e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 37,
+      "文件": "business.db",
+      "摘要": "94140fdca125fc321fb4a5cf31418bc243bc8e4202a9d356be7494c130428e55"
+    },
+    {
+      "版本": "旧版",
+      "题号": 37,
+      "文件": "usage.jsonl",
+      "摘要": "b376e1fcddec21f44a51d45b3f7575d99c874aa7bd12cb61902e60ca8f3dd617"
+    },
+    {
+      "版本": "新版",
+      "题号": 37,
+      "文件": "官方评分.json",
+      "摘要": "92c648545d1008d8ebe4db20e2f15268d411f6fb792934f09b48605917a45418"
+    },
+    {
+      "版本": "新版",
+      "题号": 37,
+      "文件": "trajectory.json",
+      "摘要": "f7aad9bf7252ec1330295584c613bc4a1e89e3afecea2559e4bab6f3d7708ed3"
+    },
+    {
+      "版本": "新版",
+      "题号": 37,
+      "文件": "business.db",
+      "摘要": "05ddbefedab87b30fe4ecbf4dcc28d18054a50d0326c5032cbf1b430f02335e4"
+    },
+    {
+      "版本": "新版",
+      "题号": 37,
+      "文件": "usage.jsonl",
+      "摘要": "8185f4d09947d969597ed224264f7036b22c7680e58656692081d42dd0dc6a97"
+    },
+    {
+      "版本": "旧版",
+      "题号": 40,
+      "文件": "官方评分.json",
+      "摘要": "b36984d5088515218ad0859d448c31c053a59bce715a7f7a55b12722c62c4713"
+    },
+    {
+      "版本": "旧版",
+      "题号": 40,
+      "文件": "trajectory.json",
+      "摘要": "472a5a58658c0d457b0cc422cc0fefa9652e07e21733f44278e7cd5b1c8b2dc0"
+    },
+    {
+      "版本": "旧版",
+      "题号": 40,
+      "文件": "business.db",
+      "摘要": "d807c7ce404404110db195812a4d0c5619f83ca5f09aff4bdd6f62ffca87738c"
+    },
+    {
+      "版本": "旧版",
+      "题号": 40,
+      "文件": "usage.jsonl",
+      "摘要": "260a737546eee1effc584cff34c5ec5e23555a42160239e9f1aef274d75ef94d"
+    },
+    {
+      "版本": "新版",
+      "题号": 40,
+      "文件": "官方评分.json",
+      "摘要": "5bec0894be822f09b35fbcc79a6307f96f0f407e7f41e14becccdbf5a93d8e68"
+    },
+    {
+      "版本": "新版",
+      "题号": 40,
+      "文件": "trajectory.json",
+      "摘要": "b005a0256d712e3d57bedab094f1c886b821083758032004a576b4b1b4f5f1b1"
+    },
+    {
+      "版本": "新版",
+      "题号": 40,
+      "文件": "business.db",
+      "摘要": "bf8c16033fb99152e73c3767755c94739d38e41ab9519cbfa7f5c7c82bfa2dda"
+    },
+    {
+      "版本": "新版",
+      "题号": 40,
+      "文件": "usage.jsonl",
+      "摘要": "50d3c4dcae0662e1774616139c6175d810e062255b066c6c50e5cae5d602e072"
+    },
+    {
+      "版本": "旧版",
+      "题号": 42,
+      "文件": "官方评分.json",
+      "摘要": "3d966b4035f086102f9a5a4961f826832f2a9c6980d42dfd535471cc7170fa67"
+    },
+    {
+      "版本": "旧版",
+      "题号": 42,
+      "文件": "trajectory.json",
+      "摘要": "c4e1e8724ad290395701d24c740732bd2db4355c844cabe126c87c50c52226a7"
+    },
+    {
+      "版本": "旧版",
+      "题号": 42,
+      "文件": "business.db",
+      "摘要": "71ffcd8128bf2c0bf2fe8fdda4d47a4ce7543fdf4c25d9a424f8d1d535890a74"
+    },
+    {
+      "版本": "旧版",
+      "题号": 42,
+      "文件": "usage.jsonl",
+      "摘要": "f7e40a6d76d666f9f5f5767b471f1266353abd6380a30fd3f4656ec090435cd7"
+    },
+    {
+      "版本": "新版",
+      "题号": 42,
+      "文件": "官方评分.json",
+      "摘要": "20d473e55d76b63ffe58d82760534d58a6be9c58a95b8c0c296e299c418e6169"
+    },
+    {
+      "版本": "新版",
+      "题号": 42,
+      "文件": "trajectory.json",
+      "摘要": "1a678a90a5f6c5c97ec94a44537629a10eb194eebfdffc9a7710dcef78a515cb"
+    },
+    {
+      "版本": "新版",
+      "题号": 42,
+      "文件": "business.db",
+      "摘要": "023dbaf9be2ea0e9534e31dac5d4da9d69e12057256eb9329bd0f70f77268ca5"
+    },
+    {
+      "版本": "新版",
+      "题号": 42,
+      "文件": "usage.jsonl",
+      "摘要": "df6aced41d7fea79f034ddefd6fc054dcd517a2378afc2d147d97fb8858da688"
+    },
+    {
+      "版本": "旧版",
+      "题号": 43,
+      "文件": "官方评分.json",
+      "摘要": "767ee59b6c6ea92179615b145b58821d890283c8e5d7ae080f57b1fc20f158d4"
+    },
+    {
+      "版本": "旧版",
+      "题号": 43,
+      "文件": "trajectory.json",
+      "摘要": "f7c6b3859d57a7a3c2dbe82c90fe5e28abcd87fefb8ecd6d1dc692f91ba57fcb"
+    },
+    {
+      "版本": "旧版",
+      "题号": 43,
+      "文件": "business.db",
+      "摘要": "f745af98172b1613b55c883e1912be21211e894cd3c8dc2e2c55ffbfd2bc30de"
+    },
+    {
+      "版本": "旧版",
+      "题号": 43,
+      "文件": "usage.jsonl",
+      "摘要": "b9d2d96b482e37e6b651bde1c6d1fd3d643be2ed20b1492743cf7139fde041fa"
+    },
+    {
+      "版本": "新版",
+      "题号": 43,
+      "文件": "官方评分.json",
+      "摘要": "8f27aa24e37fb7102e7b33533eb1396fb2308bc7aa708377ba28cc061797319c"
+    },
+    {
+      "版本": "新版",
+      "题号": 43,
+      "文件": "trajectory.json",
+      "摘要": "5fb9bf8bd9a53d5790fbaec369e7a518c591b6f5dc718532ab7bcbfc94836213"
+    },
+    {
+      "版本": "新版",
+      "题号": 43,
+      "文件": "business.db",
+      "摘要": "bfed2aa59a5a61bb7b8e5bc660503216bd479f2b358617b544ada19b4cab81fb"
+    },
+    {
+      "版本": "新版",
+      "题号": 43,
+      "文件": "usage.jsonl",
+      "摘要": "a0c693dc8c24169d77e1c95b69a04ff356683047a108ffbf8692ba4a39c9ca8b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 44,
+      "文件": "官方评分.json",
+      "摘要": "b3597ea8d5b9de50b13f1414c8526c9a358dd3955ec6dee7ed57e7863995e8bc"
+    },
+    {
+      "版本": "旧版",
+      "题号": 44,
+      "文件": "trajectory.json",
+      "摘要": "719dba6693de261273399c93b476d5ea74ac71da376ad1a7255fd6abe1757545"
+    },
+    {
+      "版本": "旧版",
+      "题号": 44,
+      "文件": "business.db",
+      "摘要": "be44c7ad0e414b15ebaf9d0741548d31b74bc916869c53d473010edd1d865ae7"
+    },
+    {
+      "版本": "旧版",
+      "题号": 44,
+      "文件": "usage.jsonl",
+      "摘要": "c65a1bf908ccd94bba2bc0e47987b81204e4e13ee1c747bcd360fb4fdd93bdd3"
+    },
+    {
+      "版本": "新版",
+      "题号": 44,
+      "文件": "官方评分.json",
+      "摘要": "e3e895d8d31fe47160b9f0fcdfbe9e3b5be3355e0b52963289e14fe2e98c3e6d"
+    },
+    {
+      "版本": "新版",
+      "题号": 44,
+      "文件": "trajectory.json",
+      "摘要": "a446831049c6bc5f2a276edd71fbab354f3e4aaf6a95eb58d9ca7df3e2ce6529"
+    },
+    {
+      "版本": "新版",
+      "题号": 44,
+      "文件": "business.db",
+      "摘要": "46c3345751aaa47ba6f6e27ce330f0e50be18f4840a71b897ce6efe0e237c1d3"
+    },
+    {
+      "版本": "新版",
+      "题号": 44,
+      "文件": "usage.jsonl",
+      "摘要": "637e69fa138362b42f1c5e7afc141e94388eda638cbbd49fd3f3b860a62f558a"
+    },
+    {
+      "版本": "旧版",
+      "题号": 45,
+      "文件": "官方评分.json",
+      "摘要": "aa20d6e09182f4c20efe52a58d8742766ed83ac0568609bd65846faf2d56a78f"
+    },
+    {
+      "版本": "旧版",
+      "题号": 45,
+      "文件": "trajectory.json",
+      "摘要": "7054119b1f3e1609e39926e42027f4d195d8f9a1a4e3b85ea78c2167da3c9ba3"
+    },
+    {
+      "版本": "旧版",
+      "题号": 45,
+      "文件": "business.db",
+      "摘要": "e441bad9be1c3e894b33b1e9b8a16b174821709201830f9f2d97490e069d684e"
+    },
+    {
+      "版本": "旧版",
+      "题号": 45,
+      "文件": "usage.jsonl",
+      "摘要": "34373ed05c5521e625816d9a24eb35c83fb672d2d67a80450a14c0429cd425ae"
+    },
+    {
+      "版本": "新版",
+      "题号": 45,
+      "文件": "官方评分.json",
+      "摘要": "c94d3465250847263e496b0068145c6bd5bae503e750e43c76dd982ca2a1264c"
+    },
+    {
+      "版本": "新版",
+      "题号": 45,
+      "文件": "trajectory.json",
+      "摘要": "e4bb2e413853b06da7962b8dc62ab7dfa673a260104ed40326ce05d9e1aa4e5e"
+    },
+    {
+      "版本": "新版",
+      "题号": 45,
+      "文件": "business.db",
+      "摘要": "534e48219419d1a632b5c5cff2b9d0855c5013c97474ba43a8bf268592fd8c61"
+    },
+    {
+      "版本": "新版",
+      "题号": 45,
+      "文件": "usage.jsonl",
+      "摘要": "61ea6cb58279fa163b2e18d69f9434a1598de10ebfc1d57c0b67ab113f13f6f5"
+    },
+    {
+      "版本": "旧版",
+      "题号": 46,
+      "文件": "官方评分.json",
+      "摘要": "f9eb410e56e8e981506b5d490642d33bf93ba0b40a9eb81ed41ba165fa6d9460"
+    },
+    {
+      "版本": "旧版",
+      "题号": 46,
+      "文件": "trajectory.json",
+      "摘要": "d09ac8cf9a6b3fd8a9ebfcd7bd5f0cee9b5286431e477c1534a1b8a451c24f5d"
+    },
+    {
+      "版本": "旧版",
+      "题号": 46,
+      "文件": "business.db",
+      "摘要": "82d330469146a097609a2edd49bf3c0ac1631be00ecbf141624fb701ec41b144"
+    },
+    {
+      "版本": "旧版",
+      "题号": 46,
+      "文件": "usage.jsonl",
+      "摘要": "9c930ab412b4d68b1399eb4d73ea83e2cfa08c22bac20b52ff4ec2c2b680eb73"
+    },
+    {
+      "版本": "新版",
+      "题号": 46,
+      "文件": "官方评分.json",
+      "摘要": "ec12ac4eba2a765ce5243d547b044586b9c522a6777c89408ebeef084b275e82"
+    },
+    {
+      "版本": "新版",
+      "题号": 46,
+      "文件": "trajectory.json",
+      "摘要": "b70d95364f0a176f6b0da08efdb296d84a8e9d30350e43a96c0a7c4a546fad82"
+    },
+    {
+      "版本": "新版",
+      "题号": 46,
+      "文件": "business.db",
+      "摘要": "297679eefda6b67bd19f4dd0169bc6ef050693f6d43ad40b238dbced93e98b91"
+    },
+    {
+      "版本": "新版",
+      "题号": 46,
+      "文件": "usage.jsonl",
+      "摘要": "671499d46d3cdc312c2ddef01c471f42bfc990c8948130e7c0d2c3d574410910"
+    },
+    {
+      "版本": "旧版",
+      "题号": 47,
+      "文件": "官方评分.json",
+      "摘要": "eb1bfb94b93589e38979aa62d0766d1e7a3843a403d015c4e0321dbf59e9a340"
+    },
+    {
+      "版本": "旧版",
+      "题号": 47,
+      "文件": "trajectory.json",
+      "摘要": "3b7b7df76ad97f1a81014ffb907f68003fd2db3bf09480553f025af489bcfc43"
+    },
+    {
+      "版本": "旧版",
+      "题号": 47,
+      "文件": "business.db",
+      "摘要": "196e80a22fa64f3239d292a55b473dce684c72c90cddf82e96007370c19b571d"
+    },
+    {
+      "版本": "旧版",
+      "题号": 47,
+      "文件": "usage.jsonl",
+      "摘要": "5dcaa2430700c0f5e1237d42c356ce287506ea4199ae6360e986a6e6b6609783"
+    },
+    {
+      "版本": "新版",
+      "题号": 47,
+      "文件": "官方评分.json",
+      "摘要": "a09e3a225fb2f1edea1768e72f306042a99aa74f39ad76141189ccb990803120"
+    },
+    {
+      "版本": "新版",
+      "题号": 47,
+      "文件": "trajectory.json",
+      "摘要": "acf4235c80d2e9511c263e4d103a5765b9f4e2970584d5a89b4ca2888fa18e8b"
+    },
+    {
+      "版本": "新版",
+      "题号": 47,
+      "文件": "business.db",
+      "摘要": "5366e99d8d59c8b284dd1ac0ae6189452e29ef3c27f53ef787a5e7881c832d7a"
+    },
+    {
+      "版本": "新版",
+      "题号": 47,
+      "文件": "usage.jsonl",
+      "摘要": "ffeb32a4c00e4dd391622ce92883987a67927283b86bb36ddb0bb049f05195f8"
+    },
+    {
+      "版本": "旧版",
+      "题号": 49,
+      "文件": "官方评分.json",
+      "摘要": "e580525468de4b60df132cc7c51478df72ae04840537b2b9fbd251135680fd4a"
+    },
+    {
+      "版本": "旧版",
+      "题号": 49,
+      "文件": "trajectory.json",
+      "摘要": "21fb1dbc076fd9432b6aae750dc87f5d6ce22b0e7ddd2cf74ef6fd7ede045a3b"
+    },
+    {
+      "版本": "旧版",
+      "题号": 49,
+      "文件": "business.db",
+      "摘要": "4d33f7c40125a68a61e2b5842316c8271f900653ff19e1d6139b4821a264a655"
+    },
+    {
+      "版本": "旧版",
+      "题号": 49,
+      "文件": "usage.jsonl",
+      "摘要": "d68283db4810e4f153d0a9c1bb86a76bc1bd9627035cab8dd73aa5e76682f95a"
+    },
+    {
+      "版本": "新版",
+      "题号": 49,
+      "文件": "官方评分.json",
+      "摘要": "ddf5f2ef7de479c1e8d39ee8978cb082331cb83b01213c82387c3e5a0525e78d"
+    },
+    {
+      "版本": "新版",
+      "题号": 49,
+      "文件": "trajectory.json",
+      "摘要": "59c9e84a025a95454caca2cc071694b00514f428afcf48d8eee889e6cf9392f3"
+    },
+    {
+      "版本": "新版",
+      "题号": 49,
+      "文件": "business.db",
+      "摘要": "3173e05472f586dcb8f13f03f3998407d90aeadffb3a3866d35478c27e7d51f1"
+    },
+    {
+      "版本": "新版",
+      "题号": 49,
+      "文件": "usage.jsonl",
+      "摘要": "63caa30e5854bc0739313cc00dc81a18500ccc25166f87ddd5439963e28596df"
+    },
+    {
+      "版本": "旧版",
+      "题号": 50,
+      "文件": "官方评分.json",
+      "摘要": "e7e077ef926fe8fb2648c749fc3e33789dc8bda246c4f5719b918fe184ba0fa0"
+    },
+    {
+      "版本": "旧版",
+      "题号": 50,
+      "文件": "trajectory.json",
+      "摘要": "1c9303e0373135bac61ba6476d9ae341574f510b4c025f4dcfe0b9547b6dcded"
+    },
+    {
+      "版本": "旧版",
+      "题号": 50,
+      "文件": "business.db",
+      "摘要": "322bd2ec5e026d03d88d03efb30a6c9a633485cc0b87e073dcbddcd90a12afef"
+    },
+    {
+      "版本": "旧版",
+      "题号": 50,
+      "文件": "usage.jsonl",
+      "摘要": "6a2c4eaeec1b3b518ed8366f04f5f55d68aad593f4dba0685b1c26889e317a15"
+    },
+    {
+      "版本": "新版",
+      "题号": 50,
+      "文件": "官方评分.json",
+      "摘要": "010cd69d26350391491f4bc111942d50d69bb0dfeb4c508d15133522f522aa93"
+    },
+    {
+      "版本": "新版",
+      "题号": 50,
+      "文件": "trajectory.json",
+      "摘要": "76bc4ea134aa46ba570155052ccf9b9481681f96b73d2bd757c4a40166972e99"
+    },
+    {
+      "版本": "新版",
+      "题号": 50,
+      "文件": "business.db",
+      "摘要": "d9d2e301d01ed5f1a504d523509dfc8ac11c9d970c64771ef920db7a4ad30739"
+    },
+    {
+      "版本": "新版",
+      "题号": 50,
+      "文件": "usage.jsonl",
+      "摘要": "69791b031cb089d159fa253dd3bc453755e3180891aa9b73dc3ec9fbbfb362ac"
+    },
+    {
+      "版本": "旧版",
+      "题号": 52,
+      "文件": "官方评分.json",
+      "摘要": "0bbb3e992f3515253b411769102c5ce2f931f1f2aa1f06969406cb3bbe0c87ee"
+    },
+    {
+      "版本": "旧版",
+      "题号": 52,
+      "文件": "trajectory.json",
+      "摘要": "7dbfe899e67fbf454024ecf4e5ff0ab999ac770c06d365ee987b5eb73246c594"
+    },
+    {
+      "版本": "旧版",
+      "题号": 52,
+      "文件": "business.db",
+      "摘要": "15826f327ce5ea3f22193db8b9028eec0369a1ed5894be35da2e4c3a2cee21a6"
+    },
+    {
+      "版本": "旧版",
+      "题号": 52,
+      "文件": "usage.jsonl",
+      "摘要": "d326c8cd23d92f65379de7fbd599db962e4248d0b3c647d503996386de29a836"
+    },
+    {
+      "版本": "新版",
+      "题号": 52,
+      "文件": "官方评分.json",
+      "摘要": "e7be2cb36d6100246f2479eec31af7a53cde5a8a2209681d0a32eacda130ea32"
+    },
+    {
+      "版本": "新版",
+      "题号": 52,
+      "文件": "trajectory.json",
+      "摘要": "b4a048e2eab20866e4fe8bf290ab93d1975424115a41a96e92529d7097033d8f"
+    },
+    {
+      "版本": "新版",
+      "题号": 52,
+      "文件": "business.db",
+      "摘要": "1e9a69eae03905cd037e2b927bcbc53423d96a0717ec86739ae920bbf97d30b2"
+    },
+    {
+      "版本": "新版",
+      "题号": 52,
+      "文件": "usage.jsonl",
+      "摘要": "5f65c91705b0e1d0516feff1244c4caebe78298535fcf79c8833e3061bddd206"
+    }
+  ]
+}
