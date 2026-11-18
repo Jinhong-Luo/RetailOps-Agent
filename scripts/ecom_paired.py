@@ -183,10 +183,58 @@ def exchange_activity(shop, history, store, sid):
     return "get_gift_info_tool", dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id,product_id=pid)
 
 
+PRODUCT_QUESTIONS = (
+    ("get_installation_service_info_tool", r"安装条件|留.{0,5}(厘米|空间|间距)|安装.{0,6}(间距|要求|空间)|墙体|承重|右侧|顶部"),
+    ("get_auxiliary_materials_info_tool", r"辅材|辅料|材料费|管材|配件.{0,4}(收费|费用)"),
+    ("get_repair_info_tool", r"维修.{0,5}(政策|规则|说明|范围)|保修"),
+    ("get_gift_info_tool", r"赠品|回收补贴|以旧换新"),
+)
+
+
+def product_questions(shop, text, history):
+    """按顾客指明的单一商品收集本轮问题，预算内依次查证。"""
+    explicit = re.findall(r"(?:商品|产品|型号)\s*(?:编号|号码|号|ID|id)?\s*[为是：:#]?\s*(\d{5,})(?!\d)",text)
+    ids = set(explicit)
+    if not ids:
+        # 只使用面客流程已查询的订单详情。多笔订单或多款商品时由客服澄清。
+        orders, details = set(), {}
+        calls = {}
+        for message in history:
+            for call in message.get("tool_calls") or []:
+                calls[call["id"]] = call["function"]["name"]
+            tool = calls.get(message.get("tool_call_id"))
+            if tool not in {"get_user_orders_info_tool","manage_order_tool"}:
+                continue
+            result = json.loads(message["content"])
+            if isinstance(result,str):
+                try:
+                    result=json.loads(result)
+                except ValueError:
+                    continue
+            if not isinstance(result,dict):
+                continue
+            oid=result.get("订单ID")
+            if isinstance(oid,list):
+                orders.update(map(str,oid))
+            elif oid and isinstance(result.get("订单商品列表"),list):
+                details[str(oid)]={str(item["商品ID"]) for item in result["订单商品列表"] if item.get("商品ID")}
+        if re.search(r"换货|新型号|原型号|另一款|另一台|换入|换后",text):
+            return []
+        named = {oid for oid in orders if oid in text}
+        selected = named or orders
+        if len(selected)==1:
+            ids=details.get(next(iter(selected)),set())
+    if len(ids)!=1:
+        return []
+    pid=next(iter(ids))
+    args=dict(platform=shop.env.task.platform,shop_id=shop.env.task.shop_id,product_id=pid)
+    return [(tool,args) for tool,pattern in PRODUCT_QUESTIONS if re.search(pattern,text)]
+
+
 def consultation_read(shop, history):
     start = max(i for i,message in enumerate(history) if message["role"]=="user")
     text = history[start]["content"]
-    targeted = []
+    targeted = product_questions(shop, text, history)
     if re.search(r"(?:京东)?[EeＥｅ]\s*卡|电子卡",text) and re.search(
             r"怎么用|如何使用|怎么使用|使用.{0,6}(限制|条件|范围|规则|说明)|有效期|能否提现|能不能提现",text):
         targeted.append(("manage_ecard_tool",dict(platform=shop.env.task.platform,user_id=shop.uid,action="信息查询")))
@@ -227,7 +275,10 @@ def opening_read(shop, history, store, sid):
         text = next((m["content"] for m in reversed(history) if m["role"] == "user"), "")
         target = next((oid for oid in ids if oid in text), ids[0])
         return "manage_order_tool", dict(args, order_id=target, action="查询")
-    return exchange_activity(shop,history,store,sid) or consultation_read(shop,history)
+    # 为本轮保留一步面客答复；每个强制查询仍占用原八步之一。
+    current = next(i for i in range(len(history)-1,-1,-1) if history[i]["role"]=="user")
+    if sum(m["role"]=="assistant" for m in history[current+1:]) < 7:
+        return exchange_activity(shop,history,store,sid) or consultation_read(shop,history)
 
 
 def enable_product(shop):
@@ -238,7 +289,7 @@ def enable_product(shop):
         "顾客明确给出商品编号时按该编号查当轮所问的资料；匹配后停止翻其他订单。"
         "维修查维修说明、安装查安装说明、辅材查辅材材料。顾客问某型号有什么活动，先用 get_gift_info_tool 核实该型号的赠品和回收补贴；店铺折扣不能替代商品活动。"
         "问原购型号或换入型号时从已成功执行的换货回执取对应编号。多单指代不明先澄清。"
-        "纯咨询查到依据后直接给顾客可见的回答；活动资料只能说明查到的条款。")
+        "把本轮每个问题对应到具体型号和工具结果，逐项答复。缺报价时明确哪些材料按量收费、哪些金额仍须现场核实。纯咨询查到依据后直接给顾客可见的回答；活动资料只能说明查到的条款。")
 
 
 def confirmed_reply(store, receipt):
