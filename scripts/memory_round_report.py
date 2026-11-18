@@ -1,5 +1,6 @@
 """核验全部位置和记忆来源链，分别报告当轮成功率与累计覆盖。"""
 import argparse
+from datetime import datetime
 from collections import Counter
 import hashlib
 import json
@@ -41,6 +42,30 @@ def usage(paths):
             for k in ("prompt_tokens","completion_tokens","total_tokens"):
                 total[k]+=int((row.get("usage") or {}).get(k) or 0)
     return dict(**total,不可解析行数=bad)
+
+
+def auxiliary_meter(root):
+    """将预检、连通探测和异常整理与正式得分位置分开计量。"""
+    probe=usage(list(root.glob("预检/*/*/*/*/usage.jsonl")))
+    reconnect=Counter()
+    for p in root.glob("恢复探测-*.json"):
+        row=read_json(p)
+        reconnect["成功响应"]+=1
+        for k in ("prompt_tokens","completion_tokens","total_tokens"):
+            reconnect[k]+=int((row.get("用量") or {}).get(k) or 0)
+    unfinished=[]
+    for p in root.glob("整理/*/*/*"):
+        if not (p/"更新.json").exists():
+            unfinished.append(p)
+    executions=[read_json(p) for p in root.glob("执行-*/起止.json")]
+    if executions and any("结束UTC" not in x for x in executions):
+        raise ValueError("执行进程尚未结束，不能冻结耗时")
+    elapsed=sum((datetime.fromisoformat(x["结束UTC"])-datetime.fromisoformat(x["开始UTC"])).total_seconds()
+                for x in executions)
+    return dict(预检=probe,恢复探测=dict(reconnect),未完成整理尝试数=len(unfinished),
+                执行记录=executions,执行总秒=elapsed,
+                计量说明="成功响应用量不含未返回的服务端消耗；未完成整理若无用量回执，不能估算为零。")
+
 
 def report(root,out):
     config=read_json(root/"配置.json")
@@ -112,6 +137,7 @@ def report(root,out):
         用时秒=sum(u.get("用时秒") or 0 for u in chain))
     missing_attempts=[p for p in root.glob("正式/*/*/*/*") if p.is_dir() and not (p/"官方评分.json").exists()]
     meter["无分异常尝试"]=usage([p/"usage.jsonl" for p in missing_attempts if (p/"usage.jsonl").exists()])
+    meter["辅助与耗时"]=auxiliary_meter(root)
     result=dict(配置=config,逐轮=totals,逐题=paired,轮间变化=switches,同轮开关差异=compared,
         四项逐位置=rows,计量=meter,无分尝试数=len(missing_attempts),记忆来源链=chain,文件指纹=fingerprints)
     out.mkdir(parents=True,exist_ok=True)
