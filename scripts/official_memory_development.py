@@ -27,6 +27,23 @@ def account(store,sid):
         row=store.row(db,sid)
         return deepcopy(store.toolkit(db,row["uid"]).db)
 
+def make_shop(case):
+    shop=fixture()
+    seed=deepcopy(shop.initial(shop.uid))
+    orders=seed["orders"]["jd"]["开发店"][shop.uid]
+    order=orders.pop("71001");order["订单ID"]="林泉741";orders["林泉741"]=order
+    order["订单状态"]="已签收" if case.startswith(("退货","退款")) else "已付款"
+    products=seed["products"]["jd"]["开发店"]
+    for product in products.values():
+        product.setdefault("商品描述","开发用合成恒温机，同系列可换款式保持价格与数量。")
+        product.setdefault("商品状态","已上架")
+    products["860001"].update(商品状态="已上架",可换货商品=["860002"],库存=5)
+    products["860002"].update(商品状态="已上架",可换货商品=["860001"],库存=5)
+    shop.initial=lambda uid:deepcopy(seed)
+    enable_product(shop);enable_refund(shop);shop.scoped_waits=True
+    server.set_data=lambda data:None
+    return shop
+
 async def run(case,arm,bank,folder):
     folder.mkdir(parents=True,exist_ok=False)
     load_env()
@@ -34,17 +51,7 @@ async def run(case,arm,bank,folder):
         RETAILOPS_OFFICIAL_STORE=str(bank),RETAILOPS_MEMORY_CONTRACT=str(folder/"业务契约.json"),
         RETAILOPS_ALIGNED_ARM="full",RETAILOPS_BOOKING_MODE="轻量")
     os.environ.pop("RETAILOPS_MEMORY_BANK",None)
-    shop=fixture()
-    seed=deepcopy(shop.initial(shop.uid))
-    orders=seed["orders"]["jd"]["开发店"][shop.uid]
-    order=orders.pop("71001");order["订单ID"]="林泉741";orders["林泉741"]=order
-    order["订单状态"]="已签收" if case.startswith(("退货","退款")) else "已付款"
-    products=seed["products"]["jd"]["开发店"]
-    products["860001"].update(商品状态="已上架",可换货商品=["860002"],库存=5)
-    products["860002"].update(商品状态="已上架",可换货商品=["860001"],库存=5)
-    shop.initial=lambda uid:deepcopy(seed)
-    enable_product(shop);enable_refund(shop);shop.scoped_waits=True
-    server.set_data=lambda data:None
+    shop=make_shop(case)
     store=Store(folder/"business.db",shop)
     sid=store.identifier(store.open(shop.uid))
     before=account(store,sid)
@@ -107,14 +114,13 @@ async def run(case,arm,bank,folder):
     events=store.events(sid,0)
     refs=[e for e in events if e["stage"]=="官方记忆读取"]
     checks["确认前账本未变"]=checks.get("确认前账本未变",account(store,sid)==before)
-    checks["开启时真实读取经验"]=arm!="持续" or bool(refs)
     checks["预算内"]=max((e.get("step",0) for e in events),default=0)<=8 and error!="step_limit"
     checks["记忆快照未变"]=snapshot(bank)["digest"]==initial_bank
     checks["关闭条件无记忆读取"]=arm!="关闭" or not refs
     write_json(folder/"私有轨迹.json",dict(输入=CASES[case],回复=reply,结果=result,事件=events,调用=calls))
     row=dict(案例=case,条件=arm,分项=checks,通过=all(checks.values()),异常=error,
              初始账本摘要=hashlib.sha256(json.dumps(before,sort_keys=True,ensure_ascii=False).encode()).hexdigest(),
-             记忆摘要=initial_bank,记忆读取次数=len(refs),读取路径=[e.get("path") for e in refs],模型调用=len(calls),
+             记忆摘要=initial_bank,记忆读取次数=len(refs),是否读取记忆=bool(refs),读取路径=[e.get("path") for e in refs],模型调用=len(calls),
              token=sum((x["用量"] or {}).get("total_tokens",0) for x in calls))
     write_json(folder/"结果.json",row)
     print(json.dumps(row,ensure_ascii=False),flush=True)

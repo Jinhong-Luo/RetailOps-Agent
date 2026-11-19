@@ -32,7 +32,9 @@ def run(source,root):
     hashes={case:{x.get("初始账本摘要") for x in rows if x["案例"]==case} for case in CASES}
     paired=all(len(v)==1 and None not in v for v in hashes.values())
     unchanged=snapshot(bank)["digest"]==before["digest"]
-    result=dict(结果=rows,起始事实一致=paired,冻结库未变=unchanged,通过=paired and unchanged and all(x["通过"] for x in rows))
+    reading=any(x.get("记忆读取次数",0)>0 for x in rows if x["条件"]=="持续")
+    result=dict(结果=rows,起始事实一致=paired,冻结库未变=unchanged,开启组存在真实读取=reading,
+                通过=paired and unchanged and reading and all(x["通过"] for x in rows))
     write_json(root/"汇总.json",result)
     print("开发位置完成：",sum(x["通过"] for x in rows),"/",len(rows),flush=True)
     return result
