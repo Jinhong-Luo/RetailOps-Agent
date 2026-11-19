@@ -1,0 +1,48 @@
+{
+  "仓库": "https://github.com/anthropics/claude-cookbooks",
+  "提交": "ce8b2629efe8b24048b127b4c79af1e9cbab93d4",
+  "文件": [
+    {
+      "上游路径": "LICENSE",
+      "文件名": "LICENSE",
+      "Git对象": "e0d914d8c81feba1a081620902f8c4877ad6313d",
+      "末尾换行": 0
+    },
+    {
+      "上游路径": "managed_agents/CMA_dreaming_with_a_dynamic_workflow.ipynb",
+      "文件名": "CMA_dreaming_with_a_dynamic_workflow.ipynb",
+      "Git对象": "9b9f0c0c1921884a69ad346aefbc50f1675d5b06",
+      "末尾换行": 1
+    },
+    {
+      "上游路径": "managed_agents/memory_distill_utils.py",
+      "文件名": "memory_distill_utils.py",
+      "Git对象": "fbc69884c0a3a9c3925f314dc3f0406a235d9cad",
+      "末尾换行": 1
+    },
+    {
+      "上游路径": "managed_agents/example_data/memory_distill/prompts/work_request.md",
+      "文件名": "work_request.md",
+      "Git对象": "48211e4c0809ea44968a8ea01ec6dc43cc78cc6f",
+      "末尾换行": 1
+    },
+    {
+      "上游路径": "managed_agents/example_data/memory_distill/prompts/lead_system.md",
+      "文件名": "lead_system.md",
+      "Git对象": "6bd05eb9ec278fd11a47e061103e77106695671b",
+      "末尾换行": 1
+    },
+    {
+      "上游路径": "managed_agents/example_data/memory_distill/prompts/analyzer_system.md",
+      "文件名": "analyzer_system.md",
+      "Git对象": "bf685d77770443708c0505c05a4aafb8a3064c4c",
+      "末尾换行": 1
+    },
+    {
+      "上游路径": "managed_agents/example_data/memory_distill/prompts/organizer_system.md",
+      "文件名": "organizer_system.md",
+      "Git对象": "05152e3ce9ed860020f57e970bc47583a5f98525",
+      "末尾换行": 1
+    }
+  ]
+}
