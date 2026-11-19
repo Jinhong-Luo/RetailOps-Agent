@@ -137,6 +137,31 @@ def update(root,r,task,bank,episode):
     return dream(bank,episode,base/uuid4().hex)
 
 
+def validate_preflight(result):
+    """依据实际请求核对开关工具差异；按需读取未触发单独记录，不冒充功能失效。"""
+    surfaces={}
+    contracts={}
+    scores={}
+    for arm,folder in result.items():
+        events=[json.loads(line) for line in (folder/"客服实际调用.jsonl").read_text().splitlines()]
+        request=next((e["内容"] for e in events if e["事件"]=="请求"),None)
+        if request is None:
+            raise ValueError("预检没有真实客服请求")
+        surfaces[arm]={s["function"]["name"]:s for s in request["tools"]}
+        contracts[arm]=read_json(folder/"业务契约.json")
+        scores[arm]=read_json(folder/"官方评分.json")
+    memory={"memory_read","memory_glob","memory_grep"}
+    if not memory.issubset(surfaces["持续"]) or memory.intersection(surfaces["关闭"]):
+        raise ValueError("实际请求中的记忆开关工具不符")
+    on={k:v for k,v in surfaces["持续"].items() if k not in memory}
+    if on!=surfaces["关闭"] or contracts["持续"]!=contracts["关闭"]:
+        raise ValueError("预检两条件的业务工具或政策不一致")
+    if scores["关闭"]["记忆读取次数"]:
+        raise ValueError("关闭条件出现记忆读取")
+    return dict(实际开关工具已核验=True,业务契约一致=True,
+                预检读取次数={a:s["记忆读取次数"] for a,s in scores.items()},
+                按需读取未触发=scores["持续"]["记忆读取次数"]==0)
+
 def run(phase,root,commit,probe_bank=None):
     from fcntl import flock,LOCK_EX,LOCK_NB
     root.mkdir(parents=True,exist_ok=True)
@@ -159,10 +184,8 @@ def run(phase,root,commit,probe_bank=None):
             if probe_bank is None or validate_wiki(probe_bank)["index_entries"]==0:
                 raise ValueError("真实开关预检须提供隔离开发记忆")
             result=pair(root,"预检",0,1,commit,probe_bank)
-            scores={a:read_json(f/"官方评分.json") for a,f in result.items()}
-            if not scores["持续"]["记忆读取次数"] or scores["关闭"]["记忆读取次数"]:
-                raise ValueError("预检未证明真实记忆开关差异")
-            write_json(root/"预检完成.json",dict(提交=commit,开关生效=True,开发库不进入正式=True))
+            checked=validate_preflight(result)
+            write_json(root/"预检完成.json",dict(提交=commit,开关生效=True,开发库不进入正式=True,**checked))
             print("真实开关预检完成",flush=True)
             return
         if not (root/"预检完成.json").exists():
