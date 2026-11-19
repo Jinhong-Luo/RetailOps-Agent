@@ -30,6 +30,8 @@ write与edit须使用最近read返回的sha256作为expected_sha，新文件用�
 def prompt(name, preferences=""):
     text=(SOURCE/(name+".md")).read_text(encoding="utf8")
     text=text.replace("{mem_dir}",MEMORY).replace("{run_preferences}",preferences+"\n" if preferences else "")
+    # 上游路径是模板中的虚拟挂载；适配到既有主机指令允许的目录，不修改主机权限。
+    text=text.replace("/mnt/session/uploads/",TRANSCRIPTS.rsplit("/",1)[0]+"/")
     return text+"\n\n"+SCOPE
 
 class Bridge:

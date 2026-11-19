@@ -7,8 +7,8 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 
-MEMORY = "/mnt/memory/retailops"
-TRANSCRIPTS = "/mnt/session/uploads/transcripts"
+MEMORY = "/home/luojinghong/LLM_Proj/.retailops-memory/store"
+TRANSCRIPTS = "/home/luojinghong/LLM_Proj/.retailops-memory/uploads/transcripts"
 MAX_FILE = 100_000
 
 
