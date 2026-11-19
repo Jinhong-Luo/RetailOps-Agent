@@ -222,7 +222,7 @@ def export_transcript(episode, target):
     if captured.exists():
         from memory_capture import lossless
         lines+=["=== 客服实际调用（含未提交轮次，消息无损去重） ===",
-                json.dumps(lossless(captured),ensure_ascii=False)]
+                json.dumps(lossless(captured),ensure_ascii=False,indent=2)]
     lines+=["=== 本次四项反馈 ===",json.dumps(feedback,ensure_ascii=False)]
     Path(target).write_text("\n".join(lines)+"\n",encoding="utf8")
     return tuple(sensitive)

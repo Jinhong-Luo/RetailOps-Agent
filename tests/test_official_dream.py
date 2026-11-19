@@ -4,9 +4,11 @@ from pathlib import Path
 import tempfile
 import time
 import unittest
+import sqlite3
+from unittest.mock import patch
 
-from official_dream import agent_loop, run_workflow, validate_plan
-from retailops.official_memory import MEMORY, TRANSCRIPTS, MemoryError, sha, snapshot
+from official_dream import agent_loop, run_workflow, validate_plan, export_transcript
+from retailops.official_memory import MEMORY, TRANSCRIPTS, MemoryError, sha, snapshot, FileTools
 
 
 def final(value):
@@ -29,6 +31,27 @@ class OfficialDreamTests(unittest.TestCase):
         (self.mem/"_index.md").write_text("# 索引\n")
         (self.inputs/"one.txt").write_text("当前工具支持个人发票，顾客已确认姓名和电话。")
         self.path=TRANSCRIPTS+"/one.txt"
+
+    def test_full_export_includes_unfinished_and_pages(self):
+        from memory_capture import start
+        episode=self.root/"episode";episode.mkdir()
+        with sqlite3.connect(episode/"business.db") as db:
+            db.execute("create table events(body text)")
+            db.execute("insert into events values(?)",(json.dumps(dict(stage="未完成客服轮次",messages=[dict(role="tool",content="最后一步真实结果")]),ensure_ascii=False),))
+        messages=[dict(role="system",content="你是中文零售助手。")]
+        messages.extend(dict(role="user",content="合成可见输入"+str(i)) for i in range(300))
+        start(episode,dict(messages=messages,model="固定"))
+        target=self.inputs/"one.txt"
+        with patch("official_dream.private_input",return_value=([],set(),dict(score=0,action=0,search=1,output=1))):
+            export_transcript(episode,target)
+        self.assertIn("最后一步真实结果",target.read_text())
+        fs=FileTools(self.mem,self.inputs)
+        page=fs.execute("read",dict(path=self.path,offset=0,limit=250))
+        self.assertIsNotNone(page["next_offset"])
+        self.assertFalse(fs.full_read(self.path))
+        while page["next_offset"] is not None:
+            page=fs.execute("read",dict(path=self.path,offset=page["next_offset"],limit=250))
+        self.assertTrue(fs.full_read(self.path))
 
     def test_plan_exact_coverage(self):
         good=dict(groups=[[dict(input=self.path,task="分析")]],organizer_task="整理")
