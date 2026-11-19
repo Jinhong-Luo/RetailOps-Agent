@@ -12,7 +12,7 @@ class CaptureTests(unittest.TestCase):
             root=Path(directory)
             messages=[dict(role="system",content="你是中文零售助手。规则"),dict(role="user",content="请查询"),
                       dict(role="tool",content="实际查到的材料")]
-            payload=dict(messages=messages,model="固定模型",tools=[],seed=300)
+            payload=dict(messages=messages,model="固定模型",tools=[dict(type="function",function=dict(name="查询",description="很长的真实工具定义"*300))],seed=300)
             first=start(root,payload)
             finish(first,httpx.Response(200,json=dict(choices=[dict(message=dict(role="assistant",content="答复"))])))
             start(root,payload)
@@ -21,6 +21,8 @@ class CaptureTests(unittest.TestCase):
             packed=lossless(path)
             self.assertEqual(restore(packed),raw)
             self.assertEqual(len(packed["消息字典"]),3)
+            self.assertEqual(len(packed["工具集合字典"]),1)
+            self.assertLess(len(json.dumps(packed)),len(json.dumps(raw)))
             self.assertEqual(len(packed["事件"]),3)
 
     def test_customer_prompt_never_captured(self):

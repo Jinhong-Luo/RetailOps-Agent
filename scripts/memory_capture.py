@@ -30,6 +30,7 @@ def finish(handle,response):
 def lossless(path):
     """相同消息只存一份正文，以引用保留每次出现和先后顺序；不裁剪任何消息。"""
     messages={}
+    toolsets={}
     events=[]
     for line in Path(path).read_text(encoding="utf8").splitlines():
         event=json.loads(line)
@@ -41,9 +42,15 @@ def lossless(path):
                 key=hashlib.sha256(serialized.encode()).hexdigest()
                 messages[key]=message
                 refs.append(key)
-            event=dict(event,内容={**payload,"messages":dict(按顺序引用=refs)})
+            packed={**payload,"messages":dict(按顺序引用=refs)}
+            if "tools" in payload:
+                serialized=json.dumps(payload["tools"],ensure_ascii=False,sort_keys=True)
+                key=hashlib.sha256(serialized.encode()).hexdigest()
+                toolsets[key]=payload["tools"]
+                packed["tools"]=dict(工具集合引用=key)
+            event=dict(event,内容=packed)
         events.append(event)
-    return dict(说明="消息字典保存精确正文；请求通过有序摘要列表引用。同一消息的重复出现仍完整保留。仅包含客服实际可见内容；历史记忆返回不是独立事实证据。",消息字典=messages,事件=events)
+    return dict(说明="消息字典保存精确正文；请求通过有序摘要列表引用，重复工具定义通过集合摘要引用。同一消息和工具集的重复出现仍完整保留。仅包含客服实际可见内容；历史记忆返回不是独立事实证据。",消息字典=messages,工具集合字典=toolsets,事件=events)
 
 def restore(value):
     """核对可无损还原逐次请求，供自动测试与运行审计使用。"""
@@ -51,6 +58,9 @@ def restore(value):
     for row in value["事件"]:
         if row["事件"]=="请求":
             payload=row["内容"]
-            row=dict(row,内容={**payload,"messages":[value["消息字典"][k] for k in payload["messages"]["按顺序引用"]]})
+            restored={**payload,"messages":[value["消息字典"][k] for k in payload["messages"]["按顺序引用"]]}
+            if isinstance(payload.get("tools"),dict) and "工具集合引用" in payload["tools"]:
+                restored["tools"]=value["工具集合字典"][payload["tools"]["工具集合引用"]]
+            row=dict(row,内容=restored)
         result.append(row)
     return result
