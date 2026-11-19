@@ -2,6 +2,7 @@
 import asyncio
 import json
 import os
+from pathlib import Path
 import time
 
 import httpx
@@ -11,6 +12,7 @@ from .booking_waits import explain_wait
 from .domain import Issue
 from .experience import Experience
 from .continual_memory import ContinualMemory
+from .official_memory import FileTools, MemoryError, MEMORY, schemas as memory_schemas, snapshot as memory_snapshot
 from .store import dump, elapsed
 
 
@@ -31,8 +33,11 @@ class Agent:
         # 每个评测进程只运行一个条件。常规服务仍沿用调用方选择的配置。
         self.condition = os.getenv("RETAILOPS_ALIGNED_ARM", "")
         memory_mode = os.getenv("RETAILOPS_REFERENCE", "无记忆")
+        self.memory_reader = (FileTools(Path(os.environ["RETAILOPS_OFFICIAL_STORE"]))
+                              if memory_mode == "官方移植" else None)
+        self.memory_version = memory_snapshot(self.memory_reader.memory)["digest"] if self.memory_reader else None
         self.experience = (ContinualMemory(os.environ["RETAILOPS_CONTINUAL_BANK"])
-                           if memory_mode == "持续记忆" else Experience(memory_mode))
+                           if memory_mode == "持续记忆" else Experience("无记忆" if self.memory_reader else memory_mode))
         domain = store.domain
         self.schemas = [domain.definitions[n].openai_schema for n in sorted(domain.reads)]
         self.schemas += [
@@ -118,6 +123,18 @@ class Agent:
                 self.prompt += ("首次遇到阻塞或缺失条件实质变化时，用 reply_with_booking_wait 一次登记并回复。"
                                 "条件及来源相同、只是换句话询问进度时，直接依据已有记录回答。"
                                 "收到足够新资料就继续查证或拟案。")
+
+        # 只导出当前真实业务契约，供题后整理核对；不包含隐藏顾客脚本或答案。
+        contract = os.getenv("RETAILOPS_MEMORY_CONTRACT")
+        if contract:
+            Path(contract).write_text(dump(dict(政策=self.prompt,工具=self.schemas)), encoding="utf8")
+        if self.memory_reader:
+            self.schemas.extend(memory_schemas(prefix="memory_"))
+            self.prompt += ("\n只读历史记忆挂载在" + MEMORY +
+                            "，先从_index.md了解主题，需要时用memory_read、memory_glob、memory_grep读取相关文件和链接。"
+                            "这是过往经验，可能错误或过期；仅采用适用于当前业务且与现行政策、账本、授权一致的内容。"
+                            "按文件声明的适用范围阅读，历史经验不能自行新增当前政策和顾客要求之外的办理前提。"
+                            "只读工具和业务查询共用每轮八步预算；没有相关经验时继续当前业务，不必强行使用。")
 
     async def log(self, sid, stage, **fields):
         await asyncio.to_thread(self.store.record, sid, stage, **fields)
@@ -283,6 +300,16 @@ class Agent:
                 elif name == "register_needs":
                     state = await asyncio.to_thread(self.store.register_needs, sid, state["revision"], args["items"])
                     value = state["needs"]
+                elif name in {"memory_read", "memory_glob", "memory_grep"} and self.memory_reader:
+                    try:
+                        if memory_snapshot(self.memory_reader.memory)["digest"] != self.memory_version:
+                            raise MemoryError("题前记忆快照被外部修改")
+                        value = self.memory_reader.execute(name.removeprefix("memory_"), args)
+                    except MemoryError as exc:
+                        raise Issue("memory_read", str(exc), "仅阅读挂载记忆目录内的现有文件") from exc
+                    await self.log(sid, "官方记忆读取", request_id=request, step=step, tool=name,
+                                   version=self.memory_version, path=args.get("path"),
+                                   file_sha=value.get("sha256") if isinstance(value,dict) else None)
                 elif name == "search_policy":
                     value = self.store.domain.search(args["query"])
                     sources.update({v["source"]: v["text"] for v in value})
