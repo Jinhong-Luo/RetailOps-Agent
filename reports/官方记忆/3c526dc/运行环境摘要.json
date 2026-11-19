@@ -1,0 +1,15 @@
+{
+  "冻结提交": "3c526dc111720e439618f397e10ab3c9fcbd517f",
+  "原服务器项目提交": "514100f2ed944b23a04753f24b3051e0d1787f33",
+  "桥接工作树提交": "84391676e08c5cb13f7769b445791c5a96be3e60",
+  "Python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "解释器": "/home/luojinghong/LLM_Proj/RetailOps-Agent/runs/ecom-v1/venv/bin/python",
+  "文件摘要": {
+    "桥接实现": "6a0bc6278ebd14893895aa5c6860b5585a359c65c7934a55a588a0644b9f191e",
+    "主机指令": "3228241685b99d674d9ea00185aad93da47b64627edc58e1953e7da8f373b849",
+    "上游锁定": "fecba91826814c7fe701d40f2c036c7a9b6ebbb98f3bab34826e6298e66780b9",
+    "实验预登记": "84450fc93c906cf357c22327f2ffab2601eb6af46ee0fee0b103bd6e6bfed3f1"
+  },
+  "依赖数量": 157,
+  "依赖清单摘要": "293e4dcd731a49b8dd86bb3062919987fbf66cb81b165f669627d3f57db4c3f2"
+}
