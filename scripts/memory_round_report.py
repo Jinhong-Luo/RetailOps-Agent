@@ -57,14 +57,33 @@ def auxiliary_meter(root):
     for p in root.glob("整理/*/*/*"):
         if not (p/"更新.json").exists():
             unfinished.append(p)
-    executions=[read_json(p) for p in root.glob("执行-*/起止.json")]
-    if executions and any("结束UTC" not in x for x in executions):
-        raise ValueError("执行进程尚未结束，不能冻结耗时")
+    executions=[]
+    for p in root.glob("执行-*/起止.json"):
+        row=read_json(p)
+        if "结束UTC" not in row:
+            interruption=p.parent/"外部中断.json"
+            if not interruption.exists():
+                raise ValueError("执行进程尚未结束，不能冻结耗时")
+            row=dict(row,外部中断=read_json(interruption))
+        executions.append(row)
+    closed=[x for x in executions if "结束UTC" in x]
     elapsed=sum((datetime.fromisoformat(x["结束UTC"])-datetime.fromisoformat(x["开始UTC"])).total_seconds()
-                for x in executions)
-    return dict(预检=probe,恢复探测=dict(reconnect),未完成整理尝试数=len(unfinished),
-                执行记录=executions,执行总秒=elapsed,
-                计量说明="成功响应用量不含未返回的服务端消耗；未完成整理若无用量回执，不能估算为零。")
+                for x in closed)
+    wall=(max(datetime.fromisoformat(x["结束UTC"]) for x in closed)-
+          min(datetime.fromisoformat(x["开始UTC"]) for x in executions)).total_seconds() if closed else None
+    restart=Counter()
+    restart_file=root/"重启后桥接预检摘要.json"
+    if restart_file.exists():
+        for x in read_json(restart_file)["结果"]:
+            restart["成功响应"]+=int(x["通过"])
+            for k in ("prompt_tokens","completion_tokens","total_tokens"):
+                restart[k]+=int((x.get("用量") or {}).get(k) or 0)
+    return dict(预检=probe,恢复探测=dict(reconnect),重启后桥接预检=dict(restart),
+                未完成整理尝试数=len(unfinished),执行记录=executions,
+                执行总秒=elapsed if len(closed)==len(executions) else None,
+                已闭合执行段秒=elapsed,含中断的墙钟秒=wall,缺少精确结束时刻的中断段数=len(executions)-len(closed),
+                桥接恢复=[read_json(p) for p in root.glob("桥接恢复-*/恢复记录.json")],
+                计量说明="成功响应用量不含未返回的服务端消耗；重启中断段缺少精确结束时刻，不填零也不伪造结束时间；墙钟包含网络和服务器中断。")
 
 
 def report(root,out):

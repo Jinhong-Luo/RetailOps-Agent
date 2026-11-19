@@ -49,3 +49,15 @@ class MemoryReportTests(unittest.TestCase):
             self.assertEqual(values["预检"]["total_tokens"],7)
             self.assertEqual(values["恢复探测"]["total_tokens"],5)
             self.assertEqual(values["执行总秒"],9)
+
+    def test_reboot_does_not_invent_end_or_zero_duration(self):
+        with TemporaryDirectory() as directory:
+            root=Path(directory)
+            attempt=root/"执行-中断"
+            attempt.mkdir()
+            (attempt/"起止.json").write_text(json.dumps({"开始UTC":"2026-01-01T00:00:00+00:00"}))
+            (attempt/"外部中断.json").write_text(json.dumps({"事件":"服务器重启","精确结束时刻未知":True}))
+            values=auxiliary_meter(root)
+            self.assertIsNone(values["执行总秒"])
+            self.assertEqual(values["缺少精确结束时刻的中断段数"],1)
+            self.assertNotIn("结束UTC",values["执行记录"][0])
