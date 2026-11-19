@@ -33,7 +33,7 @@ def manifest(commit):
     if cfg["提交"]!=commit:
         raise ValueError("服务器代码与指定冻结提交不符")
     subprocess.run(["git","-C",str(ROOT),"diff","--quiet","HEAD","--"],check=True)
-    cfg.update(条件=list(ARMS),轮次=3,记忆="官方示例完整流程，空库开始，题后分析与整体整理，后续会话只读",
+    cfg.update(预检=[1],条件=list(ARMS),轮次=3,记忆="官方示例完整流程，空库开始，题后分析与整体整理，后续会话只读",
                官方示例=read_json(ROOT/"third_party/anthropic_dreaming/来源锁定.json"),
                提炼模型="gpt-6.1-sol",提炼强度="medium",记忆读入="按需文件工具，计入原八步，不预取",
                顺序="正式题号升序，三轮相同",当轮全量重置="会话、订单、余额、回执",

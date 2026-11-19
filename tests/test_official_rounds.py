@@ -3,10 +3,17 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from official_memory_rounds import matrix,unique_score
+from unittest.mock import patch
+from official_memory_rounds import matrix,unique_score,manifest
 
 
 class OfficialRoundsTests(unittest.TestCase):
+    def test_preflight_matches_execution(self):
+        with patch("ecom_single.plan",return_value={"提交":"冻结","预检":[1,3],"正式":list(range(33))}), patch("official_memory_rounds.subprocess.run"):
+            cfg=manifest("冻结")
+        self.assertEqual(cfg["预检"],[1])
+        self.assertEqual(len(cfg["任务清单"]),198)
+
     def test_exact_positions(self):
         items=matrix(list(range(33)))
         self.assertEqual(len(items),198)
