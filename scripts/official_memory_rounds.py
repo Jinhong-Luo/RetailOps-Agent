@@ -65,7 +65,7 @@ def worker(task,r,arm,folder,commit,bank):
     os.environ.pop("RETAILOPS_CONTINUAL_BANK",None)
     os.environ.update(RETAILOPS_ECOM_PRODUCT="1",RETAILOPS_ECOM_REFUND="1",RETAILOPS_ECOM_BOOKING="1",
        RETAILOPS_MODEL="gpt-6.1-sol@medium",RETAILOPS_REFERENCE="官方移植" if arm=="持续" else "无记忆",
-       RETAILOPS_OFFICIAL_STORE=str(bank),RETAILOPS_MEMORY_CONTRACT=str(folder/"业务契约.json"),
+       RETAILOPS_CAPTURE_MEMORY_INPUT="1",RETAILOPS_OFFICIAL_STORE=str(bank),RETAILOPS_MEMORY_CONTRACT=str(folder/"业务契约.json"),
        RETAILOPS_BOOKING_MODE="轻量",RETAILOPS_ALIGNED_ARM="full",
        OPENAI_API_BASE="http://127.0.0.1:18863/v1",OPENAI_API_KEY=os.environ["CODEX_BRIDGE_TOKEN"])
     before=validate_wiki(bank)

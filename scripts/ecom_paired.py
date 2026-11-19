@@ -329,7 +329,15 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
                           {"version":{"type":"integer"}},["version"])
     class PairedClient(httpx.AsyncClient):
         async def post(self, path, *, json):
+            # 官方记忆实验完整保留客服输入输出，包括达到步数上限前尚未保存的轮次。
+            capture = os.getenv("RETAILOPS_CAPTURE_MEMORY_INPUT") == "1"
+            handle = None
+            if capture:
+                from memory_capture import start, finish
+                handle = start(folder,{**json,"seed":seed})
             response = await super().post(path,json={**json,"seed":seed})
+            if capture:
+                finish(handle,response)
             if record_usage and response.is_success:
                 body = response.json()
                 meta = body.get("bridge_metadata", {})

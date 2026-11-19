@@ -59,10 +59,15 @@ class OfficialReaderTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_budget_not_extended(self):
         agent=await self.make_agent("官方移植",only_reads=True)
-        with self.assertRaises(Issue) as caught:
+        with patch.dict(os.environ,{"RETAILOPS_CAPTURE_MEMORY_INPUT":"1"}), self.assertRaises(Issue) as caught:
             await agent.run(self.sid,"只读资料",0,"B","乙")
         self.assertEqual(caught.exception.data["code"],"step_limit")
         self.assertEqual(len(self.request_bodies),8)
+        unfinished=[e for e in self.store.events(self.sid,0) if e["stage"]=="未完成客服轮次"]
+        self.assertEqual(len(unfinished),1)
+        self.assertEqual(len(unfinished[0]["messages"]),16)
+        self.assertEqual(unfinished[0]["messages"][-1]["role"],"tool")
+        self.assertIn("合成记忆索引",unfinished[0]["messages"][-1]["content"])
         self.assertEqual(len([e for e in self.store.events(self.sid,0) if e["stage"]=="官方记忆读取"]),8)
 
     async def test_off_has_no_memory_surface(self):

@@ -335,4 +335,6 @@ class Agent:
                         incomplete_actions = candidate
                 await self.log(sid, "工具被拦截", request_id=request, step=step, code=value["code"], tool=name)
             additions.append(dict(role="tool", tool_call_id=call["id"], content=dump(value)))
+        if os.getenv("RETAILOPS_CAPTURE_MEMORY_INPUT") == "1":
+            await self.log(sid,"未完成客服轮次",request_id=request,messages=additions)
         raise Issue("step_limit", "达到单轮工具调用上限", "查看待办并缩小本轮请求")

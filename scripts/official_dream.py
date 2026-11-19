@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 import time
 
 import httpx
@@ -211,6 +212,16 @@ def export_transcript(episode, target):
         lines+=["=== 业务契约 ===",json.dumps(read_json(contract),ensure_ascii=False)]
     for i,m in enumerate(transcript):
         lines.append("EVENT "+str(i)+" "+json.dumps(m,ensure_ascii=False))
+    with sqlite3.connect((Path(episode)/"business.db").resolve().as_uri()+"?mode=ro",uri=True) as db:
+        for (raw,) in db.execute("select body from events order by rowid"):
+            event=json.loads(raw)
+            if event.get("stage")=="未完成客服轮次":
+                lines+=["=== 达到预算前的完整未提交轮次 ===",json.dumps(event["messages"],ensure_ascii=False)]
+    captured=Path(episode)/"客服实际调用.jsonl"
+    if captured.exists():
+        from memory_capture import lossless
+        lines+=["=== 客服实际调用（含未提交轮次，消息无损去重） ===",
+                json.dumps(lossless(captured),ensure_ascii=False)]
     lines+=["=== 本次四项反馈 ===",json.dumps(feedback,ensure_ascii=False)]
     Path(target).write_text("\n".join(lines)+"\n",encoding="utf8")
     return tuple(sensitive)
