@@ -125,9 +125,9 @@ class Agent:
                                 "收到足够新资料就继续查证或拟案。")
 
         # 只导出当前真实业务契约，供题后整理核对；不包含隐藏顾客脚本或答案。
-        contract = os.getenv("RETAILOPS_MEMORY_CONTRACT")
-        if contract:
-            Path(contract).write_text(dump(dict(政策=self.prompt,工具=self.schemas)), encoding="utf8")
+        self.contract_path = os.getenv("RETAILOPS_MEMORY_CONTRACT")
+        self.business_prompt = self.prompt
+        self.export_contract()
         if self.memory_reader:
             self.schemas.extend(memory_schemas(prefix="memory_"))
             self.prompt += ("\n只读历史记忆挂载在" + MEMORY +
@@ -136,10 +136,18 @@ class Agent:
                             "按文件声明的适用范围阅读，历史经验不能自行新增当前政策和顾客要求之外的办理前提。"
                             "只读工具和业务查询共用每轮八步预算；没有相关经验时继续当前业务，不必强行使用。")
 
+    def export_contract(self):
+        """按当前真实开放的工具导出契约，排除历史记忆工具。"""
+        if self.contract_path:
+            tools=[s for s in self.schemas if not s["function"]["name"].startswith("memory_")]
+            Path(self.contract_path).write_text(dump(dict(政策=self.business_prompt,工具=tools)),encoding="utf8")
+
     async def log(self, sid, stage, **fields):
         await asyncio.to_thread(self.store.record, sid, stage, **fields)
 
     async def run(self, sid, text, seq, mode, request):
+        # 调用方可能在构造后按当前环境收窄工具，此处保存实际提供的业务能力。
+        self.export_contract()
         key = (sid, request)
         if key in self.active:
             raise Issue("request_active", "请求仍在处理", "等待当前响应")

@@ -43,6 +43,7 @@ class OfficialReaderTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_read_occupies_normal_step(self):
         agent=await self.make_agent("官方移植")
+        agent.schemas=[s for s in agent.schemas if s["function"]["name"]!="find_variants"]
         result=await agent.run(self.sid,"只咨询，不办理",0,"B","甲")
         events=self.store.events(self.sid,0)
         read=next(e for e in events if e["stage"]=="官方记忆读取")
@@ -56,6 +57,8 @@ class OfficialReaderTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(db.execute("select count(*) from receipts").fetchone()[0],0)
         contract=json.loads((self.root/"契约.json").read_text())
         self.assertFalse(any(x["function"]["name"].startswith("memory_") for x in contract["工具"]))
+        self.assertFalse(any(x["function"]["name"]=="find_variants" for x in contract["工具"]))
+        self.assertEqual(contract["工具"],[x for x in self.request_bodies[0]["tools"] if not x["function"]["name"].startswith("memory_")])
 
     async def test_budget_not_extended(self):
         agent=await self.make_agent("官方移植",only_reads=True)
