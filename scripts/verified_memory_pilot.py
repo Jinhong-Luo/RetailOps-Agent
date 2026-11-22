@@ -183,7 +183,10 @@ def verified_fixture(root, version):
 
 
 def bridge_args(timeout):
-    return dict(base_url="http://127.0.0.1:18863/v1/", timeout=timeout, trust_env=False,
+    port = int(os.environ.get("RETAILOPS_VERIFIED_BRIDGE_PORT", "18863"))
+    if not 1 <= port <= 65535:
+        raise ValueError("实验桥接端口超出范围")
+    return dict(base_url=f"http://127.0.0.1:{port}/v1/", timeout=timeout, trust_env=False,
                 headers={"Authorization": "Bearer " + os.environ["CODEX_BRIDGE_TOKEN"]})
 
 
@@ -268,7 +271,8 @@ def main(args):
     snapshot_path, wiki = verified_fixture(root, version)
     matrix = [(case, arm) for case in CASES for arm in ARMS]
     write(root / "清单.json", dict(提交=commit, 预算=LIMITS, 位置数=len(matrix),
-          开发记忆=digest(read(snapshot_path)), 位置=matrix, 输入摘要=digest(CASES)))
+          开发记忆=digest(read(snapshot_path)), 位置=matrix, 输入摘要=digest(CASES),
+          桥接端口=int(os.environ.get("RETAILOPS_VERIFIED_BRIDGE_PORT", "18863"))))
     if args.mode == "离线":
         print("离线证据回放通过，八类规则与二十四个位置已核对。", flush=True)
         return
