@@ -13,6 +13,7 @@ from .domain import Issue
 from .experience import Experience
 from .continual_memory import ContinualMemory
 from .official_memory import FileTools, MemoryError, MEMORY, schemas as memory_schemas, snapshot as memory_snapshot
+from .memory_retrieval import VerifiedReader, applicable
 from .store import dump, elapsed
 
 
@@ -36,8 +37,11 @@ class Agent:
         self.memory_reader = (FileTools(Path(os.environ["RETAILOPS_OFFICIAL_STORE"]))
                               if memory_mode == "官方移植" else None)
         self.memory_version = memory_snapshot(self.memory_reader.memory)["digest"] if self.memory_reader else None
+        self.verified_reader = (VerifiedReader(os.environ["RETAILOPS_VERIFIED_BANK"], os.environ["RETAILOPS_MEMORY_CONTRACT_VERSION"])
+                                if memory_mode == "已验证经验" else None)
         self.experience = (ContinualMemory(os.environ["RETAILOPS_CONTINUAL_BANK"])
-                           if memory_mode == "持续记忆" else Experience("无记忆" if self.memory_reader else memory_mode))
+                           if memory_mode == "持续记忆" else
+                           Experience("无记忆" if self.memory_reader or self.verified_reader else memory_mode))
         domain = store.domain
         self.schemas = [domain.definitions[n].openai_schema for n in sorted(domain.reads)]
         self.schemas += [
@@ -178,6 +182,8 @@ class Agent:
         additions = []
         sources = {}
         incomplete_actions = None
+        memory_checked = False
+        selected = None
         reference, hits = self.experience.retrieve(history[-1]["content"], state) if mode == "B" else ("", [])
         if reference:
             await self.log(sid, "跨会话参考", request_id=request, version=self.experience.version,
@@ -201,6 +207,15 @@ class Agent:
                 await self.log(sid, stage, request_id=request, step=step, tool=name,
                                origin="服务预算内查询", duration_ms=elapsed(start))
                 continue
+            if self.verified_reader and not memory_checked and step <= 6:
+                scopes = applicable(history[-1]["content"], state, history + additions)
+                if scopes:
+                    memory_checked = True
+                    selected = self.verified_reader.select(scopes)
+                    reference = selected.text
+                    await self.log(sid, "经验检索", request_id=request, step=step, tool="verified_memory_lookup",
+                                   version=self.verified_reader.version, scopes=scopes, hits=list(selected.ids))
+                    continue
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
             if reference:
                 messages.append(dict(role="system", content=reference))
@@ -239,6 +254,10 @@ class Agent:
             await self.log(sid, "模型往返", request_id=request, step=step, duration_ms=model_ms,
                            usage=body.get("usage"), model=meta.get("actual_model"), effort=meta.get("reasoning_effort"),
                            bridge_ms=meta.get("stages_ms"))
+            if selected and selected.ids:
+                await self.log(sid, "已送入经验", request_id=request, step=step,
+                               version=self.verified_reader.version, hits=list(selected.ids),
+                               next_tool=calls[0]["function"]["name"] if calls else None)
             await self.log(sid, "输出解析", request_id=request, step=step, duration_ms=parse_ms)
             additions.append(msg)
             if not calls:
