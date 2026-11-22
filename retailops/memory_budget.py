@@ -12,6 +12,20 @@ class BudgetStopped(RuntimeError):
     """实验停止发出新模型请求。"""
 
 
+def stop_reason(response):
+    """只记录可分类的状态，不把服务商错误正文写入可公开摘要。"""
+    status = response.status_code
+    if status == 401:
+        return "桥接认证失败"
+    body = response.text.casefold()
+    if status == 429 or any(code in body for code in
+                            ("usagelimitexceeded", "usage_limit_reached", "insufficient_quota")):
+        return "账户用量或频率额度不足"
+    if "workspace routing discovery failed" in body:
+        return "上游工作区路由不可用"
+    return f"模型请求返回 HTTP {status}，原因待核对"
+
+
 class ModelBudget:
     def __init__(self, path, limits):
         self.path = Path(path)
@@ -64,7 +78,9 @@ class ModelBudget:
                         used = None
                 except (KeyError, ValueError, TypeError):
                     pass
-            if used is None:
+            if not response.is_success:
+                stop = stop_reason(response) + "，保留预留并停止"
+            elif used is None:
                 stop = "模型未返回可核验用量，保留预留并停止"
         else:
             stop = "模型请求传输结果不明，保留预留并停止"

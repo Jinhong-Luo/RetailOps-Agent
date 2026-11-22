@@ -73,3 +73,13 @@ class MemoryBudgetTest(unittest.TestCase):
         self.assertEqual(summary["已记录token"], 91)
         self.assertGreater(summary["未结预留"], 0)
         self.assertTrue(summary["停止原因"])
+
+    def test_wrapped_quota_error_is_classified_without_raw_response(self):
+        budget = self.budget()
+        with BudgetedClient(budget, "试验", transport=httpx.MockTransport(lambda request:
+            httpx.Response(502, json={"error": {"message": "usageLimitExceeded 私有上下文"}})
+        )) as client:
+            client.post("http://test", json={})
+        reason = budget.summary()["停止原因"]
+        self.assertIn("额度不足", reason)
+        self.assertNotIn("私有上下文", reason)
