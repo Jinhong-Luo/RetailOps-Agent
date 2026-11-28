@@ -28,7 +28,7 @@ def main(stage,run,batch):
     manifest=dict(位置=todo,库版本=version,上下文="C",建库来源=[8,21,27],
         配置=FULL_LIMIT if stage=="full" else SHORT_LIMIT,模型=ANSWER+"@medium",
         源码={p.name:sha(p.read_bytes()) for p in [Path(__file__),here/"wiki_trials.py",
-            here/"wiki_experiment.py",here/"ecom_paired.py",here.parent/"retailops/agent.py"]})
+            here/"wiki_experiment.py",here/"wiki_delivery.py",here/"ecom_paired.py",here.parent/"retailops/agent.py"]})
     frozen = run/(stage+"-冻结.json")
     normalized = json.loads(json.dumps(manifest))
     if frozen.exists() and read_json(frozen)!=normalized:

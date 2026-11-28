@@ -11,6 +11,7 @@ import ecom_paired as ecom
 import httpx
 from retailops.memory_budget import ModelBudget, BudgetStopped
 from retailops.task_wiki import sha
+from wiki_delivery import deliver
 
 
 BUILD = "gpt-6-astra"
@@ -77,13 +78,14 @@ class FirstDecision(Exception):
 
 
 class Meter(httpx.AsyncBaseTransport):
-    def __init__(self, ledger, folder, model, effort, cap=None, first_decision=False):
+    def __init__(self, ledger, folder, model, effort, cap=None, first_decision=False, retry_route=False):
         self.ledger, self.folder = ledger, folder
         self.model, self.effort, self.cap = model, effort, cap
         self.target = httpx.AsyncHTTPTransport(retries=0)
         self.count = 0
         self.decided = False
         self.first_decision = first_decision
+        self.retry_route = retry_route
 
     async def handle_async_request(self, request):
         payload = json.loads(request.content)
@@ -95,16 +97,7 @@ class Meter(httpx.AsyncBaseTransport):
             raise PositionLimit()
         self.count += 1
         name = self.folder.name
-        call = self.ledger.reserve(name, payload)
-        try:
-            response = await self.target.handle_async_request(request)
-            await response.aread()
-        except BaseException:
-            self.ledger.finish(call)
-            raise
-        self.ledger.finish(call, response)
-        if not response.is_success:
-            raise BudgetStopped(self.ledger.summary()["停止原因"])
+        call, response = await deliver(self.target, request, self.ledger, name, payload, self.retry_route)
         body = response.json()
         meta = body["bridge_metadata"]
         if (meta["actual_model"], meta["reasoning_effort"]) != (self.model, self.effort):

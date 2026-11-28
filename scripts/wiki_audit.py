@@ -99,12 +99,14 @@ def audit(run):
             facts=metered(rows) if stage=="建库" else examine(folder,folder.name.split("-")[1])
             out.setdefault(stage,{})[folder.name]=facts
     budgets={}
-    prior=run/"修复前短回放"
-    if prior.is_dir():
+    for label,stage_key in (("修复前短回放","短试"),("中断整题","整题")):
+        prior=run/label
+        if not prior.is_dir():
+            continue
         for f in prior.glob("*/请求.jsonl"):
             for line in f.read_text().splitlines():
                 row=json.loads(line)
-                key=("短试",row["序"])
+                key=(stage_key,row["序"])
                 if key in unique: raise ValueError("修复前台账重复")
                 unique[key]=row
     for key in ("短试","整题"):

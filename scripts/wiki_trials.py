@@ -160,7 +160,7 @@ async def trial(args):
     os.environ.update(RETAILOPS_WIKI_MODE=mode,RETAILOPS_WIKI_DIR=str(run/"wiki"),RETAILOPS_WIKI_PAGE="guide")
     if args.stage=="full":
         ledger = ModelBudget(run/"整题预算.db",FULL_LIMIT)
-        meter = Meter(ledger,folder,ANSWER,"medium")
+        meter = Meter(ledger,folder,ANSWER,"medium",retry_route=True)
         row = await ecom.episode(case,0,"button",folder,context_mode="C",transport=meter)
         result = dict(上游=row,**summarize(folder))
     else:
