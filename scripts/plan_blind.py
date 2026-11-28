@@ -7,7 +7,8 @@ from types import SimpleNamespace
 import time
 
 from ecom_development import fixture
-from ecom_paired import ButtonService, Store, enable_refund, server, dump
+from ecom_paired import ButtonService, Store, enable_refund, server
+from retailops.plan_display import customer_plan
 from common import load_env
 import httpx
 
@@ -31,7 +32,8 @@ def display(folder, amount, balance, include_direction):
     notice = "请核对以下完整方案，并按版本确认。"
     if include_direction:
         notice += "\n" + shop.describe_plan(actions)
-    screen = notice + dump(actions) + ButtonService.confirmation_prompt(SimpleNamespace(version=v))
+    screen = customer_plan(notice, actions, ButtonService.confirmation_prompt(SimpleNamespace(version=v)),
+                           explain_refunds=include_direction)
     with store.connection() as db:
         assert db.execute("SELECT count(*) FROM receipts").fetchone()[0] == 0
     return screen

@@ -6,6 +6,7 @@ import time
 from types import SimpleNamespace
 
 from ecom_paired import Agent, ButtonService, Issue, Store, confirmed_reply, dump, server
+from retailops.plan_display import customer_plan
 from shared_fixture import ORDER_IDS, OLD, NEW, ecom_case, tau_case
 from aligned_trial import configure
 import httpx
@@ -188,7 +189,7 @@ async def run(spec, arm, folder):
                 acts=state["actions"] if state["phase"]=="待确认" else []
                 screen=result["reply"]
                 if acts:
-                    screen+=dump(acts)+ButtonService.confirmation_prompt(SimpleNamespace(version=state["version"]))
+                    screen = customer_plan(screen, acts, ButtonService.confirmation_prompt(SimpleNamespace(version=state["version"])))
                 row=dict(顾客=line,面客答复=screen,草案=acts,状态=state,执行前账本=read_account(store,sid))
                 turns.append(row)
                 wants=expected(case,n)

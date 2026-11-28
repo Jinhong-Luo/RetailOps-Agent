@@ -17,6 +17,7 @@ from tau2.domains.retail import environment
 from tau2.environment.toolkit import ToolType, is_tool
 from tau2.registry import registry
 from retailops.agent import Agent
+from retailops.plan_display import customer_plan
 from retailops.domain import Domain, Issue
 from retailops.store import Store, dump
 
@@ -152,7 +153,7 @@ class OfficialService(LLMAgent):
         reply = result["reply"]
         if result["state"]["phase"] == "待确认":
             self.version = result["state"]["version"]
-            reply += dump(result["state"]["actions"]) + self.confirmation_prompt()
+            reply = customer_plan(reply, result["state"]["actions"], self.confirmation_prompt())
         return AssistantMessage.text(reply,**self.metadata)
 
 
