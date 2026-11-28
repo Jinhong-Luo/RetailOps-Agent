@@ -31,6 +31,7 @@ import httpx
 from customer_button import ButtonService, CustomerTools
 from official_service import OfficialService
 from retailops.agent import Agent, schema
+from retailops.plan_display import customer_plan
 from retailops.domain import Domain, Issue
 from retailops.store import Store, dump
 from tau2.agent.llm_agent import LLMAgent
@@ -243,7 +244,7 @@ async def episode(task_id, trial, arm, folder):
                     service.version=None
                     if outcome["state"]["phase"]=="待确认":
                         service.version=outcome["state"]["version"]
-                        reply+=dump(outcome["state"]["actions"])+variant.confirmation_prompt(service)
+                        reply = customer_plan(reply, outcome["state"]["actions"], variant.confirmation_prompt(service))
             env.elapsed_time.append(time.monotonic()-begin)
             env.session.append(dict(role="assistant",content=reply))
         if arm!="old":
