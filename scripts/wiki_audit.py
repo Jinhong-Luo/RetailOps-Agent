@@ -52,7 +52,8 @@ def examine(folder,mode):
         if e["stage"]=="业务工具执行":
             assert e["version"] in authorized
             executions+=1
-    facts=dict(读取成功=success_reads,正文送达=len(sent),首次送达后动作=rows[sent[0]]["动作"] if sent else [],
+    facts=dict(目录送达=sum(r["目录"] for r in service),读取成功=success_reads,正文送达=len(sent),
+        首次送达后动作=rows[sent[0]]["动作"] if sent else [],
         首个业务决策=result["首个业务决策"],按角色={role:metered([r for r in rows if r["角色"]==role])
             for role in sorted({r["角色"] for r in rows})})
     if "上游" in result:
