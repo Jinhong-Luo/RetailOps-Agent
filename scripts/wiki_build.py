@@ -33,11 +33,11 @@ def events(source):
     return out
 
 
-async def generate(run, key, system, data, ledger):
+async def generate(run, key, system, data, ledger, effort="low"):
     folder = run/key
     folder.mkdir(exist_ok=True)
     saved = folder/"结构.json"
-    payload = dict(model=BUILD+"@low",messages=[dict(role="system",content=system),
+    payload = dict(model=BUILD+"@"+effort,messages=[dict(role="system",content=system),
         dict(role="user",content=json.dumps(data,ensure_ascii=False))])
     identity = sha(json.dumps(payload,sort_keys=True).encode())
     stamp = folder/"输入摘要.json"
@@ -47,7 +47,7 @@ async def generate(run, key, system, data, ledger):
     if not saved.exists():
         private = folder/"私有回复.jsonl"
         if not private.exists():
-            async with client(Meter(ledger,folder,BUILD,"low",1)) as http:
+            async with client(Meter(ledger,folder,BUILD,effort,1)) as http:
                 await http.post("chat/completions",json=payload)
         msg = json.loads(private.read_text().splitlines()[-1])
         text = msg["content"].strip()
