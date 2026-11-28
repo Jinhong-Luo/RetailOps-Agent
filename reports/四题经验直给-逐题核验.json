@@ -1,0 +1,239 @@
+{
+  "32": {
+    "经验": "办理逾期未送达查询时，复用已查得的订单与运单，勿让顾客重复提供；核对订单状态、最新物流、签收及联系或配送尝试记录。状态冲突、旧异常标记和过期预计送达信息不能证明当前位置或未送达原因。需人工核查时，确认本次转接意愿并取得明确成功回执，区分转接成功、实际接入与调查结果；查询可验证的联系或升级渠道。无新记录、回查能力或可靠入口时，明确缺口，不以重复查询、转接或无依据的回复承诺代替进展。",
+    "总结": {
+      "请求": 1,
+      "输入": 10430,
+      "输出": 193,
+      "合计": 10623
+    },
+    "历史": {
+      "评分": {
+        "score": 0,
+        "action": 0,
+        "search": 1,
+        "output": 1,
+        "clicks": 0,
+        "turns": 20,
+        "termination": "轮数上限"
+      },
+      "请求": 58,
+      "输入": 735131,
+      "输出": 8654,
+      "合计": 743785,
+      "顾客发言数": 20,
+      "工具频数": {
+        "get_user_info_tool": 1,
+        "get_user_orders_info_tool": 4,
+        "manage_order_tool": 4,
+        "get_logistics_info_tool": 5,
+        "transfer_to_specialist_tool": 3
+      },
+      "同参重复查询": 7,
+      "已确认执行次数": 0
+    },
+    "直给": {
+      "评分": {
+        "score": 0,
+        "action": 0,
+        "search": 1,
+        "output": 1,
+        "clicks": 0,
+        "turns": 20,
+        "termination": "轮数上限"
+      },
+      "正文送达": 31,
+      "请求": 51,
+      "输入": 626104,
+      "输出": 8066,
+      "合计": 634170,
+      "顾客发言数": 20,
+      "工具频数": {
+        "get_user_info_tool": 1,
+        "get_user_orders_info_tool": 2,
+        "manage_order_tool": 2,
+        "get_logistics_info_tool": 2,
+        "transfer_to_specialist_tool": 3
+      },
+      "同参重复查询": 2,
+      "已确认执行次数": 0
+    }
+  },
+  "40": {
+    "经验": "连续办理同一商品的安装咨询与预约时，应复用已提供并核实的订单和型号，避免重复索取；将已满足的条件与待现场核实的净空、墙体条件分开记录，不提前承诺可安装。按型号说明核对免费范围和附加收费条件，未知项目待现场确认。预约前核对方案并取得本次所需确认，执行后依据回执说明状态；预约成功不代表安装条件已满足。",
+    "总结": {
+      "请求": 1,
+      "输入": 7562,
+      "输出": 152,
+      "合计": 7714
+    },
+    "历史": {
+      "评分": {
+        "score": 1,
+        "action": 1,
+        "search": 1,
+        "output": 1,
+        "clicks": 1,
+        "turns": 10,
+        "termination": "顾客结束"
+      },
+      "请求": 27,
+      "输入": 317863,
+      "输出": 3352,
+      "合计": 321215,
+      "顾客发言数": 10,
+      "工具频数": {
+        "get_user_info_tool": 2,
+        "get_user_orders_info_tool": 2,
+        "manage_order_tool": 2,
+        "get_installation_service_info_tool": 2,
+        "get_auxiliary_materials_info_tool": 2,
+        "schedule_service_tool": 1,
+        "get_logistics_info_tool": 2
+      },
+      "同参重复查询": 4,
+      "已确认执行次数": 1
+    },
+    "直给": {
+      "评分": {
+        "score": 1,
+        "action": 1,
+        "search": 1,
+        "output": 1,
+        "clicks": 1,
+        "turns": 8,
+        "termination": "顾客结束"
+      },
+      "正文送达": 15,
+      "请求": 23,
+      "输入": 284525,
+      "输出": 2853,
+      "合计": 287378,
+      "顾客发言数": 8,
+      "工具频数": {
+        "get_user_info_tool": 1,
+        "get_user_orders_info_tool": 2,
+        "manage_order_tool": 2,
+        "get_installation_service_info_tool": 1,
+        "get_auxiliary_materials_info_tool": 1,
+        "get_product_info_tool": 2,
+        "schedule_service_tool": 1,
+        "get_logistics_info_tool": 2
+      },
+      "同参重复查询": 2,
+      "已确认执行次数": 1
+    }
+  },
+  "23": {
+    "经验": "办理多订单换货及修改时，沿用顾客已说明的需求和已完成的身份核验，不要重新泛问业务；先将各项需求对应到订单，复查订单状态、可办条件及目标规格。涉及与既往已收货款式一致的要求，应查原订单核对款式。工具额度有限时优先补齐关键核查，明确未完成项；提交变更前说明方案并取得本次确认，不把查询视为办理成功。",
+    "总结": {
+      "请求": 1,
+      "输入": 5823,
+      "输出": 154,
+      "合计": 5977
+    },
+    "历史": {
+      "评分": {
+        "score": 0.0,
+        "termination": "max_steps"
+      },
+      "请求": 16,
+      "输入": 132997,
+      "输出": 913,
+      "合计": 133910,
+      "顾客发言数": 4,
+      "工具频数": {
+        "find_user_id_by_name_zip": 1,
+        "get_user_details": 1,
+        "get_order_details": 4,
+        "service_step": 2,
+        "get_item_details": 1
+      },
+      "同参重复查询": 0,
+      "已确认执行次数": 0
+    },
+    "直给": {
+      "评分": {
+        "score": 0.0,
+        "termination": "max_steps"
+      },
+      "正文送达": 9,
+      "请求": 16,
+      "输入": 134759,
+      "输出": 963,
+      "合计": 135722,
+      "顾客发言数": 4,
+      "工具频数": {
+        "find_user_id_by_name_zip": 1,
+        "get_user_details": 1,
+        "get_order_details": 4,
+        "service_step": 2,
+        "get_item_details": 1
+      },
+      "同参重复查询": 0,
+      "已确认执行次数": 0
+    }
+  },
+  "50": {
+    "经验": "办理个人发票时，先复核目标订单及开票状态，复用已查明的账户资料，缺失默认开票字段不等于没有默认信息，也不能自行把账户姓名当作抬头。政策未明确时说明信息不足，补查或请顾客明确选择。信息齐备后仅提交草案；请求查看草案不等于授权开票，须取得本次完整方案的版本确认后再执行。",
+    "总结": {
+      "请求": 1,
+      "输入": 7347,
+      "输出": 140,
+      "合计": 7487
+    },
+    "历史": {
+      "评分": {
+        "score": 1,
+        "action": 1,
+        "search": 1,
+        "output": 1,
+        "clicks": 2,
+        "turns": 11,
+        "termination": "顾客结束"
+      },
+      "请求": 31,
+      "输入": 412398,
+      "输出": 3488,
+      "合计": 415886,
+      "顾客发言数": 11,
+      "工具频数": {
+        "get_user_info_tool": 2,
+        "get_user_orders_info_tool": 1,
+        "manage_order_tool": 3,
+        "get_logistics_info_tool": 1,
+        "manage_urgent_tool": 1,
+        "manage_invoice_tool": 1
+      },
+      "同参重复查询": 1,
+      "已确认执行次数": 2
+    },
+    "直给": {
+      "评分": {
+        "score": 0,
+        "action": 0,
+        "search": 1,
+        "output": 1,
+        "clicks": 1,
+        "turns": 20,
+        "termination": "轮数上限"
+      },
+      "正文送达": 33,
+      "请求": 53,
+      "输入": 727018,
+      "输出": 6281,
+      "合计": 733299,
+      "顾客发言数": 20,
+      "工具频数": {
+        "get_user_info_tool": 2,
+        "get_user_orders_info_tool": 1,
+        "manage_order_tool": 4,
+        "get_logistics_info_tool": 2,
+        "manage_urgent_tool": 1,
+        "transfer_to_specialist_tool": 1
+      },
+      "同参重复查询": 2,
+      "已确认执行次数": 1
+    }
+  }
+}
