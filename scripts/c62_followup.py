@@ -117,6 +117,20 @@ if __name__=="__main__":
     assert all(read_json(RUN/(m+"-stable.json")).get("用量") for m in (BUILD,ANSWER))
     if sys.argv[1:2]==["one"]:
         asyncio.run(one(*sys.argv[2:]))
+    elif sys.argv[1:2]==["repeat"]:
+        jobs=read_json(RUN/"排期.json")
+        repeats=[]
+        for case,arms in ((50,("新","关")),(40,("关","新"))):
+            before,after=[read_json(RUN/"整题"/f"{case}-{arm}"/"结果.json") for arm in ("关","新")]
+            if after["score"] and (not before["score"] or
+                    (after["turns"]<before["turns"] and after["用量"]<before["用量"])):
+                repeats.extend([[f"{case}复测",arm,"整题"] for arm in arms])
+        write_json(RUN/"排期.json",jobs+[j for j in repeats if j not in jobs])
+        if repeats:
+            with bridge(RUN,ANSWER,18883):
+                for scene,arm,stage in repeats:
+                    if not (RUN/stage/(scene+"-"+arm)/"结果.json").exists():
+                        subprocess.run([sys.executable,__file__,"one",scene,arm,stage],check=True)
     else:
         with bridge(RUN,BUILD,18882):
             asyncio.run(build())
