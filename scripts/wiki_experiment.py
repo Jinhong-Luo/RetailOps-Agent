@@ -14,8 +14,12 @@ from retailops.task_wiki import sha
 from wiki_delivery import deliver
 
 
-BUILD = "gpt-6-astra"
-ANSWER = "gpt-6.1-sol"
+MODELS = read_json(ROOT/"configs/memory_c62.json")
+BUILD = MODELS["总结"]["模型"]
+ANSWER = MODELS["客服"]["模型"]
+assert MODELS["模拟顾客"] == MODELS["客服"]
+assert MODELS["总结"]["强度"] == "low" and MODELS["客服"]["强度"] == "medium"
+ecom.MODEL = ANSWER
 SHORT_LIMIT = dict(calls=54, tokens=800000, request_tokens=250000, seconds=86400)
 FULL_LIMIT = dict(calls=280, tokens=3500000, request_tokens=310000, seconds=86400)
 PAGES = ("目录", "直给", "关闭")
@@ -39,8 +43,9 @@ def position(batch, suite, number):
 def bridge(run, model, port):
     from common import load_env
     load_env()
-    executable = Path.home() / ".nvm/versions/node/v24.21.0/bin/codex"
-    env = dict(os.environ, PATH=str(executable.parent) + ":" + os.environ["PATH"],
+    node_bin = Path.home() / ".nvm/versions/node/v24.21.0/bin"
+    executable = Path(os.environ.get("RETAILOPS_CODEX_BIN",node_bin/"codex"))
+    env = dict(os.environ, PATH=str(node_bin) + ":" + os.environ["PATH"],
                RETAILOPS_BRIDGE_MODEL=model, HTTPS_PROXY="http://127.0.0.1:17893",
                HTTP_PROXY="http://127.0.0.1:17893", NO_PROXY="127.0.0.1,localhost")
     url = f"http://127.0.0.1:{port}"

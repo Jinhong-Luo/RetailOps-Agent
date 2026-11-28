@@ -97,7 +97,7 @@ def serve(run):
         return msg, usage
 
     gateway.CodexSession.complete = metered
-    sys.argv = [__file__, "--port","18883","--codex",str(Path.home()/".nvm/versions/node/v24.21.0/bin/codex"),
+    sys.argv = [__file__, "--port","18883","--codex",os.environ.get("RETAILOPS_CODEX_BIN",str(Path.home()/".nvm/versions/node/v24.21.0/bin/codex")),
                 "--runtime-dir",str(run/"答题桥"),"--timeout","180"]
     gateway.main()
 
@@ -137,6 +137,8 @@ def answer(run, batch, case):
     else:
         verify_upstream()
         cfg=read_json(ROOT/"configs/customer_button.json")
+        cfg["agent_model"]=cfg["user_model"]="openai/"+ANSWER
+        cfg["judge_override"]["model"]="openai/"+ANSWER
         cfg.update(num_trials=1,max_retries=0,max_concurrency=1,api_base=os.environ["OPENAI_API_BASE"])
         env=child_env(cfg)
         hook=batch/"worker_hook"
@@ -184,7 +186,8 @@ if __name__ == "__main__":
         answer(run,batch,args.case)
     else:
         frozen=dict(题号=CASES,经验摘要={str(c):read_json(run/f"经验{c}.json")["版本"] for c in CASES},
-                    上下文="C",参照="109题历史同题C关",总结预算=BUILD_LIMIT,答题预算=ANSWER_LIMIT)
+                    上下文="C",总结模型=BUILD+"@low",答题模型=ANSWER+"@medium",
+                    参照="109题历史同题C关",总结预算=BUILD_LIMIT,答题预算=ANSWER_LIMIT)
         path=run/"冻结.json"
         if path.exists() and read_json(path)!=json.loads(json.dumps(frozen)):
             raise ValueError("冻结项变化")
