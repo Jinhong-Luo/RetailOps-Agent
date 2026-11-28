@@ -298,7 +298,7 @@ def confirmed_reply(store, receipt):
     return "本次已确认操作的回执：" + dump(receipt["items"])
 
 
-async def episode(task_id, trial, arm, folder, record_usage=False):
+async def episode(task_id, trial, arm, folder, record_usage=False, context_mode="B", transport=None):
     env = MockStoryEnv(task_index=task_id,console_verbose=RunLogger(False))
     env._create_isolated_data()
     server.cache_dir = env.cache_dir
@@ -346,7 +346,7 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
                                            effort=meta.get("reasoning_effort"))) + "\n")
             return response
 
-    async with PairedClient(base_url=url,headers=headers,timeout=300,trust_env=False) as client:
+    async with PairedClient(base_url=url,headers=headers,timeout=300,trust_env=False,transport=transport) as client:
         bot = Agent(store,client,timeout=600)
         bot.schemas = [s for s in bot.schemas if s["function"]["name"]!="find_variants"]
         reply = "亲，需要什么帮助吗？"
@@ -414,7 +414,7 @@ async def episode(task_id, trial, arm, folder, record_usage=False):
                     service.version=None
                 else:
                     try:
-                        outcome=await bot.run(sid,text,record["revision"],"B",uuid4().hex)
+                        outcome=await bot.run(sid,text,record["revision"],context_mode,uuid4().hex)
                     except Issue as exc:
                         if exc.data["code"]=="step_limit":
                             termination = "单轮工具调用上限"

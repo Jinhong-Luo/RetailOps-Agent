@@ -131,6 +131,13 @@ class Agent:
         # 只导出当前真实业务契约，供题后整理核对；不包含隐藏顾客脚本或答案。
         self.contract_path = os.getenv("RETAILOPS_MEMORY_CONTRACT")
         self.business_prompt = self.prompt
+        self.wiki_mode = os.getenv("RETAILOPS_WIKI_MODE", "关闭")
+        self.wiki = None
+        if self.wiki_mode in {"目录", "直给"}:
+            from .task_wiki import TaskWiki
+            self.wiki = TaskWiki(os.environ["RETAILOPS_WIKI_DIR"])
+        elif self.wiki_mode != "关闭":
+            raise ValueError("未知 Wiki 条件")
         self.export_contract()
         if self.memory_reader:
             self.schemas.extend(memory_schemas(prefix="memory_"))
@@ -183,6 +190,8 @@ class Agent:
         sources = {}
         incomplete_actions = None
         memory_checked = False
+        page_read = False
+        wiki = self.wiki if mode == "C" else None
         selected = None
         reference, hits = self.experience.retrieve(history[-1]["content"], state) if mode == "B" else ("", [])
         if reference:
@@ -217,6 +226,10 @@ class Agent:
                                    version=self.verified_reader.version, scopes=scopes, hits=list(selected.ids))
                     continue
             messages = [dict(role="system", content=self.prompt + "\n已核验用户：" + state["user_id"])]
+            if wiki:
+                messages.append(dict(role="system", content=wiki.catalog))
+                if self.wiki_mode == "直给":
+                    messages.append(dict(role="system", content=wiki.read(os.environ["RETAILOPS_WIKI_PAGE"])))
             if reference:
                 messages.append(dict(role="system", content=reference))
             visible_mode = {"no_state": "A", "basic_context": "A", "short_history": "C",
@@ -228,6 +241,9 @@ class Agent:
                                      "如已取得当前咨询所需资料，现在直接回复；资料不全时说明已核实的部分。"))
             begin = time.perf_counter()
             available = self.schemas
+            if wiki and self.wiki_mode == "目录" and not page_read:
+                available = [*available, schema("read_task_wiki", "需要目录中的历史办理方法时读取一页",
+                    {"page":{"type":"string","enum":list(wiki.pages)}}, ["page"])]
             if getattr(self.store.domain, "scoped_waits", False) and state.get("booking_wait"):
                 from .booking_waits import KINDS, SERVICES
                 available = [*available, schema("bind_legacy_booking_wait",
@@ -270,7 +286,15 @@ class Agent:
             try:
                 if self.condition and name not in {s["function"]["name"] for s in available}:
                     raise Issue("operation", "当前没有提供该工具", "使用本轮可用的工具")
-                if name == "propose_plan":
+                if name == "read_task_wiki" and wiki and not page_read:
+                    try:
+                        value = wiki.read(args.get("page", ""))
+                    except ValueError as error:
+                        raise Issue("wiki_page", str(error), "核对当前目录") from error
+                    page_read = True
+                    await self.log(sid, "读取经验页", request_id=request, step=step,
+                                   version=wiki.version, page=args["page"])
+                elif name == "propose_plan":
                     if not isinstance(args.get("actions"), list):
                         raise Issue("missing_or_invalid", "缺少完整待办清单", "补齐 actions")
                     answer = "" if self.condition == "no_consult" else args.get("consultation_reply", "")

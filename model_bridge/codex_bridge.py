@@ -26,7 +26,7 @@ from typing import Any
 import uuid
 
 
-MODEL = "gpt-6.1-sol"
+MODEL = os.environ.get("RETAILOPS_BRIDGE_MODEL", "gpt-6.1-sol")
 EFFORTS = ("low", "medium", "high", "xhigh", "max", "ultra")
 TRANSPORT = "codex-app-server-structured-output-v1"
 MAX_REQUEST_BYTES = 4 * 1024 * 1024
