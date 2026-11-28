@@ -294,6 +294,8 @@ class Agent:
                     page_read = True
                     await self.log(sid, "读取经验页", request_id=request, step=step,
                                    version=wiki.version, page=args["page"])
+                    additions.append(dict(role="tool", tool_call_id=call["id"], content=dump(value)))
+                    continue
                 elif name == "propose_plan":
                     if not isinstance(args.get("actions"), list):
                         raise Issue("missing_or_invalid", "缺少完整待办清单", "补齐 actions")

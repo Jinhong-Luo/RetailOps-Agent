@@ -72,17 +72,25 @@ class PositionLimit(Exception):
     """单个短回放的模型预算已用尽。"""
 
 
+class FirstDecision(Exception):
+    """首个非记忆业务决定已执行，结束单决策回放。"""
+
+
 class Meter(httpx.AsyncBaseTransport):
-    def __init__(self, ledger, folder, model, effort, cap=None):
+    def __init__(self, ledger, folder, model, effort, cap=None, first_decision=False):
         self.ledger, self.folder = ledger, folder
         self.model, self.effort, self.cap = model, effort, cap
         self.target = httpx.AsyncHTTPTransport(retries=0)
         self.count = 0
+        self.decided = False
+        self.first_decision = first_decision
 
     async def handle_async_request(self, request):
         payload = json.loads(request.content)
         if payload["model"] != self.model + "@" + self.effort:
             raise RuntimeError("请求档位偏离冻结配置")
+        if self.decided:
+            raise FirstDecision()
         if self.cap is not None and self.count >= self.cap:
             raise PositionLimit()
         self.count += 1
@@ -104,6 +112,8 @@ class Meter(httpx.AsyncBaseTransport):
         messages = payload["messages"]
         assistant = body["choices"][0]["message"]
         tools = [c["function"]["name"] for c in assistant.get("tool_calls") or []]
+        if self.first_decision and tools != ["read_task_wiki"]:
+            self.decided = True
         roles = [m.get("content") or "" for m in messages if m["role"] in {"tool","system"}]
         role = "建库" if self.model == BUILD else (
             "客服" if any("你是中文零售助手" in s for s in roles) else "顾客")

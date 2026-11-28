@@ -45,6 +45,8 @@ def main(stage,run,batch):
                 result=read_json(folder/"结果.json")
                 if result["前缀"]!=read_json(run/"fixture"/f"{case}-关闭"/"结果.json")["前缀"]:
                     raise ValueError("实际短回放起点偏离冻结前缀")
+                if result["调用读页"] and not result["正文送达"] and result["状态"]=="已回复":
+                    raise ValueError("客服读页后未收到正文")
                 if not result["确认前账本相同"] or (mode=="关闭" and result["目录送达"]) or (
                     mode!="关闭" and not result["目录送达"]) or (mode=="直给" and not result["正文送达"]):
                     raise ValueError("短回放接线未通过")

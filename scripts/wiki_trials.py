@@ -10,7 +10,7 @@ import re
 import sqlite3
 from unittest.mock import patch
 
-from wiki_experiment import (ANSWER, FULL_LIMIT, SHORT_LIMIT, Meter, ModelBudget, PositionLimit,
+from wiki_experiment import (ANSWER, FULL_LIMIT, SHORT_LIMIT, Meter, ModelBudget, PositionLimit, FirstDecision,
                              bridge, client, ecom, httpx, position, read_json, setup, sha, write_json)
 from retailops.agent import Agent
 from retailops.domain import Domain
@@ -138,6 +138,8 @@ async def short(case,folder,batch,meter,fixture):
                 result = await agent.run(sid,text,state["revision"],"C","短回放")
                 write_json(folder/"私有决策.json",result)
                 status = "已回复"
+            except FirstDecision:
+                status = "已取得首次业务决定"
             except PositionLimit:
                 status = "四请求截止"
             except ecom.Issue as error:
@@ -163,7 +165,7 @@ async def trial(args):
         result = dict(上游=row,**summarize(folder))
     else:
         ledger = ModelBudget(run/"短试预算.db",SHORT_LIMIT)
-        result = await short(case,folder,args.batch,Meter(ledger,folder,ANSWER,"medium",4),fixture)
+        result = await short(case,folder,args.batch,Meter(ledger,folder,ANSWER,"medium",4,first_decision=True),fixture)
     write_json(folder/"结果.json",result)
     print(case,mode,args.stage,"已保存",flush=True)
 
